@@ -14,30 +14,42 @@ css = '''
 '''
 html = html.replace('  </style>', css)
 
-# Replace table rows
+# Add explicit IDs so app.js doesn't need to guess
+html = html.replace('<div class="kpi-value red">$7,628</div>', '<div class="kpi-value red" id="dyn-total-expenses">$7,628</div>')
+html = html.replace('<div class="value red">$7,628</div>', '<div class="value red" id="dyn-total-expenses-2">$7,628</div>')
+
+html = html.replace('<div class="kpi-value green">$2,385</div>', '<div class="kpi-value green" id="dyn-monthly-surplus">$2,385</div>')
+html = html.replace('<div class="value green"><strong>$2,385</strong></div>', '<div class="value green" id="dyn-monthly-surplus-2"><strong>$2,385</strong></div>')
+
+html = html.replace('<tr><td><strong>Spain subtotal</strong></td><td><strong>$5,411</strong></td></tr>', '<tr><td><strong>Spain subtotal</strong></td><td><strong id="dyn-spain-subtotal">$5,411</strong></td></tr>')
+html = html.replace('<tr><td><strong>US subtotal</strong></td><td><strong>$865</strong></td></tr>', '<tr><td><strong>US subtotal</strong></td><td><strong id="dyn-us-subtotal">$865</strong></td></tr>')
+html = html.replace('<tr><td><strong>Biz & family subtotal</strong></td><td><strong>$617.31</strong></td></tr>', '<tr><td><strong>Biz & family subtotal</strong></td><td><strong id="dyn-biz-subtotal">$617.31</strong></td></tr>')
+html = html.replace('<tr><td><strong>Admin subtotal</strong></td><td><strong>$735</strong></td></tr>', '<tr><td><strong>Admin subtotal</strong></td><td><strong id="dyn-admin-subtotal">$735</strong></td></tr>')
+
+# Inline EXP overwrite
+html = html.replace('const VA = 4822, DIVS = 1690.67, EXP = 7628.31;\n    const update = () => {', 'const VA = 4822, DIVS = 1690.67;\n    const update = () => {\n      const EXP = window.DYNAMIC_EXPENSES || 7628.31;')
+
+# Replace table rows to inject inputs - FIXED REGEX TO HANDLE COMMAS
 def replace_row(match):
     name = match.group(1).replace('<tr><td colspan="4">', '').replace('<strong>', '').replace('</strong>', '')
-    val = match.group(2).replace(',', '')
+    val_str = match.group(2)
     sub = match.group(3) if match.group(3) else ''
     
-    # We shouldn't replace "Total expenses" inside a table row if it is a list instead of a table. Wait, it's <tr><td>
-    if 'subtotal' in name.lower() or 'total' in name.lower() or name == 'Holding':
-        # Don't replace subtotals or totals or headers with inputs
-        return match.group(0)
+    val_cleaned = val_str.replace(',', '')
     
-    # Do not replace rows representing dividend values etc (like "SPYI", "SCHD")
+    # Exclude non-input rows
+    if 'subtotal' in name.lower() or 'total' in name.lower() or name == 'Holding':
+        return match.group(0)
     if 'span class="ticker"' in name or 'Current Value' in name:
         return match.group(0)
-    
-    # We want to replace actual expenses. Let's do a strict list if possible, or just ignore known bads.
     if 'SPYI' in name or 'SCHD' in name or 'SCHY' in name or 'VMFXX' in name or '1.00 (strong' in name or '1.05' in name or '1.09' in name or '1.15' in name or '1.20' in name or '1.25' in name or '1.30' in name:
         return match.group(0)
         
     cleaned_name = name.split("<")[0].strip().replace(' ', '_').lower()
-    input_html = f'<td><div class=\"input-wrap\"><span>$</span><input type=\"number\" class=\"budget-input\" data-cat=\"{cleaned_name}\" value=\"{val}\"></div>{sub}</td>'
+    input_html = f'<td><div class=\"input-wrap\"><span>$</span><input type=\"number\" class=\"budget-input\" data-cat=\"{cleaned_name}\" value=\"{val_cleaned}\"></div>{sub}</td>'
     return f'<tr><td>{match.group(1)}</td>{input_html}</tr>'
 
-table1 = re.sub(r'<tr><td>(.*?)</td><td>\$([0-9]+(?:\.[0-9]{2})?)(.*?)</td></tr>', replace_row, html)
+table1 = re.sub(r'<tr><td>(.*?)</td><td>\$([0-9,\.]+)(.*?)</td></tr>', replace_row, html)
 html = table1
 
 # Add Script and PWA Manifest

@@ -4,29 +4,11 @@ if ('serviceWorker' in navigator) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Collect all inputs we injected
     const inputs = document.querySelectorAll('.budget-input');
-    const incomeVA = 4822; // Core assumptions
+    const incomeVA = 4822; 
     const incomeEmily = 3500;
     const grossDividends = 1690.67;
     const totalGross = incomeVA + incomeEmily + grossDividends;
-    
-    // Tag the display elements dynamically so we can update them without hardcoding IDs
-    const identifyAndTag = () => {
-       const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-       let node;
-       while ((node = walker.nextNode())) {
-           // We look for our baseline amounts and tag their parents
-           const val = node.nodeValue.trim();
-           if (val === '$7,628') node.parentElement.classList.add('dyn-total-expenses');
-           if (val === '$2,385') node.parentElement.classList.add('dyn-monthly-surplus');
-           if (val === '$5,411') node.parentElement.classList.add('dyn-spain-subtotal');
-           if (val === '$865') node.parentElement.classList.add('dyn-us-subtotal');
-           if (val === '$617.31') node.parentElement.classList.add('dyn-biz-subtotal');
-           if (val === '$735') node.parentElement.classList.add('dyn-admin-subtotal');
-       }
-    };
-    identifyAndTag();
 
     const calculate = () => {
         let spanSum = 0;
@@ -35,12 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let adminSum = 0;
         let totalExpenses = 0;
 
-        // Traverse each input box to recalculate
         inputs.forEach(inp => {
             const val = parseFloat(inp.value) || 0;
             totalExpenses += val;
             
-            // Ascertain which subtotal bucket this input belongs to
             const table = inp.closest('table');
             if (table) {
                 const titleElement = table.previousElementSibling;
@@ -54,17 +34,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Formatter helper
         const fmt = (num) => '$' + num.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits:2});
         
-        // Update DOM visuals
-        document.querySelectorAll('.dyn-total-expenses').forEach(el => el.textContent = fmt(totalExpenses));
-        document.querySelectorAll('.dyn-monthly-surplus').forEach(el => el.textContent = fmt(totalGross - totalExpenses));
+        // Update DOM by hard IDs
+        const dynExp1 = document.getElementById('dyn-total-expenses');
+        const dynExp2 = document.getElementById('dyn-total-expenses-2');
+        if (dynExp1) dynExp1.textContent = fmt(totalExpenses);
+        if (dynExp2) dynExp2.textContent = fmt(totalExpenses);
+
+        const surpStrFmt = fmt(totalGross - totalExpenses);
+        const dynSurp1 = document.getElementById('dyn-monthly-surplus');
+        const dynSurp2 = document.getElementById('dyn-monthly-surplus-2');
+        if (dynSurp1) dynSurp1.textContent = surpStrFmt;
+        if (dynSurp2) dynSurp2.innerHTML = `<strong>${surpStrFmt}</strong>`;
         
-        document.querySelectorAll('.dyn-spain-subtotal').forEach(el => el.textContent = fmt(spanSum));
-        document.querySelectorAll('.dyn-us-subtotal').forEach(el => el.textContent = fmt(usSum));
-        document.querySelectorAll('.dyn-biz-subtotal').forEach(el => el.textContent = fmt(bizSum));
-        document.querySelectorAll('.dyn-admin-subtotal').forEach(el => el.textContent = fmt(adminSum));
+        const spainEl = document.getElementById('dyn-spain-subtotal');
+        if (spainEl) spainEl.textContent = fmt(spanSum);
+        
+        const usEl = document.getElementById('dyn-us-subtotal');
+        if (usEl) usEl.textContent = fmt(usSum);
+        
+        const bizEl = document.getElementById('dyn-biz-subtotal');
+        if (bizEl) bizEl.textContent = fmt(bizSum);
+        
+        const adminEl = document.getElementById('dyn-admin-subtotal');
+        if (adminEl) adminEl.textContent = fmt(adminSum);
 
         // Connect reactivity to the What-If Emily Slider via global var
         window.DYNAMIC_EXPENSES = totalExpenses;
@@ -79,19 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const cat = inp.getAttribute('data-cat');
         if (cat) {
             const saved = localStorage.getItem('budget_' + cat);
-            // Ignore NaN loads or blanks
             if (saved !== null && !isNaN(saved) && saved !== '') {
                 inp.value = saved;
             }
         }
         
-        // On keystroke/arrows, instantly persist and recalculate
         inp.addEventListener('input', () => {
             localStorage.setItem('budget_' + cat, inp.value);
             calculate();
         });
     });
 
-    // Run first calculation iteration
     calculate();
 });

@@ -426,17 +426,17 @@
   </div>
   <div class="sp"></div>
   <div class="grid-4">
-    <div class="card"><div class="kpi-label">Total Expenses</div><div class="kpi-value red">$7,628</div><div class="kpi-sub">Year 2+ regular RETA phase total</div></div>
+    <div class="card"><div class="kpi-label">Total Expenses</div><div class="kpi-value red" id="dyn-total-expenses">$7,628</div><div class="kpi-sub">Year 2+ regular RETA phase total</div></div>
     <div class="card purple-soft"><div class="kpi-label">Tax Set-Aside</div><div class="kpi-value purple">$150</div><div class="kpi-sub">Conservative federal set-aside on dividends</div></div>
     <div class="card blue-soft"><div class="kpi-label">Net Dividends</div><div class="kpi-value blue">$1,541</div><div class="kpi-sub">Gross $1,691 minus $150 tax set-aside</div></div>
-    <div class="card green-soft"><div class="kpi-label">Monthly Surplus</div><div class="kpi-value green">$2,385</div><div class="kpi-sub">Year 2+ regular RETA phase · $10,013 minus $7,628</div></div>
+    <div class="card green-soft"><div class="kpi-label">Monthly Surplus</div><div class="kpi-value green" id="dyn-monthly-surplus">$2,385</div><div class="kpi-sub">Year 2+ regular RETA phase · $10,013 minus $7,628</div></div>
   </div>
   <div class="sp"></div>
   <div class="grid-2">
     <div class="card">
       <div class="section-title" style="margin-top:0">Spain living costs</div>
       <table><thead><tr><th>Item</th><th>Monthly</th></tr></thead><tbody>
-        <tr><td>Apartment rent (Valencia)</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="apartment_rent_(valencia)" value="2"></div>,289 <span style="color:var(--text-muted);font-size:10px">(€2,100)</span></td></tr>
+        <tr><td>Apartment rent (Valencia)</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="apartment_rent_(valencia)" value="2289"></div> <span style="color:var(--text-muted);font-size:10px">(€2,100)</span></td></tr>
         <tr><td>Groceries & dining</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="groceries_&_dining" value="600"></div></td></tr>
         <tr><td>School — VMS bilingual</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="school_—_vms_bilingual" value="874"></div> <span style="color:var(--text-muted);font-size:10px">(€802)</span></td></tr>
         <tr><td>School extras</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="school_extras" value="65"></div></td></tr>
@@ -449,7 +449,7 @@
         <tr><td>Entertainment / misc</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="entertainment_/_misc" value="300"></div></td></tr>
         <tr><td>Gym — Helbert</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="gym_—_helbert" value="55"></div></td></tr>
         <tr><td>Emily Therapy</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="emily_therapy" value="100"></div></td></tr>
-        <tr><td><strong>Spain subtotal</strong></td><td><strong>$5,411</strong></td></tr>
+        <tr><td><strong>Spain subtotal</strong></td><td><strong id="dyn-spain-subtotal">$5,411</strong></td></tr>
       </tbody></table>
       <div class="kpi-sub" style="margin-top:12px">Regular ongoing Spain subtotal uses full RETA (~€479 / $523). During Emily's first 12 months on tarifa plana, subtract about $436/month.</div>
     </div>
@@ -461,7 +461,7 @@
         <tr><td>Utilities — smart home / Enabot</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="utilities_—_smart_home_/_enabot" value="130"></div></td></tr>
         <tr><td>Digital mail forwarding</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="digital_mail_forwarding" value="40"></div></td></tr>
         <tr><td>Xfinity internet</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="xfinity_internet" value="96"></div></td></tr>
-        <tr><td><strong>US subtotal</strong></td><td><strong>$865</strong></td></tr>
+        <tr><td><strong>US subtotal</strong></td><td><strong id="dyn-us-subtotal">$865</strong></td></tr>
       </tbody></table>
       <div class="kpi-sub" style="margin-top:12px">Ends after Oakland Park sale in June 2032.</div>
     </div>
@@ -483,7 +483,7 @@
         <tr><td>Michelangelo extracurriculars</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="michelangelo_extracurriculars" value="55.00"></div></td></tr>
         <tr><td>Babysitting</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="babysitting" value="45.00"></div></td></tr>
         <tr><td>Clothing / seasonal</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="clothing_/_seasonal" value="75.00"></div></td></tr>
-        <tr><td><strong>Biz & family subtotal</strong></td><td><strong>$617.31</strong></td></tr>
+        <tr><td><strong>Biz & family subtotal</strong></td><td><strong id="dyn-biz-subtotal">$617.31</strong></td></tr>
       </tbody></table>
     </div>
     <div class="card">
@@ -494,7 +494,7 @@
         <tr><td>LLC ongoing costs</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="llc_ongoing_costs" value="35"></div></td></tr>
         <tr><td>Currency risk buffer</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="currency_risk_buffer" value="200"></div></td></tr>
         <tr><td>Pharmacy & OTC healthcare</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="pharmacy_&_otc_healthcare" value="50"></div></td></tr>
-        <tr><td><strong>Admin subtotal</strong></td><td><strong>$735</strong></td></tr>
+        <tr><td><strong>Admin subtotal</strong></td><td><strong id="dyn-admin-subtotal">$735</strong></td></tr>
       </tbody></table>
     </div>
   </div>
@@ -504,8 +504,8 @@
       <div class="section-title" style="margin-top:0">Year 2+ — Spain phase summary</div>
       <div class="list">
         <div class="row"><div class="label">Total gross income</div><div class="value gold">$10,013</div></div>
-        <div class="row"><div class="label">Total expenses</div><div class="value red">$7,628</div></div>
-        <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green"><strong>$2,385</strong></div></div>
+        <div class="row"><div class="label">Total expenses</div><div class="value red" id="dyn-total-expenses-2">$7,628</div></div>
+        <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green" id="dyn-monthly-surplus-2"><strong>$2,385</strong></div></div>
         <div class="row"><div class="label">Regular RETA built in</div><div class="value blue">$523 / ~€479</div></div>
       </div>
     </div>
@@ -556,12 +556,12 @@
     <table>
       <thead><tr><th>Projection input</th><th>Value</th><th>Why it matters</th></tr></thead>
       <tbody>
-        <tr><td>Holdings less move costs</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="holdings_less_move_costs" value="285"></div>,671.54</td><td>Reality-check starting point</td></tr>
+        <tr><td>Holdings less move costs</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="holdings_less_move_costs" value="285671.54"></div></td><td>Reality-check starting point</td></tr>
         <tr><td>Post-move allocation</td><td>50% SPYI / 40% SCHD / 10% SCHY</td><td>Target fully-invested mix</td></tr>
         <tr><td>Phase 1 duration</td><td>24 months (Jun 2026 – Jun 2028)</td><td>All dividends used as income</td></tr>
         <tr><td>Phase 2 duration</td><td>48 months (Jun 2028 – Jun 2032)</td><td>All dividends reinvested</td></tr>
-        <tr><td>Phase 2 contribution</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="phase_2_contribution" value="1"></div>,000/mo added</td><td>Main catch-up compounding lever</td></tr>
-        <tr><td>Portfolio after 2 years</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="portfolio_after_2_years" value="292"></div>,620</td><td>Growth while dividends are being spent</td></tr>
+        <tr><td>Phase 2 contribution</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="phase_2_contribution" value="1000"></div>/mo added</td><td>Main catch-up compounding lever</td></tr>
+        <tr><td>Portfolio after 2 years</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="portfolio_after_2_years" value="292620"></div></td><td>Growth while dividends are being spent</td></tr>
         <tr><td>Oakland Park sale proceeds</td><td>~$458,000</td><td>Major June 2032 accelerator</td></tr>
       </tbody>
     </table>
@@ -865,7 +865,7 @@
     <table>
       <thead><tr><th>Date</th><th>Portfolio Value</th><th>Phase</th><th>Monthly Dividends (est.)</th><th>Annual Div Income</th><th>vs Today</th></tr></thead>
       <tbody>
-        <tr><td><strong>Apr 2026 (now)</strong></td><td class="gold">$288,649</td><td><span class="pill pill-blue">Phase 1 — Use</span></td><td class="green">$1,691</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="apr_2026_(now)" value="20"></div>,288</td><td class="gold">baseline</td></tr>
+        <tr><td><strong>Apr 2026 (now)</strong></td><td class="gold">$288,649</td><td><span class="pill pill-blue">Phase 1 — Use</span></td><td class="green">$1,691</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="apr_2026_(now)" value="20288"></div></td><td class="gold">baseline</td></tr>
         <tr><td>Jun 2026 (post-deploy)</td><td class="gold">~$290,000</td><td><span class="pill pill-blue">Phase 1 — Use</span></td><td class="green">~$1,769</td><td>~$21,228</td><td class="green">+0.5%</td></tr>
         <tr><td>Jun 2027</td><td class="gold">~$291,500</td><td><span class="pill pill-blue">Phase 1 — Use</span></td><td class="green">~$1,778</td><td>~$21,336</td><td class="green">+1%</td></tr>
         <tr><td>Jun 2028 (Phase 2 starts)</td><td class="gold">~$293,000</td><td><span class="pill pill-teal">Phase 2 — DRIP</span></td><td class="teal">~$1,787 (reinvested)</td><td>~$21,444</td><td class="green">+1.5%</td></tr>
