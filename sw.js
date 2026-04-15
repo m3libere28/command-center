@@ -1,4 +1,4 @@
-const CACHE_NAME = 'am-dashboard-v4';
+const CACHE_NAME = 'am-dashboard-v5';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
@@ -30,7 +30,7 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const req = e.request;
-  if (req.mode === 'navigate' || req.destination === 'document') {
+  if (req.mode === 'navigate' || req.destination === 'document' || req.destination === 'script' || req.destination === 'style') {
     e.respondWith(
       fetch(req)
         .then(res => {
