@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (titleElement && titleElement.classList.contains('section-title')) {
                     const title = titleElement.textContent.toLowerCase();
                     if (title.includes('spain')) spanSum += val;
-                    else if (title.includes('us')) usSum += val;
+                    else if (title.includes('us carrying')) usSum += val;
                     else if (title.includes('business')) bizSum += val;
                     else if (title.includes('admin')) adminSum += val;
                 }
