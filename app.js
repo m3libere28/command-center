@@ -84,5 +84,126 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Run first calculation iteration
     calculate();
+
+    // ==========================================
+    // PORTFOLIO LIVE API FETCHING
+    // ==========================================
+    const apiKeyInput = document.getElementById('finnhub-api-key');
+    const refreshBtn = document.getElementById('btn-fetch-live');
+    const statusBadge = document.getElementById('api-status-badge');
+    
+    if (apiKeyInput && refreshBtn) {
+        // Load key
+        const savedKey = localStorage.getItem('finnhub_key') || '';
+        apiKeyInput.value = savedKey;
+
+        apiKeyInput.addEventListener('input', () => {
+            localStorage.setItem('finnhub_key', apiKeyInput.value.trim());
+        });
+
+        const fmtPort = (num) => '$' + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits:2});
+
+        const fetchLivePrices = async () => {
+            const key = localStorage.getItem('finnhub_key');
+            if (!key) {
+                statusBadge.textContent = '● Paste Key';
+                statusBadge.style.color = 'var(--text-muted)';
+                return;
+            }
+
+            statusBadge.textContent = '● Fetching...';
+            statusBadge.style.color = 'var(--blue)';
+
+            const tickers = ['SPYI', 'SCHD', 'SCHY'];
+            let overallTotal = 50009.17; // Start with fixed VMFXX amount
+            let hasError = false;
+
+            for (const ticker of tickers) {
+                const priceSpans = document.querySelectorAll(`.live-price[data-ticker="${ticker}"]`);
+                const valSpans = document.querySelectorAll(`.live-val[data-ticker="${ticker}"]`);
+                
+                try {
+                    const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker.replace('SPYI','SPYI')}&token=${key}`);
+                    if (!res.ok) throw new Error('API limit or error');
+                    const data = await res.json();
+                    
+                    // The 'c' property is current price
+                    const price = data.c; 
+                    if (price) {
+                        localStorage.setItem(`price_${ticker}`, price);
+                        priceSpans.forEach(el => el.textContent = `@ $${price.toFixed(2)}`);
+                        
+                        valSpans.forEach(el => {
+                            const shares = parseFloat(el.getAttribute('data-shares')) || 0;
+                            const total = shares * price;
+                            el.textContent = fmtPort(total);
+                            overallTotal += total; // only add once? Wait, this loop modifies spans but we only want to add to overall once per ticker.
+                        });
+                    }
+                } catch (err) {
+                    hasError = true;
+                    // Fallback to local storage
+                    const fallbackPrice = localStorage.getItem(`price_${ticker}`);
+                    if (fallbackPrice) {
+                        priceSpans.forEach(el => el.textContent = `@ $${parseFloat(fallbackPrice).toFixed(2)} (Offline)`);
+                        valSpans.forEach(el => {
+                            const shares = parseFloat(el.getAttribute('data-shares')) || 0;
+                            const total = shares * parseFloat(fallbackPrice);
+                            el.textContent = fmtPort(total);
+                        });
+                    }
+                }
+            }
+
+            // Fix the loop bug: we shouldn't add to `overallTotal` inside `valSpans.forEach` because there are TWO spans per ticker (one in table, one in list).
+            // Let's recalculate the overall safely
+            let finalOverall = 50009.17; // VMFXX
+            for (const ticker of tickers) {
+                const el = document.querySelector(`.live-val[data-ticker="${ticker}"]`);
+                if (el) {
+                    const shares = parseFloat(el.getAttribute('data-shares')) || 0;
+                    const price = localStorage.getItem(`price_${ticker}`);
+                    if (price) finalOverall += (shares * parseFloat(price));
+                }
+            }
+
+            // Only update KPI if we actually got prices
+            if (finalOverall > 50009.17) {
+                const dynTotal = document.getElementById('dyn-portfolio-total');
+                if (dynTotal) dynTotal.textContent = fmtPort(finalOverall);
+            }
+
+            if (hasError) {
+                statusBadge.textContent = '● Offline / Error';
+                statusBadge.style.color = 'var(--red)';
+            } else {
+                statusBadge.textContent = '● Live Tracking';
+                statusBadge.style.color = 'var(--green)';
+            }
+        };
+
+        refreshBtn.addEventListener('click', fetchLivePrices);
+        
+        // Auto-fetch if key exists
+        if (savedKey) {
+            fetchLivePrices();
+        } else {
+            // Load fallbacks directly if no key
+            const tickers = ['SPYI', 'SCHD', 'SCHY'];
+            tickers.forEach(ticker => {
+                const fallbackPrice = localStorage.getItem(`price_${ticker}`);
+                if (fallbackPrice) {
+                    document.querySelectorAll(`.live-price[data-ticker="${ticker}"]`).forEach(el => el.textContent = `@ $${parseFloat(fallbackPrice).toFixed(2)} (Saved)`);
+                    document.querySelectorAll(`.live-val[data-ticker="${ticker}"]`).forEach(el => {
+                        const shares = parseFloat(el.getAttribute('data-shares')) || 0;
+                        el.textContent = fmtPort(shares * parseFloat(fallbackPrice));
+                    });
+                } else {
+                    document.querySelectorAll(`.live-price[data-ticker="${ticker}"]`).forEach(el => el.textContent = `Awaiting Key API`);
+                }
+            });
+        }
+    }
 });
