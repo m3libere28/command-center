@@ -1,4 +1,4 @@
-const CACHE_NAME = 'am-dashboard-v3';
+const CACHE_NAME = 'am-dashboard-v4';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
@@ -29,9 +29,19 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(response => {
-      return response || fetch(e.request);
-    })
-  );
+  const req = e.request;
+  if (req.mode === 'navigate' || req.destination === 'document') {
+    e.respondWith(
+      fetch(req)
+        .then(res => {
+          const resClone = res.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(req, resClone));
+          return res;
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  e.respondWith(caches.match(req).then(response => response || fetch(req)));
 });
