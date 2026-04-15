@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g1" x1="64" y1="64" x2="448" y2="448" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1ECFCF" stop-opacity="0.95"/>
+      <stop offset="0.42" stop-color="#C9A84C" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#E8C97A" stop-opacity="0.95"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="38%" cy="32%" r="70%">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.18"/>
+      <stop offset="0.35" stop-color="#FFFFFF" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panel" x1="96" y1="86" x2="416" y2="426" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0C1830"/>
+      <stop offset="1" stop-color="#080F1E"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.45"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="#1ECFCF" flood-opacity="0.10"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="22" flood-color="#C9A84C" flood-opacity="0.12"/>
+    </filter>
+    <filter id="innerGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feComposite in="blur" in2="SourceAlpha" operator="out" result="hollow"/>
+      <feColorMatrix in="hollow" type="matrix" values="0 0 0 0 0.12  0 0 0 0 0.81  0 0 0 0 0.81  0 0 0 0.85 0" result="teal"/>
+      <feMerge>
+        <feMergeNode in="teal"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="clip">
+      <rect x="96" y="86" width="320" height="340" rx="84"/>
+    </clipPath>
+  </defs>
+
+  <!-- Base tile -->
+  <rect x="64" y="64" width="384" height="384" rx="96" fill="url(#panel)" filter="url(#softShadow)"/>
+
+  <!-- Border ring -->
+  <rect x="76" y="76" width="360" height="360" rx="92" fill="none" stroke="url(#g1)" stroke-width="10" opacity="0.85"/>
+  <rect x="86" y="86" width="340" height="340" rx="86" fill="none" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="2"/>
+
+  <!-- Futuristic grid shimmer (clipped) -->
+  <g clip-path="url(#clip)" opacity="0.65">
+    <g opacity="0.18">
+      <path d="M96 140H416" stroke="#1ECFCF" stroke-width="2"/>
+      <path d="M96 196H416" stroke="#1ECFCF" stroke-width="2"/>
+      <path d="M96 252H416" stroke="#1ECFCF" stroke-width="2"/>
+      <path d="M96 308H416" stroke="#1ECFCF" stroke-width="2"/>
+      <path d="M96 364H416" stroke="#1ECFCF" stroke-width="2"/>
+      <path d="M140 86V426" stroke="#1ECFCF" stroke-width="2"/>
+      <path d="M196 86V426" stroke="#1ECFCF" stroke-width="2"/>
+      <path d="M252 86V426" stroke="#1ECFCF" stroke-width="2"/>
+      <path d="M308 86V426" stroke="#1ECFCF" stroke-width="2"/>
+      <path d="M364 86V426" stroke="#1ECFCF" stroke-width="2"/>
+    </g>
+    <rect x="96" y="86" width="320" height="340" fill="url(#glow)"/>
+  </g>
+
+  <!-- Monogram core -->
+  <g filter="url(#innerGlow)">
+    <path d="M170 350L225 168H256L311 350H282L271 316H211L200 350H170ZM221 291H261L241 223L221 291Z" fill="url(#g1)"/>
+    <path d="M320 350V168H357C389 168 409 186 409 214C409 232 400 246 385 254C404 261 418 278 418 304C418 336 395 350 361 350H320ZM349 241H355C371 241 380 233 380 220C380 206 372 198 356 198H349V241ZM349 320H361C379 320 389 311 389 296C389 279 377 270 359 270H349V320Z" fill="url(#g1)" opacity="0.92"/>
+  </g>
+
+  <!-- Subtle top highlight -->
+  <path d="M110 170C126 128 168 100 220 94H292C344 100 386 128 402 170" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="10" stroke-linecap="round"/>
+</svg>
