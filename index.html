@@ -674,10 +674,10 @@
     <table>
       <thead><tr><th>Holding</th><th>Current Value</th><th>Yield Used</th><th>Est. Annual</th><th>Est. Monthly</th><th>Role</th></tr></thead>
       <tbody>
-        <tr><td><div class="ticker">SPYI</div><div class="ticker-name">NEOS S&P 500 High Income ETF</div></td><td><strong class="live-val" data-ticker="SPYI" data-shares="2339.000">$119,300.70</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SPYI">Loading...</span></td><td>12.24%</td><td class="green">$14,602.41</td><td class="green">$1,216.87</td><td><span class="pill pill-green">Income engine</span></td></tr>
-        <tr><td><div class="ticker">SCHD</div><div class="ticker-name">Schwab U.S. Dividend Equity ETF</div></td><td><strong class="live-val" data-ticker="SCHD" data-shares="3128.000">$95,513.48</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SCHD">Loading...</span></td><td>3.30%</td><td class="blue">$3,151.94</td><td class="blue">$262.66</td><td><span class="pill pill-blue">US dividend core</span></td></tr>
-        <tr><td><div class="ticker">SCHY</div><div class="ticker-name">Schwab International Dividend ETF</div></td><td><strong class="live-val" data-ticker="SCHY" data-shares="734.000">$23,825.64</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SCHY">Loading...</span></td><td>3.12%</td><td class="purple">$743.36</td><td class="purple">$61.95</td><td><span class="pill pill-purple">Intl sleeve</span></td></tr>
-        <tr><td><div class="ticker">VMFXX</div><div class="ticker-name">Vanguard Federal Money Market</div></td><td><strong class="live-val" data-ticker="VMFXX" data-shares="50009.17">$50,009.17</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="VMFXX">Fixed $1.00</span></td><td>3.58%</td><td class="teal">$1,790.33</td><td class="teal">$149.19</td><td><span class="pill pill-teal">Cash reserve</span></td></tr>
+        <tr><td><div class="ticker">SPYI</div><div class="ticker-name">NEOS S&P 500 High Income ETF</div></td><td><strong class="live-val" data-ticker="SPYI" data-shares="2339.000" data-yield="0.1224">$119,300.70</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SPYI">Loading...</span></td><td>12.24%</td><td class="green">$14,602.41</td><td class="green">$1,216.87</td><td><span class="pill pill-green">Income engine</span></td></tr>
+        <tr><td><div class="ticker">SCHD</div><div class="ticker-name">Schwab U.S. Dividend Equity ETF</div></td><td><strong class="live-val" data-ticker="SCHD" data-shares="3128.000" data-yield="0.0330">$95,513.48</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SCHD">Loading...</span></td><td>3.30%</td><td class="blue">$3,151.94</td><td class="blue">$262.66</td><td><span class="pill pill-blue">US dividend core</span></td></tr>
+        <tr><td><div class="ticker">SCHY</div><div class="ticker-name">Schwab International Dividend ETF</div></td><td><strong class="live-val" data-ticker="SCHY" data-shares="734.000" data-yield="0.0312">$23,825.64</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SCHY">Loading...</span></td><td>3.12%</td><td class="purple">$743.36</td><td class="purple">$61.95</td><td><span class="pill pill-purple">Intl sleeve</span></td></tr>
+        <tr><td><div class="ticker">VMFXX</div><div class="ticker-name">Vanguard Federal Money Market</div></td><td><strong class="live-val" data-ticker="VMFXX" data-shares="50009.17" data-yield="0.0358">$50,009.17</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="VMFXX">Fixed $1.00</span></td><td>3.58%</td><td class="teal">$1,790.33</td><td class="teal">$149.19</td><td><span class="pill pill-teal">Cash reserve</span></td></tr>
         <tr><td colspan="3"><strong>Total gross income stream</strong></td><td class="green"><strong>$20,288.04</strong></td><td class="green"><strong>$1,690.67</strong></td><td><span class="pill pill-gold">Current phase</span></td></tr>
       </tbody>
     </table>
@@ -868,10 +868,10 @@
 <section id="page-calendar" class="page">
   <div class="section-title">12-Month Dividend Payout Calendar</div>
   <div class="grid-4" style="margin-bottom:18px">
-    <div class="card green-soft"><div class="kpi-label">SPYI — Monthly</div><div class="kpi-value green">~$1,217/mo</div><div class="kpi-sub">Pays every month ~22nd ex-date, ~24th pay date</div></div>
-    <div class="card blue-soft"><div class="kpi-label">SCHD — Quarterly</div><div class="kpi-value blue">~$263/qtr mo equiv</div><div class="kpi-sub">Mar · Jun · Sep · Dec · Pay ~5 days after ex-date</div></div>
-    <div class="card purple-soft"><div class="kpi-label">SCHY — Quarterly</div><div class="kpi-value purple">~$62/qtr mo equiv</div><div class="kpi-sub">Mar · Jun · Sep · Dec · Same schedule as SCHD</div></div>
-    <div class="card teal-soft"><div class="kpi-label">VMFXX — Monthly</div><div class="kpi-value teal">~$149/mo</div><div class="kpi-sub">Accrues daily, distributes monthly end of month</div></div>
+    <div class="card green-soft"><div class="kpi-label">SPYI — Monthly</div><div class="kpi-value green">~<span id="cal-kpi-spyi">$1,217</span>/mo</div><div class="kpi-sub">Pays every month ~22nd ex-date, ~24th pay date</div></div>
+    <div class="card blue-soft"><div class="kpi-label">SCHD — Quarterly</div><div class="kpi-value blue">~<span id="cal-kpi-schd">$263</span>/qtr mo equiv</div><div class="kpi-sub">Mar · Jun · Sep · Dec · Pay ~5 days after ex-date</div></div>
+    <div class="card purple-soft"><div class="kpi-label">SCHY — Quarterly</div><div class="kpi-value purple">~<span id="cal-kpi-schy">$62</span>/qtr mo equiv</div><div class="kpi-sub">Mar · Jun · Sep · Dec · Same schedule as SCHD</div></div>
+    <div class="card teal-soft"><div class="kpi-label">VMFXX — Monthly</div><div class="kpi-value teal">~<span id="cal-kpi-vmfxx">$149</span>/mo</div><div class="kpi-sub">Accrues daily, distributes monthly end of month</div></div>
   </div>
 
   <div class="card" style="padding:22px">
@@ -879,83 +879,83 @@
     <div class="cal-grid">
       <div class="cal-month">
         <div class="cal-month-name">APR</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217<br><span style="font-size:8px">ex Apr 22</span></div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$1,366</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span id="cal-spyi">$1,217</span><br><span style="font-size:8px">ex Apr 22</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span id="cal-vmfxx">$149</span></div>
+        <div class="cal-total">~<span id="cal-total-nonq">$1,366</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">MAY</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$1,366</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span class="cal-total-nonq">$1,366</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">JUN</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-schd">SCHD<br>~$788<br><span style="font-size:8px">ex Jun 24</span></div>
-        <div class="cal-pill cal-schy">SCHY<br>~$186<br><span style="font-size:8px">ex Jun 24</span></div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$2,340</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-schd">SCHD<br>~<span id="cal-schd-q">$788</span><br><span style="font-size:8px">ex Jun 24</span></div>
+        <div class="cal-pill cal-schy">SCHY<br>~<span id="cal-schy-q">$186</span><br><span style="font-size:8px">ex Jun 24</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span id="cal-total-q">$2,340</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">JUL</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$1,366</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span class="cal-total-nonq">$1,366</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">AUG</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$1,366</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span class="cal-total-nonq">$1,366</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">SEP</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-schd">SCHD<br>~$788</div>
-        <div class="cal-pill cal-schy">SCHY<br>~$186</div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$2,340</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-schd">SCHD<br>~<span class="cal-schd-q-val">$788</span></div>
+        <div class="cal-pill cal-schy">SCHY<br>~<span class="cal-schy-q-val">$186</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span class="cal-total-q">$2,340</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">OCT</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$1,366</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span class="cal-total-nonq">$1,366</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">NOV</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$1,366</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span class="cal-total-nonq">$1,366</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">DEC</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-schd">SCHD<br>~$788</div>
-        <div class="cal-pill cal-schy">SCHY<br>~$186</div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$2,340</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-schd">SCHD<br>~<span class="cal-schd-q-val">$788</span></div>
+        <div class="cal-pill cal-schy">SCHY<br>~<span class="cal-schy-q-val">$186</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span class="cal-total-q">$2,340</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">JAN '27</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$1,366</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span class="cal-total-nonq">$1,366</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">FEB '27</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$1,366</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span class="cal-total-nonq">$1,366</span></div>
       </div>
       <div class="cal-month">
         <div class="cal-month-name">MAR '27</div>
-        <div class="cal-pill cal-spyi">SPYI<br>~$1,217</div>
-        <div class="cal-pill cal-schd">SCHD<br>~$788</div>
-        <div class="cal-pill cal-schy">SCHY<br>~$186</div>
-        <div class="cal-pill cal-vmfxx">VMFXX<br>~$149</div>
-        <div class="cal-total">~$2,340</div>
+        <div class="cal-pill cal-spyi">SPYI<br>~<span class="cal-spyi-val">$1,217</span></div>
+        <div class="cal-pill cal-schd">SCHD<br>~<span class="cal-schd-q-val">$788</span></div>
+        <div class="cal-pill cal-schy">SCHY<br>~<span class="cal-schy-q-val">$186</span></div>
+        <div class="cal-pill cal-vmfxx">VMFXX<br>~<span class="cal-vmfxx-val">$149</span></div>
+        <div class="cal-total">~<span class="cal-total-q">$2,340</span></div>
       </div>
     </div>
   </div>
@@ -963,17 +963,17 @@
   <div class="grid-3">
     <div class="card green-soft">
       <div class="kpi-label">Non-Quarterly Months (8/yr)</div>
-      <div class="kpi-value green">~$1,366</div>
+      <div class="kpi-value green">~<span id="cal-summary-nonq">$1,366</span></div>
       <div class="kpi-sub">SPYI + VMFXX only. These are the months you draw ~$363 from the float to cover the SCHD/SCHY portion.</div>
     </div>
     <div class="card blue-soft">
       <div class="kpi-label">Quarterly Hit Months (4/yr)</div>
-      <div class="kpi-value blue">~$2,340</div>
+      <div class="kpi-value blue">~<span id="cal-summary-q">$2,340</span></div>
       <div class="kpi-sub">Jun · Sep · Dec · Mar. SCHD + SCHY land and replenish the float you drew the prior 3 months.</div>
     </div>
     <div class="card soft">
       <div class="kpi-label">Annual Gross Total</div>
-      <div class="kpi-value gold">~$20,288</div>
+      <div class="kpi-value gold">~<span id="cal-summary-annual">$20,288</span></div>
       <div class="kpi-sub">8 × $1,366 + 4 × $2,340 = $20,288</div>
     </div>
   </div>

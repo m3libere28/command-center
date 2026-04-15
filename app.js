@@ -96,6 +96,97 @@ document.addEventListener('DOMContentLoaded', () => {
     const grossDividends = 1690.67;
     const totalGross = incomeVA + incomeEmily + grossDividends;
 
+    const fmtMoney0 = (num) => '$' + (Math.round(num)).toLocaleString('en-US');
+
+    const updateDividendCalendar = () => {
+        const spyiEl = document.querySelector('.live-val[data-ticker="SPYI"]');
+        const schdEl = document.querySelector('.live-val[data-ticker="SCHD"]');
+        const schyEl = document.querySelector('.live-val[data-ticker="SCHY"]');
+        const vmfxxEl = document.querySelector('.live-val[data-ticker="VMFXX"]');
+        if (!spyiEl || !schdEl || !schyEl || !vmfxxEl) return;
+
+        const getHolding = (el) => {
+            const ticker = el.getAttribute('data-ticker');
+            const shares = parseFloat(el.getAttribute('data-shares')) || 0;
+            const y = parseFloat(el.getAttribute('data-yield')) || 0;
+
+            let price = 1;
+            if (ticker !== 'VMFXX') {
+                const saved = localStorage.getItem(`price_${ticker}`);
+                if (saved) price = parseFloat(saved) || 0;
+            }
+
+            const value = shares * price;
+            const annual = value * y;
+            return { ticker, shares, y, price, value, annual };
+        };
+
+        const spyi = getHolding(spyiEl);
+        const schd = getHolding(schdEl);
+        const schy = getHolding(schyEl);
+        const vmfxx = getHolding(vmfxxEl);
+
+        const spyiMo = spyi.annual / 12;
+        const vmfxxMo = vmfxx.annual / 12;
+        const schdQ = schd.annual / 4;
+        const schyQ = schy.annual / 4;
+
+        const nonQ = spyiMo + vmfxxMo;
+        const qHit = nonQ + schdQ + schyQ;
+        const annual = nonQ * 8 + qHit * 4;
+
+        const setText = (selector, text) => {
+            document.querySelectorAll(selector).forEach(el => {
+                el.textContent = text;
+            });
+        };
+
+        const spyiTxt = fmtMoney0(spyiMo);
+        const vmfxxTxt = fmtMoney0(vmfxxMo);
+        const schdQTxt = fmtMoney0(schdQ);
+        const schyQTxt = fmtMoney0(schyQ);
+        const nonQTxt = fmtMoney0(nonQ);
+        const qHitTxt = fmtMoney0(qHit);
+        const annualTxt = fmtMoney0(annual);
+
+        const kpiSpyi = document.getElementById('cal-kpi-spyi');
+        const kpiSchd = document.getElementById('cal-kpi-schd');
+        const kpiSchy = document.getElementById('cal-kpi-schy');
+        const kpiVmfxx = document.getElementById('cal-kpi-vmfxx');
+        if (kpiSpyi) kpiSpyi.textContent = spyiTxt;
+        if (kpiSchd) kpiSchd.textContent = fmtMoney0(schd.annual / 12);
+        if (kpiSchy) kpiSchy.textContent = fmtMoney0(schy.annual / 12);
+        if (kpiVmfxx) kpiVmfxx.textContent = vmfxxTxt;
+
+        const calSpyi = document.getElementById('cal-spyi');
+        const calVmfxx = document.getElementById('cal-vmfxx');
+        if (calSpyi) calSpyi.textContent = spyiTxt;
+        if (calVmfxx) calVmfxx.textContent = vmfxxTxt;
+        setText('.cal-spyi-val', spyiTxt);
+        setText('.cal-vmfxx-val', vmfxxTxt);
+
+        const calSchdQ = document.getElementById('cal-schd-q');
+        const calSchyQ = document.getElementById('cal-schy-q');
+        if (calSchdQ) calSchdQ.textContent = schdQTxt;
+        if (calSchyQ) calSchyQ.textContent = schyQTxt;
+        setText('.cal-schd-q-val', schdQTxt);
+        setText('.cal-schy-q-val', schyQTxt);
+
+        const totalNonQ = document.getElementById('cal-total-nonq');
+        const totalQ = document.getElementById('cal-total-q');
+        if (totalNonQ) totalNonQ.textContent = nonQTxt;
+        if (totalQ) totalQ.textContent = qHitTxt;
+        setText('.cal-total-nonq', nonQTxt);
+        setText('.cal-total-q', qHitTxt);
+
+        const sumNonQ = document.getElementById('cal-summary-nonq');
+        const sumQ = document.getElementById('cal-summary-q');
+        const sumAnnual = document.getElementById('cal-summary-annual');
+        if (sumNonQ) sumNonQ.textContent = nonQTxt;
+        if (sumQ) sumQ.textContent = qHitTxt;
+        if (sumAnnual) sumAnnual.textContent = annualTxt;
+    };
+
     const calculate = () => {
         let spanSum = 0;
         let usSum = 0;
@@ -172,6 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run first calculation iteration
     calculate();
+
+    updateDividendCalendar();
 
     // ==========================================
     // PORTFOLIO LIVE API FETCHING
@@ -268,6 +361,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 statusBadge.textContent = '● Live Tracking';
                 statusBadge.style.color = 'var(--green)';
             }
+
+            updateDividendCalendar();
         };
 
         refreshBtn.addEventListener('click', fetchLivePrices);
@@ -290,6 +385,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.querySelectorAll(`.live-price[data-ticker="${ticker}"]`).forEach(el => el.textContent = `Awaiting Key API`);
                 }
             });
+
+            updateDividendCalendar();
         }
     }
 });
