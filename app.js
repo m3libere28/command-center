@@ -4,6 +4,92 @@ if ('serviceWorker' in navigator) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const gate = document.getElementById('access-gate');
+    const gatePass = document.getElementById('gate-pass');
+    const gateSubmit = document.getElementById('gate-submit');
+    const gateStatus = document.getElementById('gate-status');
+    const gatePanel = document.getElementById('gate-panel');
+    const GATE_CODE = '0351';
+
+    const unlockGate = () => {
+        if (!gate) return;
+        gate.classList.add('granted');
+        if (gateStatus) {
+            gateStatus.textContent = '● Access Granted';
+            gateStatus.classList.remove('bad');
+            gateStatus.classList.add('good');
+        }
+        setTimeout(() => {
+            gate.classList.add('fadeout');
+            setTimeout(() => {
+                gate.classList.add('hidden');
+                document.body.classList.remove('gate-locked');
+            }, 680);
+        }, 800);
+    };
+
+    const lockGate = () => {
+        if (!gate) return;
+        document.body.classList.add('gate-locked');
+        gate.classList.remove('hidden');
+        if (gatePass) {
+            gatePass.value = '';
+            gatePass.focus();
+        }
+        if (gateStatus) {
+            gateStatus.textContent = '● Awaiting credential';
+            gateStatus.classList.remove('bad', 'good');
+        }
+    };
+
+    const validateGate = () => {
+        if (!gate || !gatePass) return true;
+        const entered = (gatePass.value || '').trim();
+        if (entered === GATE_CODE) {
+            sessionStorage.setItem('cc_unlocked', '1');
+            unlockGate();
+            return true;
+        }
+
+        if (gateStatus) {
+            gateStatus.textContent = '● Access Denied';
+            gateStatus.classList.remove('good');
+            gateStatus.classList.add('bad');
+        }
+        if (gatePanel) {
+            gatePanel.classList.remove('gate-bad');
+            // Force reflow to restart animation
+            void gatePanel.offsetWidth;
+            gatePanel.classList.add('gate-bad');
+        }
+        if (gatePass) {
+            gatePass.value = '';
+            gatePass.focus();
+        }
+        return false;
+    };
+
+    if (gate && gatePass && gateSubmit) {
+        const alreadyUnlocked = sessionStorage.getItem('cc_unlocked') === '1';
+        if (alreadyUnlocked) {
+            gate.classList.add('hidden');
+            document.body.classList.remove('gate-locked');
+        } else {
+            lockGate();
+        }
+
+        gateSubmit.addEventListener('click', validateGate);
+        gatePass.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') validateGate();
+            if (e.key === 'Escape') lockGate();
+        });
+
+        // Clicking outside the panel focuses input
+        gate.addEventListener('mousedown', (e) => {
+            if (e.target === gate && gatePass) gatePass.focus();
+        });
+    }
+
     const inputs = document.querySelectorAll('.budget-input');
     const incomeVA = 4822; 
     const incomeEmily = 3500;
