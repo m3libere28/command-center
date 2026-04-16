@@ -266,6 +266,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateDividendCalendar();
 
+    const updateFxBadge = async () => {
+        const el = document.getElementById('fx-live');
+        if (!el) return;
+
+        const BASE = 1.09;
+        const cachedRate = parseFloat(localStorage.getItem('fx_eurusd_rate') || '');
+        const cachedTs = parseInt(localStorage.getItem('fx_eurusd_ts') || '', 10);
+        const cacheFresh = cachedRate && cachedTs && (Date.now() - cachedTs) < (6 * 60 * 60 * 1000);
+
+        const render = (rate, stale) => {
+            const delta = rate - BASE;
+            const abs = Math.abs(delta);
+            let strength = 'Near base';
+            let color = 'var(--text-muted)';
+            if (abs >= 0.005) {
+                if (delta > 0) {
+                    strength = 'USD weaker';
+                    color = 'var(--orange)';
+                } else {
+                    strength = 'USD stronger';
+                    color = 'var(--green)';
+                }
+            }
+
+            el.textContent = `● 1 EUR = ${rate.toFixed(4)} USD · ${strength}${stale ? ' (Saved)' : ''}`;
+            el.style.color = color;
+            el.style.borderColor = 'rgba(255,255,255,0.10)';
+            el.style.background = 'rgba(0,0,0,0.18)';
+        };
+
+        if (cacheFresh) {
+            render(cachedRate, false);
+            return;
+        }
+
+        if (cachedRate) {
+            render(cachedRate, true);
+        }
+
+        try {
+            const res = await fetch('https://api.frankfurter.app/latest?from=EUR&to=USD', { cache: 'no-store' });
+            if (!res.ok) throw new Error('fx fetch failed');
+            const data = await res.json();
+            const rate = data && data.rates && typeof data.rates.USD === 'number' ? data.rates.USD : null;
+            if (!rate) throw new Error('fx parse failed');
+
+            localStorage.setItem('fx_eurusd_rate', String(rate));
+            localStorage.setItem('fx_eurusd_ts', String(Date.now()));
+            render(rate, false);
+        } catch (e) {
+            if (!cachedRate) {
+                el.textContent = '● Rate unavailable';
+                el.style.color = 'var(--text-muted)';
+            }
+        }
+    };
+
+    updateFxBadge();
+    setInterval(updateFxBadge, 60 * 60 * 1000);
+
     // ==========================================
     // PORTFOLIO LIVE API FETCHING
     // ==========================================
