@@ -80,6 +80,58 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    const hydrateChecklistFromLocal = () => {
+        document.querySelectorAll('.check[data-doc]').forEach(row => {
+            const id = row.getAttribute('data-doc');
+            if (!id) return;
+            const saved = localStorage.getItem('doc_status_' + id);
+            if (!saved) return;
+            const statusEl = row.querySelector('.status');
+            if (!statusEl) return;
+
+            if (saved === 'confirmed') {
+                statusEl.textContent = 'Confirmed';
+                statusEl.classList.remove('pending', 'todo');
+                statusEl.classList.add('done');
+            } else if (saved === 'pending') {
+                statusEl.textContent = 'Pending';
+                statusEl.classList.remove('done', 'todo');
+                statusEl.classList.add('pending');
+            }
+        });
+    };
+
+    const setupChecklistToggle = () => {
+        const onToggle = (row) => {
+            const id = row.getAttribute('data-doc');
+            if (!id) return;
+            const statusEl = row.querySelector('.status');
+            if (!statusEl) return;
+
+            const isConfirmed = statusEl.classList.contains('done') || statusEl.textContent.trim().toLowerCase() === 'confirmed';
+            if (isConfirmed) {
+                statusEl.textContent = 'Pending';
+                statusEl.classList.remove('done', 'todo');
+                statusEl.classList.add('pending');
+                localStorage.setItem('doc_status_' + id, 'pending');
+            } else {
+                statusEl.textContent = 'Confirmed';
+                statusEl.classList.remove('pending', 'todo');
+                statusEl.classList.add('done');
+                localStorage.setItem('doc_status_' + id, 'confirmed');
+            }
+        };
+
+        document.querySelectorAll('.check[data-doc]').forEach(row => {
+            row.style.cursor = 'pointer';
+            row.addEventListener('click', () => {
+                onToggle(row);
+                const evt = new Event('input', { bubbles: true });
+                document.body.dispatchEvent(evt);
+            });
+        });
+    };
+
     const setupAutoBudgetSync = () => {
         const sb = getSupabaseClient();
         if (!sb) return;
@@ -123,7 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const payload = [];
             for (let i = 0; i < localStorage.length; i++) {
                 const k = localStorage.key(i);
-                if (!k || !k.startsWith('budget_')) continue;
+                if (!k) continue;
+                if (!k.startsWith('budget_') && !k.startsWith('doc_status_')) continue;
                 payload.push({ user_id: user.id, key: k, value: localStorage.getItem(k) || '' });
             }
             if (payload.length === 0) return;
@@ -139,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!user) return;
             await pullSettingsIntoLocal(sb);
             applyLocalBudgetToInputs();
+            hydrateChecklistFromLocal();
             calculate();
             localStorage.setItem('sync_last_pull_ts', String(Date.now()));
             await refreshBadgeFromState();
@@ -161,6 +215,11 @@ document.addEventListener('DOMContentLoaded', () => {
             inp.addEventListener('input', () => {
                 schedulePush();
             });
+        });
+
+        document.body.addEventListener('input', (e) => {
+            if (e && e.target && e.target.classList && e.target.classList.contains('budget-input')) return;
+            schedulePush();
         });
 
         sb.auth.getSession().then(({ data }) => {
@@ -487,6 +546,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run first calculation iteration
     calculate();
+
+    hydrateChecklistFromLocal();
+    setupChecklistToggle();
 
     setupAutoBudgetSync();
 
