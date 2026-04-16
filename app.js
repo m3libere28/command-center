@@ -21,8 +21,101 @@ document.addEventListener('DOMContentLoaded', () => {
         return sbClient;
     };
 
+    const playAccessGuitarOnce = () => {
+        try {
+            if (sessionStorage.getItem('cc_access_sound_played') === '1') return;
+            sessionStorage.setItem('cc_access_sound_played', '1');
+
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            const now = ctx.currentTime;
+
+            const out = ctx.createGain();
+            out.gain.value = 0.85;
+            out.connect(ctx.destination);
+
+            const mkImpulse = (dur = 1.6, decay = 4.5) => {
+                const rate = ctx.sampleRate;
+                const len = Math.max(1, Math.floor(rate * dur));
+                const buf = ctx.createBuffer(2, len, rate);
+                for (let ch = 0; ch < 2; ch++) {
+                    const data = buf.getChannelData(ch);
+                    for (let i = 0; i < len; i++) {
+                        const t = i / len;
+                        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, decay);
+                    }
+                }
+                return buf;
+            };
+
+            const convolver = ctx.createConvolver();
+            convolver.buffer = mkImpulse(1.6, 4.5);
+            const wet = ctx.createGain();
+            wet.gain.value = 0.18;
+            convolver.connect(wet);
+            wet.connect(out);
+
+            const dry = ctx.createGain();
+            dry.gain.value = 0.95;
+            dry.connect(out);
+
+            const noteHz = (midi) => 440 * Math.pow(2, (midi - 69) / 12);
+            const strum = (midiNotes, startAt, totalDur) => {
+                const spacing = 0.02;
+                midiNotes.forEach((midi, i) => {
+                    const t0 = startAt + i * spacing;
+
+                    const osc1 = ctx.createOscillator();
+                    const osc2 = ctx.createOscillator();
+                    osc1.type = 'triangle';
+                    osc2.type = 'sine';
+                    const hz = noteHz(midi);
+                    osc1.frequency.setValueAtTime(hz, t0);
+                    osc2.frequency.setValueAtTime(hz * 2, t0);
+
+                    const g = ctx.createGain();
+                    const lp = ctx.createBiquadFilter();
+                    lp.type = 'lowpass';
+                    lp.frequency.setValueAtTime(2200, t0);
+                    lp.Q.setValueAtTime(0.7, t0);
+
+                    const a = 0.004;
+                    const d = Math.max(0.25, totalDur - (i * spacing));
+                    g.gain.setValueAtTime(0.0001, t0);
+                    g.gain.exponentialRampToValueAtTime(0.22, t0 + a);
+                    g.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
+
+                    osc1.connect(lp);
+                    osc2.connect(lp);
+                    lp.connect(g);
+
+                    g.connect(dry);
+                    g.connect(convolver);
+
+                    osc1.start(t0);
+                    osc2.start(t0);
+                    osc1.stop(t0 + d);
+                    osc2.stop(t0 + d);
+                });
+            };
+
+            strum([57, 60, 64, 69], now + 0.00, 1.15);
+            strum([55, 59, 62, 67], now + 0.55, 1.25);
+            strum([52, 57, 60, 64, 69], now + 1.15, 1.35);
+
+            const stopAt = now + 3.05;
+            setTimeout(() => {
+                try { ctx.close(); } catch (e) {}
+            }, Math.max(0, Math.ceil((stopAt - now) * 1000)));
+        } catch (e) {
+            try { sessionStorage.removeItem('cc_access_sound_played'); } catch (e2) {}
+        }
+    };
+
     const unlockGate = () => {
         if (!gate) return;
+        playAccessGuitarOnce();
         gate.classList.add('granted');
         if (gateStatus) {
             gateStatus.textContent = '● Access Granted';
