@@ -84,6 +84,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const sb = getSupabaseClient();
         if (!sb) return;
 
+        const badge = document.getElementById('sync-badge');
+        const syncNowBtn = document.getElementById('sync-now-btn');
+        const setBadge = (txt, color) => {
+            if (!badge) return;
+            badge.textContent = txt;
+            if (color) badge.style.color = color;
+        };
+
+        const fmtTime = (ts) => {
+            if (!ts) return '—';
+            try {
+                return new Date(Number(ts)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            } catch {
+                return '—';
+            }
+        };
+
+        const refreshBadgeFromState = async () => {
+            const { data } = await sb.auth.getSession();
+            const signedIn = !!(data && data.session);
+            const lp = localStorage.getItem('sync_last_push_ts');
+            const ll = localStorage.getItem('sync_last_pull_ts');
+            if (!signedIn) {
+                setBadge('● Sync: signed out', 'var(--text-muted)');
+                return;
+            }
+            setBadge(`● Sync: on · ↑ ${fmtTime(lp)} · ↓ ${fmtTime(ll)}`, 'var(--teal)');
+        };
+
         let pushTimer = null;
         let pullTimer = null;
 
@@ -102,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const { error } = await sb.from('user_settings').upsert(payload, { onConflict: 'user_id,key' });
             if (error) throw error;
             localStorage.setItem('sync_last_push_ts', String(Date.now()));
+            await refreshBadgeFromState();
         };
 
         const pullBudget = async () => {
@@ -111,14 +141,17 @@ document.addEventListener('DOMContentLoaded', () => {
             applyLocalBudgetToInputs();
             calculate();
             localStorage.setItem('sync_last_pull_ts', String(Date.now()));
+            await refreshBadgeFromState();
         };
 
         const schedulePush = () => {
             if (pushTimer) clearTimeout(pushTimer);
             pushTimer = setTimeout(async () => {
                 try {
+                    setBadge('● Sync: uploading…', 'var(--blue)');
                     await pushBudget();
                 } catch (e) {
+                    setBadge('● Sync error: upload failed', 'var(--red)');
                     console.log('Auto-sync push failed:', e);
                 }
             }, 900);
@@ -132,7 +165,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         sb.auth.getSession().then(({ data }) => {
             if (data && data.session) {
-                pullBudget().catch(() => {});
+                setBadge('● Sync: downloading…', 'var(--blue)');
+                pullBudget().catch((e) => {
+                    setBadge('● Sync error: download failed', 'var(--red)');
+                    console.log('Auto-sync pull failed:', e);
+                });
+            } else {
+                refreshBadgeFromState().catch(() => {});
             }
         });
 
@@ -140,16 +179,43 @@ document.addEventListener('DOMContentLoaded', () => {
         pullTimer = setInterval(() => {
             sb.auth.getSession().then(({ data }) => {
                 if (data && data.session) {
-                    pullBudget().catch((e) => console.log('Auto-sync pull failed:', e));
+                    pullBudget().catch((e) => {
+                        setBadge('● Sync error: download failed', 'var(--red)');
+                        console.log('Auto-sync pull failed:', e);
+                    });
                 }
             });
         }, 45 * 1000);
 
         sb.auth.onAuthStateChange((_event, session) => {
             if (session) {
-                pullBudget().catch(() => {});
+                refreshBadgeFromState().catch(() => {});
+                setBadge('● Sync: downloading…', 'var(--blue)');
+                pullBudget().catch((e) => {
+                    setBadge('● Sync error: download failed', 'var(--red)');
+                    console.log('Auto-sync pull failed:', e);
+                });
+            } else {
+                refreshBadgeFromState().catch(() => {});
             }
         });
+
+        if (syncNowBtn) {
+            syncNowBtn.addEventListener('click', async () => {
+                try {
+                    setBadge('● Sync: uploading…', 'var(--blue)');
+                    await pushBudget();
+                    setBadge('● Sync: downloading…', 'var(--blue)');
+                    await pullBudget();
+                } catch (e) {
+                    const msg = (e && e.message) ? e.message : 'unknown';
+                    setBadge(`● Sync error: ${msg}`, 'var(--red)');
+                    console.log('Manual sync failed:', e);
+                }
+            });
+        }
+
+        refreshBadgeFromState().catch(() => {});
     };
 
     const validateGate = async () => {
