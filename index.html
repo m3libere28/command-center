@@ -998,6 +998,63 @@
   </div>
   <div class="kpi-sub" style="margin:-6px 0 20px;color:var(--text-muted)">You earn in USD (VA + dividends) but spend in EUR (rent, school, utilities). A weaker dollar directly erodes your real purchasing power in Spain. Base rate: 1 EUR = 1.09 USD.</div>
 
+  <div class="grid-2">
+    <div class="card teal-soft" style="overflow:hidden;">
+      <div class="section-title" style="margin-top:0">Currency converter</div>
+      <div class="kpi-sub" style="margin-top:-6px;">Uses the live EUR/USD feed shown above. Swap directions to price rent/school in either currency.</div>
+      <div style="display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:end; margin-top:14px;">
+        <div>
+          <div class="kpi-label" style="margin-bottom:8px;">From</div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <select id="fx-from-cur" class="chip" style="padding:10px 12px; font-size:12px; color:var(--text); background:rgba(0,0,0,0.18);">
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+            </select>
+            <input id="fx-from-amt" type="number" inputmode="decimal" placeholder="0.00" style="flex:1; background:rgba(0,0,0,0.18); border:1px solid rgba(255,255,255,0.10); border-radius:12px; padding:11px 12px; color:var(--text); font-family:'Courier New',monospace; font-weight:800;">
+          </div>
+        </div>
+
+        <button id="fx-swap" class="chip" type="button" style="cursor:pointer; color:var(--text); padding:10px 12px;">Swap</button>
+
+        <div>
+          <div class="kpi-label" style="margin-bottom:8px;">To</div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <select id="fx-to-cur" class="chip" style="padding:10px 12px; font-size:12px; color:var(--text); background:rgba(0,0,0,0.18);">
+              <option value="EUR">EUR</option>
+              <option value="USD">USD</option>
+            </select>
+            <input id="fx-to-amt" type="number" inputmode="decimal" placeholder="0.00" style="flex:1; background:rgba(0,0,0,0.18); border:1px solid rgba(255,255,255,0.10); border-radius:12px; padding:11px 12px; color:var(--text); font-family:'Courier New',monospace; font-weight:800;" readonly>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; gap:14px; align-items:center; flex-wrap:wrap; margin-top:14px;">
+        <div id="fx-conv-rate" class="kpi-sub" style="font-family:'Courier New',monospace;">● Rate: —</div>
+        <div id="fx-conv-updated" class="kpi-sub" style="font-family:'Courier New',monospace;">Updated: —</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title" style="margin-top:0">FX impact quick reads</div>
+      <div class="list">
+        <div class="row"><div class="label">Rent (€2,100) at 1.09</div><div class="value">$2,289</div></div>
+        <div class="row"><div class="label">School (€802) at 1.09</div><div class="value">$874</div></div>
+        <div class="row"><div class="label">Buffer included in budget</div><div class="value orange">$200/mo</div></div>
+        <div class="row"><div class="label">Refresh uses live endpoints</div><div class="value teal">No-store fetch</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="sp"></div>
+  <div class="grid-3">
+    <div class="callout blue">
+      <h2>Current exposure</h2>
+      <p>At your base budget, every +0.01 move in EUR/USD costs roughly <strong>$30–$45/mo</strong> in equivalent USD spending power (rent, school, utilities weighted). This is why USD strength matters.</p>
+    </div>
+    <div class="card soft"><div class="kpi-label">Mild Weakness (1.15)</div><div class="kpi-value gold">$2,415/mo</div><div class="kpi-sub">+$126/mo on rent alone</div></div>
+    <div class="card"><div class="kpi-label">Moderate Weakness (1.20)</div><div class="kpi-value orange">$2,520/mo</div><div class="kpi-sub">+$231/mo on rent alone</div></div>
+    <div class="card"><div class="kpi-label">Strong Weakness (1.30)</div><div class="kpi-value red">$2,730/mo</div><div class="kpi-sub">+$441/mo on rent alone — serious budget pressure</div></div>
+  </div>
+
   <div class="grid-4">
     <div class="card green-soft"><div class="kpi-label">Base Case (1.09)</div><div class="kpi-value green">$2,289/mo</div><div class="kpi-sub">€2,100 rent at planning rate</div></div>
     <div class="card soft"><div class="kpi-label">Mild Weakness (1.15)</div><div class="kpi-value gold">$2,415/mo</div><div class="kpi-sub">+$126/mo on rent alone</div></div>

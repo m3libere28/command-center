@@ -554,6 +554,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateDividendCalendar();
 
+    const updateFxConverterUi = () => {
+        const fromCurEl = document.getElementById('fx-from-cur');
+        const toCurEl = document.getElementById('fx-to-cur');
+        const fromAmtEl = document.getElementById('fx-from-amt');
+        const toAmtEl = document.getElementById('fx-to-amt');
+        const rateEl = document.getElementById('fx-conv-rate');
+        const updatedEl = document.getElementById('fx-conv-updated');
+
+        if (!fromCurEl || !toCurEl || !fromAmtEl || !toAmtEl || !rateEl || !updatedEl) return;
+
+        const rate = parseFloat(localStorage.getItem('fx_eurusd_rate') || '');
+        const ts = parseInt(localStorage.getItem('fx_eurusd_ts') || '', 10);
+        if (!rate || !isFinite(rate)) {
+            rateEl.textContent = '● Rate: —';
+            updatedEl.textContent = 'Updated: —';
+            return;
+        }
+
+        rateEl.textContent = `● Rate: 1 EUR = ${rate.toFixed(4)} USD`;
+        if (ts && isFinite(ts)) {
+            updatedEl.textContent = 'Updated: ' + new Date(ts).toLocaleString();
+        } else {
+            updatedEl.textContent = 'Updated: —';
+        }
+
+        const fromCur = fromCurEl.value;
+        const toCur = toCurEl.value;
+        const fromAmt = parseFloat(fromAmtEl.value || '0');
+
+        if (!fromAmtEl.value || !isFinite(fromAmt)) {
+            toAmtEl.value = '';
+            return;
+        }
+
+        const convert = (amt, f, t) => {
+            if (f === t) return amt;
+            if (f === 'EUR' && t === 'USD') return amt * rate;
+            if (f === 'USD' && t === 'EUR') return amt / rate;
+            return NaN;
+        };
+
+        const out = convert(fromAmt, fromCur, toCur);
+        if (!isFinite(out)) {
+            toAmtEl.value = '';
+            return;
+        }
+        toAmtEl.value = out.toFixed(2);
+    };
+
+    const setupFxConverter = () => {
+        const fromCurEl = document.getElementById('fx-from-cur');
+        const toCurEl = document.getElementById('fx-to-cur');
+        const fromAmtEl = document.getElementById('fx-from-amt');
+        const swapEl = document.getElementById('fx-swap');
+        if (!fromCurEl || !toCurEl || !fromAmtEl || !swapEl) return;
+
+        const onChange = () => updateFxConverterUi();
+        fromCurEl.addEventListener('change', onChange);
+        toCurEl.addEventListener('change', onChange);
+        fromAmtEl.addEventListener('input', onChange);
+        swapEl.addEventListener('click', () => {
+            const a = fromCurEl.value;
+            fromCurEl.value = toCurEl.value;
+            toCurEl.value = a;
+            updateFxConverterUi();
+        });
+
+        updateFxConverterUi();
+    };
+
+    setupFxConverter();
+
     const updateFxBadge = async (forceRefresh = false) => {
         const el = document.getElementById('fx-live');
         if (!el) return;
@@ -582,10 +654,12 @@ document.addEventListener('DOMContentLoaded', () => {
             el.style.color = color;
             el.style.borderColor = 'rgba(255,255,255,0.10)';
             el.style.background = 'rgba(0,0,0,0.18)';
+
+            updateFxConverterUi();
         };
 
         if (cacheFresh && !forceRefresh) {
-            render(cachedRate, false);
+            render(cachedRate, true);
             return;
         }
 
