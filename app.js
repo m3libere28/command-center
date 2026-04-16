@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const gateStatus = document.getElementById('gate-status');
     const gatePanel = document.getElementById('gate-panel');
 
+    let accessGrantedAudio = null;
+
     let sbClient = null;
     const getSupabaseClient = () => {
         if (sbClient) return sbClient;
@@ -32,6 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     a.preload = 'auto';
                     a.currentTime = 0;
                     a.volume = 1;
+
+                    accessGrantedAudio = a;
+                    a.addEventListener('ended', () => {
+                        if (accessGrantedAudio === a) accessGrantedAudio = null;
+                    });
+                    a.addEventListener('error', () => {
+                        if (accessGrantedAudio === a) accessGrantedAudio = null;
+                    });
+
                     const p = a.play();
                     return p;
                 } catch (e) {
