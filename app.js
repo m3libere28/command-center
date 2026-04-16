@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateDividendCalendar();
 
-    const updateFxBadge = async () => {
+    const updateFxBadge = async (forceRefresh = false) => {
         const el = document.getElementById('fx-live');
         if (!el) return;
 
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
             el.style.background = 'rgba(0,0,0,0.18)';
         };
 
-        if (cacheFresh) {
+        if (cacheFresh && !forceRefresh) {
             render(cachedRate, false);
             return;
         }
@@ -360,6 +360,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateFxBadge();
     setInterval(updateFxBadge, 60 * 60 * 1000);
+
+    const fxRefreshBtn = document.getElementById('fx-refresh');
+    if (fxRefreshBtn) {
+        fxRefreshBtn.addEventListener('click', () => {
+            updateFxBadge(true);
+        });
+    }
 
     // ==========================================
     // PORTFOLIO LIVE API FETCHING
