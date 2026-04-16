@@ -66,6 +66,92 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    const applyLocalBudgetToInputs = () => {
+        const active = document.activeElement;
+        document.querySelectorAll('.budget-input').forEach(inp => {
+            const cat = inp.getAttribute('data-cat');
+            if (!cat) return;
+            const v = localStorage.getItem('budget_' + cat);
+            if (v === null || v === '' || isNaN(v)) return;
+            if (active === inp) return;
+            if (String(inp.value) !== String(v)) {
+                inp.value = v;
+            }
+        });
+    };
+
+    const setupAutoBudgetSync = () => {
+        const sb = getSupabaseClient();
+        if (!sb) return;
+
+        let pushTimer = null;
+        let pullTimer = null;
+
+        const pushBudget = async () => {
+            const user = (await sb.auth.getUser()).data.user;
+            if (!user) return;
+
+            const payload = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (!k || !k.startsWith('budget_')) continue;
+                payload.push({ user_id: user.id, key: k, value: localStorage.getItem(k) || '' });
+            }
+            if (payload.length === 0) return;
+
+            const { error } = await sb.from('user_settings').upsert(payload, { onConflict: 'user_id,key' });
+            if (error) throw error;
+            localStorage.setItem('sync_last_push_ts', String(Date.now()));
+        };
+
+        const pullBudget = async () => {
+            const user = (await sb.auth.getUser()).data.user;
+            if (!user) return;
+            await pullSettingsIntoLocal(sb);
+            applyLocalBudgetToInputs();
+            calculate();
+            localStorage.setItem('sync_last_pull_ts', String(Date.now()));
+        };
+
+        const schedulePush = () => {
+            if (pushTimer) clearTimeout(pushTimer);
+            pushTimer = setTimeout(async () => {
+                try {
+                    await pushBudget();
+                } catch (e) {
+                    console.log('Auto-sync push failed:', e);
+                }
+            }, 900);
+        };
+
+        document.querySelectorAll('.budget-input').forEach(inp => {
+            inp.addEventListener('input', () => {
+                schedulePush();
+            });
+        });
+
+        sb.auth.getSession().then(({ data }) => {
+            if (data && data.session) {
+                pullBudget().catch(() => {});
+            }
+        });
+
+        if (pullTimer) clearInterval(pullTimer);
+        pullTimer = setInterval(() => {
+            sb.auth.getSession().then(({ data }) => {
+                if (data && data.session) {
+                    pullBudget().catch((e) => console.log('Auto-sync pull failed:', e));
+                }
+            });
+        }, 45 * 1000);
+
+        sb.auth.onAuthStateChange((_event, session) => {
+            if (session) {
+                pullBudget().catch(() => {});
+            }
+        });
+    };
+
     const validateGate = async () => {
         if (!gate || !gatePass || !gateEmail) return true;
         const sb = getSupabaseClient();
@@ -161,6 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target === gate && gateEmail) gateEmail.focus();
         });
     }
+
+    setupAutoBudgetSync();
 
     const inputs = document.querySelectorAll('.budget-input');
     const incomeVA = 4822; 
