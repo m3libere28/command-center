@@ -33,9 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     a.currentTime = 0;
                     a.volume = 1;
                     const p = a.play();
-                    setTimeout(() => {
-                        try { a.pause(); } catch (e) {}
-                    }, 3000);
                     return p;
                 } catch (e) {
                     return Promise.reject(e);
