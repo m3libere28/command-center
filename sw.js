@@ -1,4 +1,4 @@
-const CACHE_NAME = 'am-dashboard-v21';
+const CACHE_NAME = 'am-dashboard-v22';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
@@ -11,7 +11,8 @@ self.addEventListener('install', e => {
         './manifest.json',
         './icon.svg',
         './icon-192.png',
-        './icon-512.png'
+        './icon-512.png',
+        './sfx/access-granted.wav'
       ]);
     })
   );
