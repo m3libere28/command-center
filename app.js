@@ -248,8 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    setupAutoBudgetSync();
-
     const inputs = document.querySelectorAll('.budget-input');
     const incomeVA = 4822; 
     const incomeEmily = 3500;
@@ -423,6 +421,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run first calculation iteration
     calculate();
+
+    setupAutoBudgetSync();
 
     updateDividendCalendar();
 
