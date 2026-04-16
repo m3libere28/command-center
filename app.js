@@ -5,11 +5,21 @@ if ('serviceWorker' in navigator) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const gate = document.getElementById('access-gate');
+    const gateEmail = document.getElementById('gate-email');
     const gatePass = document.getElementById('gate-pass');
     const gateSubmit = document.getElementById('gate-submit');
     const gateStatus = document.getElementById('gate-status');
     const gatePanel = document.getElementById('gate-panel');
-    const GATE_CODE = '0351';
+
+    let sbClient = null;
+    const getSupabaseClient = () => {
+        if (sbClient) return sbClient;
+        if (!window.supabase || !window.supabase.createClient) return null;
+        const SUPABASE_URL = 'https://lfhifmauilsstkxczjeb.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_fsOsWpTTea94kT8rpkjNRw_XzYdn7yD';
+        sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        return sbClient;
+    };
 
     const unlockGate = () => {
         if (!gate) return;
@@ -32,61 +42,123 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!gate) return;
         document.body.classList.add('gate-locked');
         gate.classList.remove('hidden');
-        if (gatePass) {
-            gatePass.value = '';
-            gatePass.focus();
-        }
+        if (gateEmail) gateEmail.focus();
         if (gateStatus) {
             gateStatus.textContent = '● Awaiting credential';
             gateStatus.classList.remove('bad', 'good');
         }
     };
 
-    const validateGate = () => {
-        if (!gate || !gatePass) return true;
-        const entered = (gatePass.value || '').trim();
-        if (entered === GATE_CODE) {
-            sessionStorage.setItem('cc_unlocked', '1');
-            unlockGate();
-            return true;
+    const shakeGateBad = () => {
+        if (!gatePanel) return;
+        gatePanel.classList.remove('gate-bad');
+        void gatePanel.offsetWidth;
+        gatePanel.classList.add('gate-bad');
+    };
+
+    const pullSettingsIntoLocal = async (sb) => {
+        const { data, error } = await sb.from('user_settings').select('key,value,updated_at');
+        if (error) throw error;
+        if (!Array.isArray(data)) return;
+        data.forEach(row => {
+            if (!row || typeof row.key !== 'string') return;
+            localStorage.setItem(row.key, row.value ?? '');
+        });
+    };
+
+    const validateGate = async () => {
+        if (!gate || !gatePass || !gateEmail) return true;
+        const sb = getSupabaseClient();
+        if (!sb) {
+            if (gateStatus) {
+                gateStatus.textContent = '● Cloud auth unavailable';
+                gateStatus.classList.remove('good');
+                gateStatus.classList.add('bad');
+            }
+            shakeGateBad();
+            return false;
+        }
+
+        const email = (gateEmail.value || '').trim();
+        const password = gatePass.value || '';
+        if (!email || !password) {
+            if (gateStatus) {
+                gateStatus.textContent = '● Enter email + password';
+                gateStatus.classList.remove('good');
+                gateStatus.classList.add('bad');
+            }
+            shakeGateBad();
+            return false;
         }
 
         if (gateStatus) {
-            gateStatus.textContent = '● Access Denied';
-            gateStatus.classList.remove('good');
-            gateStatus.classList.add('bad');
+            gateStatus.textContent = '● Signing in…';
+            gateStatus.classList.remove('bad', 'good');
         }
-        if (gatePanel) {
-            gatePanel.classList.remove('gate-bad');
-            // Force reflow to restart animation
-            void gatePanel.offsetWidth;
-            gatePanel.classList.add('gate-bad');
+
+        let res = await sb.auth.signInWithPassword({ email, password });
+        if (res.error) {
+            const su = await sb.auth.signUp({ email, password });
+            if (!su.error) {
+                res = await sb.auth.signInWithPassword({ email, password });
+            }
         }
-        if (gatePass) {
-            gatePass.value = '';
-            gatePass.focus();
+
+        if (res.error) {
+            if (gateStatus) {
+                gateStatus.textContent = '● Access Denied';
+                gateStatus.classList.remove('good');
+                gateStatus.classList.add('bad');
+            }
+            shakeGateBad();
+            return false;
         }
-        return false;
+
+        try {
+            await pullSettingsIntoLocal(sb);
+        } catch (e) {
+            // ok if table/policies not set up yet
+        }
+
+        unlockGate();
+        return true;
     };
 
-    if (gate && gatePass && gateSubmit) {
-        const alreadyUnlocked = sessionStorage.getItem('cc_unlocked') === '1';
-        if (alreadyUnlocked) {
-            gate.classList.add('hidden');
-            document.body.classList.remove('gate-locked');
-        } else {
+    if (gate && gatePass && gateSubmit && gateEmail) {
+        const sb = getSupabaseClient();
+        if (!sb) {
             lockGate();
+            if (gateStatus) {
+                gateStatus.textContent = '● Cloud auth unavailable';
+                gateStatus.classList.add('bad');
+            }
+        } else {
+            sb.auth.getSession().then(async ({ data }) => {
+                if (data && data.session) {
+                    try {
+                        await pullSettingsIntoLocal(sb);
+                    } catch (e) {
+                        // ok
+                    }
+                    unlockGate();
+                } else {
+                    lockGate();
+                }
+            });
         }
 
-        gateSubmit.addEventListener('click', validateGate);
-        gatePass.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') validateGate();
-            if (e.key === 'Escape') lockGate();
+        gateSubmit.addEventListener('click', () => {
+            validateGate();
+        });
+        [gateEmail, gatePass].forEach((el) => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') validateGate();
+                if (e.key === 'Escape') lockGate();
+            });
         });
 
-        // Clicking outside the panel focuses input
         gate.addEventListener('mousedown', (e) => {
-            if (e.target === gate && gatePass) gatePass.focus();
+            if (e.target === gate && gateEmail) gateEmail.focus();
         });
     }
 
@@ -265,143 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
     calculate();
 
     updateDividendCalendar();
-
-    const setupSupabaseSync = () => {
-        const statusEl = document.getElementById('sync-status');
-        const emailEl = document.getElementById('sync-email');
-        const passEl = document.getElementById('sync-pass');
-        const loginBtn = document.getElementById('sync-login');
-        const logoutBtn = document.getElementById('sync-logout');
-        const syncBtn = document.getElementById('sync-now');
-
-        const setStatus = (txt, color) => {
-            if (!statusEl) return;
-            statusEl.textContent = txt;
-            if (color) statusEl.style.color = color;
-        };
-
-        if (!statusEl || !emailEl || !passEl || !loginBtn || !logoutBtn || !syncBtn) return;
-
-        if (!window.supabase || !window.supabase.createClient) {
-            setStatus('● Cloud Sync unavailable (Supabase SDK not loaded)', 'var(--text-muted)');
-            return;
-        }
-
-        const SUPABASE_URL = 'https://lfhifmauilsstkxczjeb.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_fsOsWpTTea94kT8rpkjNRw_XzYdn7yD';
-        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        const pullSettings = async () => {
-            setStatus('● Sync: downloading…', 'var(--blue)');
-            const { data, error } = await sb.from('user_settings').select('key,value,updated_at');
-            if (error) throw error;
-            if (!Array.isArray(data)) return;
-
-            data.forEach(row => {
-                if (!row || typeof row.key !== 'string') return;
-                localStorage.setItem(row.key, row.value ?? '');
-            });
-
-            inputs.forEach(inp => {
-                const cat = inp.getAttribute('data-cat');
-                if (!cat) return;
-                const v = localStorage.getItem('budget_' + cat);
-                if (v !== null && v !== '' && !isNaN(v)) {
-                    inp.value = v;
-                }
-            });
-            calculate();
-            setStatus('● Sync complete', 'var(--green)');
-        };
-
-        const pushSettings = async () => {
-            setStatus('● Sync: uploading…', 'var(--blue)');
-            const user = (await sb.auth.getUser()).data.user;
-            if (!user) throw new Error('Not signed in');
-
-            const payload = [];
-            for (let i = 0; i < localStorage.length; i++) {
-                const k = localStorage.key(i);
-                if (!k) continue;
-                if (!k.startsWith('budget_')) continue;
-                payload.push({ user_id: user.id, key: k, value: localStorage.getItem(k) || '' });
-            }
-
-            if (payload.length === 0) {
-                setStatus('● Nothing to sync (no budget inputs saved yet)', 'var(--text-muted)');
-                return;
-            }
-
-            const { error } = await sb.from('user_settings').upsert(payload, { onConflict: 'user_id,key' });
-            if (error) throw error;
-            setStatus('● Sync complete', 'var(--green)');
-        };
-
-        const refreshAuthUi = async () => {
-            const { data } = await sb.auth.getSession();
-            const signedIn = !!(data && data.session);
-            loginBtn.disabled = signedIn;
-            logoutBtn.disabled = !signedIn;
-            syncBtn.disabled = !signedIn;
-            setStatus(signedIn ? '● Connected' : '● Not connected', signedIn ? 'var(--green)' : 'var(--text-muted)');
-        };
-
-        loginBtn.addEventListener('click', async () => {
-            const email = (emailEl.value || '').trim();
-            const password = passEl.value || '';
-            if (!email || !password) {
-                setStatus('● Enter email + password', 'var(--text-muted)');
-                return;
-            }
-
-            setStatus('● Signing in…', 'var(--blue)');
-            let res = await sb.auth.signInWithPassword({ email, password });
-            if (res.error) {
-                const su = await sb.auth.signUp({ email, password });
-                if (su.error) {
-                    setStatus('● Sign-in failed', 'var(--red)');
-                    return;
-                }
-                res = await sb.auth.signInWithPassword({ email, password });
-            }
-
-            if (res.error) {
-                setStatus('● Sign-in failed', 'var(--red)');
-                return;
-            }
-
-            await refreshAuthUi();
-            try {
-                await pullSettings();
-            } catch (e) {
-                setStatus('● Connected (no remote data yet)', 'var(--green)');
-            }
-        });
-
-        logoutBtn.addEventListener('click', async () => {
-            setStatus('● Signing out…', 'var(--blue)');
-            await sb.auth.signOut();
-            await refreshAuthUi();
-        });
-
-        syncBtn.addEventListener('click', async () => {
-            try {
-                await pushSettings();
-                await pullSettings();
-            } catch (e) {
-                setStatus('● Sync failed', 'var(--red)');
-                console.log('Sync error:', e);
-            }
-        });
-
-        sb.auth.onAuthStateChange(() => {
-            refreshAuthUi();
-        });
-
-        refreshAuthUi();
-    };
-
-    setupSupabaseSync();
 
     const updateFxBadge = async (forceRefresh = false) => {
         const el = document.getElementById('fx-live');

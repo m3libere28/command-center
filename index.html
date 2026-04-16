@@ -537,12 +537,13 @@
     </div>
     <div class="gate-body">
       <div class="gate-line">
-        <div class="gate-sub" style="margin:0">Enter passcode</div>
-        <div class="gate-sub" style="margin:0">Session handshake</div>
+        <div class="gate-sub" style="margin:0">Sign in</div>
+        <div class="gate-sub" style="margin:0">Cloud session handshake</div>
       </div>
       <div class="gate-input-row">
-        <input id="gate-pass" class="gate-input" inputmode="numeric" autocomplete="one-time-code" maxlength="8" type="password" placeholder="••••" aria-label="Passcode" />
-        <button id="gate-submit" class="gate-btn" type="button">Authenticate</button>
+        <input id="gate-email" class="gate-input" inputmode="email" autocomplete="email" type="email" placeholder="Email" aria-label="Email" style="letter-spacing:1px; text-align:left;" />
+        <input id="gate-pass" class="gate-input" autocomplete="current-password" type="password" placeholder="Password" aria-label="Password" style="letter-spacing:1px; text-align:left;" />
+        <button id="gate-submit" class="gate-btn" type="button">Sign In</button>
       </div>
     </div>
 
@@ -715,25 +716,6 @@
     <div class="card blue-soft"><div class="kpi-label">Emily Income</div><div class="kpi-value blue">$3,500</div><div class="kpi-sub">Updated planning assumption (~€3,211/mo at 1.09)</div></div>
     <div class="card soft"><div class="kpi-label">Gross Dividends</div><div class="kpi-value gold">$1,691</div><div class="kpi-sub">Gross portfolio income — before tax set-aside</div></div>
     <div class="card green-soft"><div class="kpi-label">Total Gross Income</div><div class="kpi-value green">$10,013</div><div class="kpi-sub">VA + Emily + gross dividends</div></div>
-  </div>
-  <div class="sp"></div>
-  <div class="grid-2">
-    <div class="card">
-      <div class="section-title" style="margin-top:0">Cloud Sync (Supabase)</div>
-      <div class="kpi-sub" style="margin-top:-6px">Sign in on desktop + phone with the same login to keep budget inputs in sync.</div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px;">
-        <input id="sync-email" type="email" placeholder="Email" style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.10); border-radius:10px; padding:10px 12px; color:var(--text); min-width:220px; flex:1;">
-        <input id="sync-pass" type="password" placeholder="Password" style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.10); border-radius:10px; padding:10px 12px; color:var(--text); min-width:180px; flex:1;">
-        <button id="sync-login" class="gate-btn" type="button" style="padding:10px 12px;">Sign In</button>
-        <button id="sync-logout" class="gate-btn" type="button" style="padding:10px 12px; border-color:rgba(224,85,85,0.35); color:rgba(224,85,85,0.95);">Sign Out</button>
-        <button id="sync-now" class="gate-btn" type="button" style="padding:10px 12px; border-color:rgba(30,207,207,0.30); color:rgba(30,207,207,0.95);">Sync Now</button>
-      </div>
-      <div id="sync-status" class="kpi-sub" style="margin-top:12px; font-family:'Courier New',monospace;">● Not connected</div>
-    </div>
-    <div class="card soft">
-      <div class="section-title" style="margin-top:0">Sync notes</div>
-      <div class="kpi-sub">Sync applies to your editable budget inputs. If offline, changes stay local and upload next time you click Sync Now.</div>
-    </div>
   </div>
   <div class="sp"></div>
   <div class="grid-4">
