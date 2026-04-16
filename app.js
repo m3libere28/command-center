@@ -78,6 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 inp.value = v;
             }
         });
+
+        const emilyEl = document.getElementById('income-emily');
+        if (emilyEl && active !== emilyEl) {
+            const saved = localStorage.getItem('budget_income_emily');
+            if (saved !== null && saved !== '' && !isNaN(saved)) {
+                const next = String(parseFloat(saved));
+                if (String(emilyEl.value) !== next) {
+                    emilyEl.value = next;
+                }
+            }
+        }
     };
 
     const hydrateChecklistFromLocal = () => {
@@ -176,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let i = 0; i < localStorage.length; i++) {
                 const k = localStorage.key(i);
                 if (!k) continue;
-                if (!k.startsWith('budget_') && !k.startsWith('doc_status_')) continue;
+                if (!k.startsWith('budget_') && k !== 'budget_income_emily' && !k.startsWith('doc_status_')) continue;
                 payload.push({ user_id: user.id, key: k, value: localStorage.getItem(k) || '' });
             }
             if (payload.length === 0) return;
@@ -375,9 +386,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const inputs = document.querySelectorAll('.budget-input');
     const incomeVA = 4822; 
-    const incomeEmily = 3500;
     const grossDividends = 1690.67;
-    const totalGross = incomeVA + incomeEmily + grossDividends;
+
+    const getEmilyIncome = () => {
+        const saved = localStorage.getItem('budget_income_emily');
+        if (saved !== null && saved !== '' && !isNaN(saved)) return parseFloat(saved);
+        return 3500;
+    };
+
+    const setEmilyIncome = (val) => {
+        localStorage.setItem('budget_income_emily', String(val));
+    };
 
     const fmtMoney0 = (num) => '$' + (Math.round(num)).toLocaleString('en-US');
 
@@ -477,6 +496,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let adminSum = 0;
         let totalExpenses = 0;
 
+        const incomeEmily = getEmilyIncome();
+        const totalGross = incomeVA + incomeEmily + grossDividends;
+
         inputs.forEach(inp => {
             const val = parseFloat(inp.value) || 0;
             totalExpenses += val;
@@ -495,6 +517,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const fmt = (num) => '$' + num.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits:2});
+
+        const dynGross1 = document.getElementById('dyn-total-gross');
+        const dynGross2 = document.getElementById('dyn-total-gross-2');
+        if (dynGross1) dynGross1.textContent = fmt(totalGross);
+        if (dynGross2) dynGross2.textContent = fmt(totalGross);
         
         // Update DOM by hard IDs
         const dynExp1 = document.getElementById('dyn-total-expenses');
@@ -527,6 +554,25 @@ document.addEventListener('DOMContentLoaded', () => {
             emilySlid.dispatchEvent(new Event('input'));
         }
     };
+
+    const emilyIncomeInput = document.getElementById('income-emily');
+    if (emilyIncomeInput) {
+        const saved = localStorage.getItem('budget_income_emily');
+        if (saved !== null && saved !== '' && !isNaN(saved)) {
+            emilyIncomeInput.value = String(parseFloat(saved));
+        } else {
+            setEmilyIncome(parseFloat(emilyIncomeInput.value || '3500') || 3500);
+        }
+
+        emilyIncomeInput.addEventListener('input', () => {
+            const v = parseFloat(emilyIncomeInput.value) || 0;
+            setEmilyIncome(v);
+            calculate();
+
+            const evt = new Event('input', { bubbles: true });
+            document.body.dispatchEvent(evt);
+        });
+    }
 
     // State Hydration from Browser LocalStorage
     inputs.forEach(inp => {
