@@ -305,12 +305,47 @@ document.addEventListener('DOMContentLoaded', () => {
             render(cachedRate, true);
         }
 
+        const fetchJson = async (url) => {
+            const controller = new AbortController();
+            const t = setTimeout(() => controller.abort(), 6500);
+            try {
+                const res = await fetch(url, { cache: 'no-store', signal: controller.signal });
+                if (!res.ok) throw new Error(`fx http ${res.status}`);
+                return await res.json();
+            } finally {
+                clearTimeout(t);
+            }
+        };
+
+        const providers = [
+            async () => {
+                const data = await fetchJson('https://api.frankfurter.app/latest?from=EUR&to=USD');
+                const rate = data && data.rates && typeof data.rates.USD === 'number' ? data.rates.USD : null;
+                return rate;
+            },
+            async () => {
+                const data = await fetchJson('https://api.exchangerate.host/latest?base=EUR&symbols=USD');
+                const rate = data && data.rates && typeof data.rates.USD === 'number' ? data.rates.USD : null;
+                return rate;
+            },
+            async () => {
+                const data = await fetchJson('https://open.er-api.com/v6/latest/EUR');
+                const rate = data && data.rates && typeof data.rates.USD === 'number' ? data.rates.USD : null;
+                return rate;
+            }
+        ];
+
         try {
-            const res = await fetch('https://api.frankfurter.app/latest?from=EUR&to=USD', { cache: 'no-store' });
-            if (!res.ok) throw new Error('fx fetch failed');
-            const data = await res.json();
-            const rate = data && data.rates && typeof data.rates.USD === 'number' ? data.rates.USD : null;
-            if (!rate) throw new Error('fx parse failed');
+            let rate = null;
+            for (const p of providers) {
+                try {
+                    rate = await p();
+                    if (rate) break;
+                } catch (err) {
+                    console.log('FX provider failed:', err);
+                }
+            }
+            if (!rate) throw new Error('fx all providers failed');
 
             localStorage.setItem('fx_eurusd_rate', String(rate));
             localStorage.setItem('fx_eurusd_ts', String(Date.now()));
