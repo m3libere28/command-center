@@ -717,6 +717,25 @@
     <div class="card green-soft"><div class="kpi-label">Total Gross Income</div><div class="kpi-value green">$10,013</div><div class="kpi-sub">VA + Emily + gross dividends</div></div>
   </div>
   <div class="sp"></div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-title" style="margin-top:0">Cloud Sync (Supabase)</div>
+      <div class="kpi-sub" style="margin-top:-6px">Sign in on desktop + phone with the same login to keep budget inputs in sync.</div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px;">
+        <input id="sync-email" type="email" placeholder="Email" style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.10); border-radius:10px; padding:10px 12px; color:var(--text); min-width:220px; flex:1;">
+        <input id="sync-pass" type="password" placeholder="Password" style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.10); border-radius:10px; padding:10px 12px; color:var(--text); min-width:180px; flex:1;">
+        <button id="sync-login" class="gate-btn" type="button" style="padding:10px 12px;">Sign In</button>
+        <button id="sync-logout" class="gate-btn" type="button" style="padding:10px 12px; border-color:rgba(224,85,85,0.35); color:rgba(224,85,85,0.95);">Sign Out</button>
+        <button id="sync-now" class="gate-btn" type="button" style="padding:10px 12px; border-color:rgba(30,207,207,0.30); color:rgba(30,207,207,0.95);">Sync Now</button>
+      </div>
+      <div id="sync-status" class="kpi-sub" style="margin-top:12px; font-family:'Courier New',monospace;">● Not connected</div>
+    </div>
+    <div class="card soft">
+      <div class="section-title" style="margin-top:0">Sync notes</div>
+      <div class="kpi-sub">Sync applies to your editable budget inputs. If offline, changes stay local and upload next time you click Sync Now.</div>
+    </div>
+  </div>
+  <div class="sp"></div>
   <div class="grid-4">
     <div class="card"><div class="kpi-label">Total Expenses</div><div class="kpi-value red" id="dyn-total-expenses">$7,628</div><div class="kpi-sub">Year 2+ regular RETA phase total</div></div>
     <div class="card purple-soft"><div class="kpi-label">Tax Set-Aside</div><div class="kpi-value purple">$150</div><div class="kpi-sub">Conservative federal set-aside on dividends</div></div>
@@ -1530,6 +1549,7 @@
     updateDream();
   }
 </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
 </body>
 </html>

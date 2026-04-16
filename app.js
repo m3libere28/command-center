@@ -266,6 +266,143 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateDividendCalendar();
 
+    const setupSupabaseSync = () => {
+        const statusEl = document.getElementById('sync-status');
+        const emailEl = document.getElementById('sync-email');
+        const passEl = document.getElementById('sync-pass');
+        const loginBtn = document.getElementById('sync-login');
+        const logoutBtn = document.getElementById('sync-logout');
+        const syncBtn = document.getElementById('sync-now');
+
+        const setStatus = (txt, color) => {
+            if (!statusEl) return;
+            statusEl.textContent = txt;
+            if (color) statusEl.style.color = color;
+        };
+
+        if (!statusEl || !emailEl || !passEl || !loginBtn || !logoutBtn || !syncBtn) return;
+
+        if (!window.supabase || !window.supabase.createClient) {
+            setStatus('● Cloud Sync unavailable (Supabase SDK not loaded)', 'var(--text-muted)');
+            return;
+        }
+
+        const SUPABASE_URL = 'https://lfhifmauilsstkxczjeb.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_fsOsWpTTea94kT8rpkjNRw_XzYdn7yD';
+        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const pullSettings = async () => {
+            setStatus('● Sync: downloading…', 'var(--blue)');
+            const { data, error } = await sb.from('user_settings').select('key,value,updated_at');
+            if (error) throw error;
+            if (!Array.isArray(data)) return;
+
+            data.forEach(row => {
+                if (!row || typeof row.key !== 'string') return;
+                localStorage.setItem(row.key, row.value ?? '');
+            });
+
+            inputs.forEach(inp => {
+                const cat = inp.getAttribute('data-cat');
+                if (!cat) return;
+                const v = localStorage.getItem('budget_' + cat);
+                if (v !== null && v !== '' && !isNaN(v)) {
+                    inp.value = v;
+                }
+            });
+            calculate();
+            setStatus('● Sync complete', 'var(--green)');
+        };
+
+        const pushSettings = async () => {
+            setStatus('● Sync: uploading…', 'var(--blue)');
+            const user = (await sb.auth.getUser()).data.user;
+            if (!user) throw new Error('Not signed in');
+
+            const payload = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (!k) continue;
+                if (!k.startsWith('budget_')) continue;
+                payload.push({ user_id: user.id, key: k, value: localStorage.getItem(k) || '' });
+            }
+
+            if (payload.length === 0) {
+                setStatus('● Nothing to sync (no budget inputs saved yet)', 'var(--text-muted)');
+                return;
+            }
+
+            const { error } = await sb.from('user_settings').upsert(payload, { onConflict: 'user_id,key' });
+            if (error) throw error;
+            setStatus('● Sync complete', 'var(--green)');
+        };
+
+        const refreshAuthUi = async () => {
+            const { data } = await sb.auth.getSession();
+            const signedIn = !!(data && data.session);
+            loginBtn.disabled = signedIn;
+            logoutBtn.disabled = !signedIn;
+            syncBtn.disabled = !signedIn;
+            setStatus(signedIn ? '● Connected' : '● Not connected', signedIn ? 'var(--green)' : 'var(--text-muted)');
+        };
+
+        loginBtn.addEventListener('click', async () => {
+            const email = (emailEl.value || '').trim();
+            const password = passEl.value || '';
+            if (!email || !password) {
+                setStatus('● Enter email + password', 'var(--text-muted)');
+                return;
+            }
+
+            setStatus('● Signing in…', 'var(--blue)');
+            let res = await sb.auth.signInWithPassword({ email, password });
+            if (res.error) {
+                const su = await sb.auth.signUp({ email, password });
+                if (su.error) {
+                    setStatus('● Sign-in failed', 'var(--red)');
+                    return;
+                }
+                res = await sb.auth.signInWithPassword({ email, password });
+            }
+
+            if (res.error) {
+                setStatus('● Sign-in failed', 'var(--red)');
+                return;
+            }
+
+            await refreshAuthUi();
+            try {
+                await pullSettings();
+            } catch (e) {
+                setStatus('● Connected (no remote data yet)', 'var(--green)');
+            }
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            setStatus('● Signing out…', 'var(--blue)');
+            await sb.auth.signOut();
+            await refreshAuthUi();
+        });
+
+        syncBtn.addEventListener('click', async () => {
+            try {
+                await pushSettings();
+                await pullSettings();
+            } catch (e) {
+                setStatus('● Sync failed', 'var(--red)');
+                console.log('Sync error:', e);
+            }
+        });
+
+        sb.auth.onAuthStateChange(() => {
+            refreshAuthUi();
+        });
+
+        refreshAuthUi();
+    };
+
+    setupSupabaseSync();
+
     const updateFxBadge = async (forceRefresh = false) => {
         const el = document.getElementById('fx-live');
         if (!el) return;
