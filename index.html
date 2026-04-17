@@ -283,6 +283,36 @@
       .budget-input{width:84px;}
     }
 
+    /* ── MOBILE POLISH (global) ── */
+    html, body { max-width: 100vw; overflow-x: hidden; }
+    .nav-tabs { scrollbar-width: none; }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+    @media(max-width:760px){
+      /* iPhone notch / safe-area insets: use max() to honor notch padding without shrinking below 16px */
+      header, .nav-tabs, main { padding-left: max(16px, env(safe-area-inset-left)) !important; padding-right: max(16px, env(safe-area-inset-right)) !important; }
+      /* Larger touch targets */
+      .tab { min-height: 40px; display: inline-flex; align-items: center; padding: 10px 14px; }
+      button, .btn, input[type="button"], input[type="submit"] { min-height: 40px; }
+      /* Prevent long dual-currency numbers from breaking layout */
+      .kpi-value, .value { word-break: break-word; }
+      .mn-secondary { display: block; margin-left: 0; margin-top: 2px; }
+      /* Budget input + EUR mirror stack cleanly in tight cells */
+      .budget-input { width: 100%; max-width: 120px; }
+      .input-eur-live { display: block; margin: 4px 0 0 0; }
+      /* Day's gain card on narrow screens */
+      .day-gain-row { grid-template-columns: 48px 1fr auto; padding: 9px 10px; gap: 8px; }
+      .dg-amt { font-size: 13px; }
+      .dg-pct { font-size: 10.5px; }
+      /* Portfolio section-title wraps properly */
+      #page-portfolio .section-title { align-items: flex-start !important; }
+    }
+    @media(max-width:380px){
+      .day-gain-row { grid-template-columns: 44px 1fr auto; }
+      .dg-tkr { font-size: 12px; }
+      .kpi-value { font-size: 22px; }
+      .mn-secondary { font-size: 0.55em; }
+    }
+
     /* ── COUNTDOWN · elegant · modern ── */
     .countdown-card {
       position: relative;
