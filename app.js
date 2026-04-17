@@ -185,53 +185,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const setupBttfCountdown = () => {
-        const mainPanel = document.getElementById('bttf-main');
-        if (!mainPanel) return;
+    const setupCountdown = () => {
+        const card = document.getElementById('countdown-card');
+        if (!card) return;
 
-        const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
         const pad = n => String(n).padStart(2, '0');
-
-        const presMon = document.getElementById('pres-mon');
-        const presDay = document.getElementById('pres-day');
-        const presYr = document.getElementById('pres-yr');
-        const presTime = document.getElementById('pres-time');
-        const presAmpm = document.getElementById('pres-ampm');
 
         const cdDays = document.getElementById('cd-days');
         const cdHrs = document.getElementById('cd-hrs');
         const cdMin = document.getElementById('cd-min');
         const cdSec = document.getElementById('cd-sec');
-
-        const statusText = document.getElementById('status-text');
         const chipWeeks = document.getElementById('chip-weeks');
+        const pctEl = document.getElementById('cd-pct');
+        const fillEl = document.getElementById('cd-fill');
 
-        const DEPARTURE = new Date(2026, 5, 14, 9, 0, 0);
+        const DEPARTURE = new Date(2026, 5, 14, 9, 0, 0).getTime();
+        const START = new Date(2026, 3, 13, 0, 0, 0).getTime();
+        const TOTAL = DEPARTURE - START;
 
-        const updatePresent = () => {
-            const d = new Date();
-            if (presMon) presMon.textContent = MONTHS[d.getMonth()];
-            if (presDay) presDay.textContent = pad(d.getDate());
-            if (presYr) presYr.textContent = String(d.getFullYear());
-            let h = d.getHours();
-            const ampm = h >= 12 ? 'PM' : 'AM';
-            h = h % 12 || 12;
-            if (presTime) presTime.textContent = `${pad(h)} ${pad(d.getMinutes())}`;
-            if (presAmpm) presAmpm.textContent = ampm;
+        const setText = (el, val) => {
+            if (!el) return;
+            if (el.textContent === val) return;
+            el.textContent = val;
+            el.classList.remove('tick');
+            void el.offsetWidth;
+            el.classList.add('tick');
         };
 
-        const updateCountdown = () => {
-            const now = new Date();
+        const tick = () => {
+            const now = Date.now();
             let diff = DEPARTURE - now;
 
             if (diff <= 0) {
-                if (cdDays) cdDays.textContent = '00';
-                if (cdHrs) cdHrs.textContent = '00';
-                if (cdMin) cdMin.textContent = '00';
-                if (cdSec) cdSec.textContent = '00';
-                if (statusText) statusText.textContent = 'ARRIVED';
-                if (chipWeeks) chipWeeks.textContent = '¡HOLA VALENCIA!';
-                mainPanel.classList.add('arrived');
+                setText(cdDays, '0');
+                setText(cdHrs, '00');
+                setText(cdMin, '00');
+                setText(cdSec, '00');
+                if (chipWeeks) chipWeeks.textContent = '¡hola Valencia!';
+                if (pctEl) pctEl.textContent = '100%';
+                if (fillEl) fillEl.style.width = '100%';
+                card.classList.add('arrived');
                 return;
             }
 
@@ -243,27 +236,22 @@ document.addEventListener('DOMContentLoaded', () => {
             diff -= min * 60000;
             const sec = Math.floor(diff / 1000);
 
-            if (cdDays) cdDays.textContent = String(days).padStart(3, '0');
-            if (cdHrs) cdHrs.textContent = pad(hrs);
-            if (cdMin) cdMin.textContent = pad(min);
-            if (cdSec) cdSec.textContent = pad(sec);
+            setText(cdDays, String(days));
+            setText(cdHrs, pad(hrs));
+            setText(cdMin, pad(min));
+            setText(cdSec, pad(sec));
 
             const weeks = Math.floor(days / 7);
-            if (chipWeeks) chipWeeks.textContent = `${weeks} WEEK${weeks === 1 ? '' : 'S'} OUT`;
+            if (chipWeeks) chipWeeks.textContent = `${weeks} week${weeks === 1 ? '' : 's'} out`;
 
-            if (statusText) {
-                if (days > 45) statusText.textContent = 'ENGAGED';
-                else if (days > 14) statusText.textContent = 'FINAL PREP';
-                else if (days > 3) statusText.textContent = 'T-MINUS';
-                else if (days > 0) statusText.textContent = 'IMMINENT';
-                else statusText.textContent = 'DEPARTURE DAY';
-            }
+            const elapsed = Math.max(0, now - START);
+            const pct = Math.min(100, Math.max(0, (elapsed / TOTAL) * 100));
+            if (pctEl) pctEl.textContent = `${pct.toFixed(1)}%`;
+            if (fillEl) fillEl.style.width = `${pct}%`;
         };
 
-        updatePresent();
-        updateCountdown();
-        setInterval(updatePresent, 1000);
-        setInterval(updateCountdown, 250);
+        tick();
+        setInterval(tick, 1000);
     };
 
     const applyLocalBudgetToInputs = () => {
@@ -793,7 +781,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Run first calculation iteration
     calculate();
 
-    setupBttfCountdown();
+    setupCountdown();
 
     hydrateChecklistFromLocal();
     setupChecklistToggle();

@@ -283,6 +283,161 @@
       .budget-input{width:84px;}
     }
 
+    /* ── COUNTDOWN · elegant · modern ── */
+    .countdown-card {
+      position: relative;
+      padding: 22px 24px 20px;
+      margin-bottom: 22px;
+      overflow: hidden;
+      animation: cdFadeIn .6s ease both;
+    }
+    .countdown-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.35), transparent);
+    }
+    @keyframes cdFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .cd-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .cd-head-left .cd-eyebrow {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      color: var(--gold);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .cd-head-left .cd-title {
+      margin-top: 6px;
+      font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+    .cd-head-left .cd-sub {
+      margin-top: 4px;
+      color: var(--text-muted);
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .cd-head-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(201,168,76,0.28);
+      background: rgba(201,168,76,0.08);
+      color: var(--gold-light);
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .cd-head-chip .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(46,204,142,0.8);
+      animation: cdPulseDot 1.6s ease-in-out infinite;
+    }
+    @keyframes cdPulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(0.85); }
+    }
+    .cd-tiles {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .cd-tile {
+      border-radius: 14px;
+      padding: 14px 10px 12px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s ease, border-color .25s ease;
+    }
+    .cd-tile:hover { transform: translateY(-1px); border-color: rgba(201,168,76,0.22); }
+    .cd-tile .num {
+      font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+      font-weight: 800;
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      display: inline-block;
+      transition: transform .18s ease;
+    }
+    .cd-tile .num.tick { animation: cdTick .4s ease; }
+    @keyframes cdTick {
+      0% { transform: translateY(-3px); opacity: 0.6; }
+      60% { transform: translateY(1px); opacity: 1; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .cd-tile .unit {
+      margin-top: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .cd-tile.days .num { color: var(--gold-light); }
+    .cd-tile.sec .num { color: var(--green); }
+    .cd-progress { margin-top: 16px; }
+    .cd-progress .caption {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+    .cd-progress .caption strong { color: var(--gold-light); font-weight: 700; }
+    .cd-progress .track {
+      height: 6px; border-radius: 999px;
+      background: var(--surface-3);
+      overflow: hidden;
+    }
+    .cd-progress .fill {
+      height: 100%; border-radius: 999px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+      width: 0%;
+      transition: width .6s ease;
+    }
+    @media (max-width: 760px) {
+      .countdown-card { padding: 18px 16px 16px; }
+      .cd-head { margin-bottom: 14px; }
+      .cd-head-left .cd-title { font-size: 17px; }
+      .cd-head-left .cd-sub { font-size: 12px; }
+      .cd-head-chip { padding: 6px 10px; font-size: 10.5px; }
+      .cd-tiles { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+      .cd-tile { padding: 11px 6px 9px; border-radius: 12px; }
+      .cd-tile .num { font-size: clamp(22px, 7.5vw, 32px); }
+      .cd-tile .unit { margin-top: 6px; font-size: 9px; letter-spacing: 1.6px; }
+    }
+    @media (max-width: 380px) {
+      .cd-tile .num { font-size: clamp(20px, 8vw, 28px); }
+    }
+    /* legacy-unused · kept to avoid orphan selectors */
     .bttf-countdown {
       position: relative;
       border-radius: 20px;
@@ -295,6 +450,7 @@
       border: 1px solid var(--border);
       overflow: hidden;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), var(--glow);
+      display: none;
     }
     .bttf-countdown::after {
       content: '';
@@ -940,92 +1096,27 @@
 <main>
 
 <section id="page-overview" class="page active">
-  <div class="bttf-countdown" id="bttf-main">
-    <div class="bttf-top">
-      <div class="bttf-title-block">
-        <div class="bttf-title">Temporal Displacement · Valencia Departure Sequence</div>
-        <div class="bttf-sub">June 14, 2026 · Fort Lauderdale ▸ Valencia · Keep all systems green through arrival.</div>
-        <div class="bttf-sub-mobile">06·14·2026 · 09:00 AM · Valencia arrival</div>
+  <div class="card soft countdown-card" id="countdown-card">
+    <div class="cd-head">
+      <div class="cd-head-left">
+        <div class="cd-eyebrow">Valencia Departure</div>
+        <div class="cd-title">June 14, 2026 · 9:00 AM</div>
+        <div class="cd-sub">Fort Lauderdale → Valencia · counting down from today.</div>
       </div>
-      <div class="bttf-chips">
-        <span class="bttf-chip status"><span class="status-dot"></span><span id="status-text">ENGAGED</span></span>
-        <span class="bttf-chip" id="chip-weeks">— WEEKS OUT</span>
-      </div>
+      <div class="cd-head-chip"><span class="dot"></span><span id="chip-weeks">— weeks out</span></div>
     </div>
-
-    <div class="time-circuits">
-      <div class="tc-label-cell dest">
-        <span class="badge">01 · DESTINATION</span>
-        <span class="role">Valencia<br>Arrival</span>
-      </div>
-      <div class="tc-display-cell">
-        <div class="tc-unit"><span class="tc-unit-label">Month</span><span class="tc-unit-val dest-color" data-ghost="~~~">JUN</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">Day</span><span class="tc-unit-val dest-color" data-ghost="88">14</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">Year</span><span class="tc-unit-val dest-color" data-ghost="8888">2026</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">Hour · Min</span><span class="tc-unit-val dest-color" data-ghost="88 88">09 00</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">AM/PM</span><span class="tc-unit-val dest-color" data-ghost="~~">AM</span></div>
-      </div>
-
-      <div class="tc-label-cell pres">
-        <span class="badge">02 · PRESENT</span>
-        <span class="role">System<br>Time</span>
-      </div>
-      <div class="tc-display-cell">
-        <div class="tc-unit"><span class="tc-unit-label">Month</span><span class="tc-unit-val pres-color" id="pres-mon" data-ghost="~~~">---</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">Day</span><span class="tc-unit-val pres-color" id="pres-day" data-ghost="88">--</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">Year</span><span class="tc-unit-val pres-color" id="pres-yr" data-ghost="8888">----</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">Hour · Min</span><span class="tc-unit-val pres-color" id="pres-time" data-ghost="88 88">-- --</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">AM/PM</span><span class="tc-unit-val pres-color" id="pres-ampm" data-ghost="~~">--</span></div>
-      </div>
-
-      <div class="tc-label-cell last">
-        <span class="badge">03 · REFERENCE</span>
-        <span class="role">Plan<br>Origin</span>
-      </div>
-      <div class="tc-display-cell">
-        <div class="tc-unit"><span class="tc-unit-label">Month</span><span class="tc-unit-val last-color" data-ghost="~~~">APR</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">Day</span><span class="tc-unit-val last-color" data-ghost="88">13</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">Year</span><span class="tc-unit-val last-color" data-ghost="8888">2026</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">Hour · Min</span><span class="tc-unit-val last-color" data-ghost="88 88">12 00</span></div>
-        <div class="tc-divider"></div>
-        <div class="tc-unit"><span class="tc-unit-label">AM/PM</span><span class="tc-unit-val last-color" data-ghost="~~">PM</span></div>
-      </div>
+    <div class="cd-tiles">
+      <div class="cd-tile days"><div class="num" id="cd-days">--</div><div class="unit">Days</div></div>
+      <div class="cd-tile hrs"><div class="num" id="cd-hrs">--</div><div class="unit">Hours</div></div>
+      <div class="cd-tile min"><div class="num" id="cd-min">--</div><div class="unit">Minutes</div></div>
+      <div class="cd-tile sec"><div class="num" id="cd-sec">--</div><div class="unit">Seconds</div></div>
     </div>
-
-    <div class="countdown-row">
-      <div class="countdown-head">
-        <span class="title">◢ Time Remaining · Live</span>
-        <span class="date-badge" id="arrival-badge">Arrival: June 14, 2026 · 9:00 AM local</span>
+    <div class="cd-progress">
+      <div class="caption">
+        <span id="cd-caption">Progress from April 13, 2026</span>
+        <span><strong id="cd-pct">0%</strong> complete</span>
       </div>
-      <div class="cd-grid">
-        <div class="cd-cell cd-days">
-          <span class="cd-num" id="cd-days">--</span>
-          <div class="cd-unit">Days</div>
-        </div>
-        <div class="cd-cell cd-hrs">
-          <span class="cd-num" id="cd-hrs">--</span>
-          <div class="cd-unit">Hours</div>
-        </div>
-        <div class="cd-cell cd-min">
-          <span class="cd-num" id="cd-min">--</span>
-          <div class="cd-unit">Minutes</div>
-        </div>
-        <div class="cd-cell cd-sec">
-          <span class="cd-num" id="cd-sec">--</span>
-          <div class="cd-unit">Seconds</div>
-        </div>
-      </div>
+      <div class="track"><div class="fill" id="cd-fill"></div></div>
     </div>
   </div>
   <div class="sp"></div>
