@@ -185,6 +185,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    const setupDepartureCountdown = () => {
+        const card = document.getElementById('departure-countdown-card');
+        if (!card) return;
+
+        const dd = document.getElementById('dep-dd');
+        const hh = document.getElementById('dep-hh');
+        const mm = document.getElementById('dep-mm');
+        const ss = document.getElementById('dep-ss');
+        const meta = document.getElementById('departure-countdown-meta');
+        const status = document.getElementById('departure-countdown-status');
+
+        const target = new Date(2026, 5, 14, 0, 0, 0, 0);
+
+        const pad2 = (n) => String(Math.max(0, n)).padStart(2, '0');
+        const tick = () => {
+            const now = new Date();
+            let diff = target.getTime() - now.getTime();
+
+            if (!isFinite(diff)) diff = 0;
+            if (diff <= 0) {
+                if (dd) dd.textContent = '0';
+                if (hh) hh.textContent = '00';
+                if (mm) mm.textContent = '00';
+                if (ss) ss.textContent = '00';
+                if (meta) meta.textContent = 'Departure time reached';
+                if (status) status.textContent = 'STATUS: GO';
+                return;
+            }
+
+            const totalSeconds = Math.floor(diff / 1000);
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const mins = Math.floor((totalSeconds % 3600) / 60);
+            const secs = totalSeconds % 60;
+
+            if (dd) dd.textContent = String(days);
+            if (hh) hh.textContent = pad2(hours);
+            if (mm) mm.textContent = pad2(mins);
+            if (ss) ss.textContent = pad2(secs);
+            if (meta) meta.textContent = `Target: ${target.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} · local midnight`;
+            if (status) status.textContent = 'POWER: ONLINE';
+        };
+
+        tick();
+        setInterval(tick, 1000);
+    };
+
     const applyLocalBudgetToInputs = () => {
         const active = document.activeElement;
         document.querySelectorAll('.budget-input').forEach(inp => {
@@ -711,6 +758,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run first calculation iteration
     calculate();
+
+    setupDepartureCountdown();
 
     hydrateChecklistFromLocal();
     setupChecklistToggle();

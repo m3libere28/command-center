@@ -280,6 +280,163 @@
       .budget-input{width:84px;}
     }
 
+    .bttf-countdown {
+      position:relative;
+      border-radius:20px;
+      background:
+        linear-gradient(135deg, rgba(74,158,232,0.10), rgba(201,168,76,0.06), rgba(14,26,48,0.96)),
+        radial-gradient(ellipse 120% 70% at 20% 20%, rgba(155,109,255,0.10), transparent 55%),
+        radial-gradient(ellipse 90% 70% at 80% 85%, rgba(46,204,142,0.08), transparent 60%);
+      overflow:hidden;
+    }
+    .bttf-countdown::before {
+      content:'';
+      position:absolute;
+      inset:-30%;
+      background:
+        url('https://upload.wikimedia.org/wikipedia/commons/6/63/Neon.svg') center/cover no-repeat;
+      opacity:0.08;
+      filter:blur(0.2px) saturate(1.2);
+      transform:rotate(-10deg);
+      pointer-events:none;
+    }
+    .bttf-countdown::after {
+      content:'';
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.08), transparent 25%, transparent 80%, rgba(0,0,0,0.25)),
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.05) 0,
+          rgba(255,255,255,0.05) 1px,
+          transparent 2px,
+          transparent 7px
+        );
+      opacity:0.35;
+      mix-blend-mode:overlay;
+      pointer-events:none;
+    }
+    .bttf-top {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:14px;
+      flex-wrap:wrap;
+      position:relative;
+      z-index:1;
+    }
+    .bttf-title {
+      font-family:'Trebuchet MS','Arial Black',sans-serif;
+      font-weight:900;
+      letter-spacing:1px;
+      font-size:14px;
+      text-transform:uppercase;
+      color:var(--gold-light);
+    }
+    .bttf-sub {
+      margin-top:6px;
+      color:var(--text-muted);
+      font-size:12.5px;
+      line-height:1.4;
+    }
+    .bttf-chip {
+      border:1px solid rgba(201,168,76,0.25);
+      background:rgba(0,0,0,0.16);
+      border-radius:999px;
+      padding:7px 12px;
+      font-size:11px;
+      color:var(--gold-light);
+      font-family:'Courier New',monospace;
+      white-space:nowrap;
+    }
+    .time-circuits {
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+      position:relative;
+      z-index:1;
+    }
+    .tc-panel {
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(0,0,0,0.22);
+      padding:14px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    }
+    .tc-label {
+      font-size:10px;
+      color:rgba(237,241,250,0.65);
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-weight:900;
+      font-family:'Courier New',monospace;
+    }
+    .tc-display {
+      margin-top:10px;
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:10px;
+    }
+    .seg {
+      border-radius:14px;
+      padding:12px 10px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.04));
+    }
+    .seg-num {
+      font-family:'Trebuchet MS','Arial Black',sans-serif;
+      font-weight:900;
+      font-size:28px;
+      line-height:1;
+      letter-spacing:-0.5px;
+      text-shadow:0 0 18px rgba(255,60,60,0.15);
+    }
+    .seg-lbl {
+      margin-top:7px;
+      font-size:10px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:rgba(237,241,250,0.70);
+      font-family:'Courier New',monospace;
+      font-weight:900;
+    }
+    .seg-days .seg-num { color:#ff5d5d; text-shadow:0 0 20px rgba(255,93,93,0.45); }
+    .seg-hours .seg-num { color:#ffa24a; text-shadow:0 0 20px rgba(240,148,77,0.45); }
+    .seg-mins .seg-num { color:#38d4ff; text-shadow:0 0 20px rgba(74,158,232,0.45); }
+    .seg-secs .seg-num { color:#2ecc8e; text-shadow:0 0 20px rgba(46,204,142,0.45); }
+    .tc-foot {
+      margin-top:10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .tc-foot small {
+      color:var(--text-muted);
+      font-size:11px;
+      font-family:'Courier New',monospace;
+    }
+    .tc-cta {
+      border:1px solid rgba(46,204,142,0.28);
+      background:rgba(46,204,142,0.10);
+      color:var(--green);
+      border-radius:12px;
+      padding:7px 10px;
+      font-size:11px;
+      font-family:'Courier New',monospace;
+      font-weight:900;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      user-select:none;
+    }
+    @media(max-width:760px){
+      .tc-display{grid-template-columns:repeat(2, minmax(0, 1fr));}
+      .seg-num{font-size:26px;}
+    }
+
     /* -- BUDGET INPUTS -- */
     .input-wrap { display:inline-flex; align-items:center; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:4px 8px; transition:border 0.2s; }
     .input-wrap:focus-within { border-color:var(--gold-light); }
@@ -612,6 +769,43 @@
 <main>
 
 <section id="page-overview" class="page active">
+  <div class="card bttf-countdown" id="departure-countdown-card">
+    <div class="bttf-top">
+      <div>
+        <div class="bttf-title">Time Circuits · Departure Countdown</div>
+        <div class="bttf-sub">June 14, 2026 · Valencia departure sequence · keep systems green</div>
+      </div>
+      <div class="bttf-chip" id="departure-countdown-destination">DEST: 06·14·2026</div>
+    </div>
+    <div class="time-circuits">
+      <div class="tc-panel">
+        <div class="tc-label">Time remaining</div>
+        <div class="tc-display" aria-label="Countdown to June 14 2026">
+          <div class="seg seg-days">
+            <div class="seg-num" id="dep-dd">—</div>
+            <div class="seg-lbl">Days</div>
+          </div>
+          <div class="seg seg-hours">
+            <div class="seg-num" id="dep-hh">—</div>
+            <div class="seg-lbl">Hours</div>
+          </div>
+          <div class="seg seg-mins">
+            <div class="seg-num" id="dep-mm">—</div>
+            <div class="seg-lbl">Minutes</div>
+          </div>
+          <div class="seg seg-secs">
+            <div class="seg-num" id="dep-ss">—</div>
+            <div class="seg-lbl">Seconds</div>
+          </div>
+        </div>
+        <div class="tc-foot">
+          <small id="departure-countdown-meta">Local time · updates every second</small>
+          <div class="tc-cta" id="departure-countdown-status">POWER: ONLINE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sp"></div>
   <div class="section-title">Wealth Snapshot · April 13 2026</div>
   <div class="grid-5">
     <div class="card soft">
