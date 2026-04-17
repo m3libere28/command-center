@@ -1143,6 +1143,96 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        const getTickerLiveValue = (t) => {
+            const el = document.querySelector(`.live-val[data-ticker="${t}"]`);
+            if (!el) return 0;
+            const shares = parseFloat(el.getAttribute('data-shares')) || 0;
+            if (t === 'VMFXX') return shares;
+            const price = parseFloat(localStorage.getItem(`price_${t}`));
+            if (isFinite(price) && price > 0) return shares * price;
+            const cached = parseFloat(el.dataset.ccUsd);
+            if (isFinite(cached) && cached > 0) return cached;
+            const raw = (el.textContent || '').match(/\$?([\d,]+\.?\d*)/);
+            return raw ? parseFloat(raw[1].replace(/,/g, '')) : 0;
+        };
+
+        const recalcAllPortfolioDerivedTotals = () => {
+            const spyiVal = getTickerLiveValue('SPYI');
+            const schdVal = getTickerLiveValue('SCHD');
+            const schyVal = getTickerLiveValue('SCHY');
+            const vmfxxVal = getTickerLiveValue('VMFXX');
+            const total = spyiVal + schdVal + schyVal + vmfxxVal;
+
+            const setDual = (id, usd, dec = 0) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.dataset.ccUsd = String(usd);
+                el.dataset.ccSuffix = '';
+                if (typeof ccDualFromUsd === 'function') {
+                    el.innerHTML = ccDualFromUsd(usd, dec, '');
+                } else {
+                    el.textContent = '$' + usd.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+                }
+            };
+
+            // Overview + Plan at a glance
+            setDual('dyn-overview-total', total, 0);
+            setDual('dyn-plan-total', total, 2);
+            setDual('dyn-plan-spyi', spyiVal, 2);
+            setDual('dyn-plan-other', schdVal + schyVal + vmfxxVal, 2);
+
+            // Emily-Optional progress
+            const EO_TARGET = 364690;
+            const eoPct = Math.min(100, Math.max(0, (total / EO_TARGET) * 100));
+            const eoBar = document.getElementById('dyn-eo-bar');
+            if (eoBar) eoBar.style.width = `${eoPct.toFixed(1)}%`;
+            const eoText = document.getElementById('dyn-eo-progress');
+            if (eoText) eoText.textContent = `$${Math.round(total).toLocaleString('en-US')} of $364,690 · ${eoPct.toFixed(1)}% complete`;
+
+            // Independence
+            setDual('dyn-ind-portfolio', total, 0);
+            setDual('dyn-ind-postmove', total - 2977, 0);
+
+            // Net Worth
+            const NW_HOUSE = 458000;
+            const NW_LIABS = 2977.45;
+            const nwTotal = total + NW_HOUSE - NW_LIABS;
+            setDual('dyn-nw-portfolio', total, 0);
+            setDual('dyn-nw-total', nwTotal, 0);
+            setDual('dyn-nw-list-portfolio', total, 2);
+            setDual('dyn-nw-list-total', nwTotal, 0);
+            const portBar = document.getElementById('dyn-nw-comp-port-bar');
+            const oakBar = document.getElementById('dyn-nw-comp-oak-bar');
+            const portPct = total + NW_HOUSE > 0 ? (total / (total + NW_HOUSE)) * 100 : 0;
+            const oakPct = 100 - portPct;
+            if (portBar) portBar.style.width = `${portPct.toFixed(1)}%`;
+            if (oakBar) oakBar.style.width = `${oakPct.toFixed(1)}%`;
+            const portLbl = document.getElementById('dyn-nw-comp-port-label');
+            if (portLbl) portLbl.textContent = `■ Investment portfolio ${portPct.toFixed(1)}% ($${Math.round(total).toLocaleString('en-US')})`;
+            const oakLbl = document.getElementById('dyn-nw-comp-oak-label');
+            if (oakLbl) oakLbl.textContent = `■ Oakland Park equity ${oakPct.toFixed(1)}% (~$458,000)`;
+
+            // Portfolio top cards
+            setDual('dyn-port-card-spyi', spyiVal, 2);
+            setDual('dyn-port-card-schd', schdVal, 2);
+            setDual('dyn-port-card-schy', schyVal, 2);
+
+            // Income table: estimated annual/monthly per ticker = value * yield
+            const yields = { SPYI: 0.1224, SCHD: 0.0330, SCHY: 0.0312, VMFXX: 0.0358 };
+            const vals = { SPYI: spyiVal, SCHD: schdVal, SCHY: schyVal, VMFXX: vmfxxVal };
+            let totAnnual = 0, totMonthly = 0;
+            ['SPYI', 'SCHD', 'SCHY', 'VMFXX'].forEach(t => {
+                const annual = vals[t] * yields[t];
+                const monthly = annual / 12;
+                totAnnual += annual;
+                totMonthly += monthly;
+                setDual(`dyn-inc-${t}-annual`, annual, 2);
+                setDual(`dyn-inc-${t}-monthly`, monthly, 2);
+            });
+            setDual('dyn-inc-total-annual', totAnnual, 2);
+            setDual('dyn-inc-total-monthly', totMonthly, 2);
+        };
+
         const renderDayGainTotal = () => {
             const tickers = ['SPYI', 'SCHD', 'SCHY'];
             let totalDelta = 0;
@@ -1266,10 +1356,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             updateDividendCalendar();
             renderDayGainTotal();
+            recalcAllPortfolioDerivedTotals();
             if (typeof window.ccRenderAllMoney === 'function') window.ccRenderAllMoney();
         };
 
-        // Render day-gain immediately from cached values (so offline / pre-fetch shows live-ish numbers)
+        // Initial paint from cached values (works offline / before first fetch)
+        recalcAllPortfolioDerivedTotals();
         renderDayGainTotal();
         (['SPYI','SCHD','SCHY']).forEach(t => {
             const d = parseFloat(localStorage.getItem(`dprice_${t}`));
@@ -1304,6 +1396,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             updateDividendCalendar();
+            recalcAllPortfolioDerivedTotals();
             if (typeof window.ccRenderAllMoney === 'function') window.ccRenderAllMoney();
         }
     }
