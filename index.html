@@ -764,6 +764,34 @@
       50% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 90px rgba(201, 168, 76, 0.5); }
     }
 
+    /* -- DUAL CURRENCY (EUR primary · USD secondary) -- */
+    .mn-primary { font-weight:inherit; }
+    .mn-secondary {
+      color: var(--text-muted);
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      font-size: 0.45em;
+      margin-left: 8px;
+      vertical-align: middle;
+      opacity: 0.85;
+    }
+    .kpi-value .mn-secondary { display:inline-block; margin-top:4px; margin-left:0; font-size:12px; }
+    .kpi-value .mn-primary { display:inline-block; }
+    .row .value .mn-secondary { font-size: 0.78em; margin-left:6px; }
+    .row .value .mn-primary { display:inline; }
+    td .mn-secondary { font-size: 0.78em; margin-left:6px; }
+    td .mn-primary { display:inline; }
+    .input-eur-live {
+      display: inline-block;
+      margin-left: 8px;
+      color: var(--text-muted);
+      font-family: 'Courier New', monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.2px;
+      opacity: 0.9;
+    }
+
     /* -- BUDGET INPUTS -- */
     .input-wrap { display:inline-flex; align-items:center; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:4px 8px; transition:border 0.2s; }
     .input-wrap:focus-within { border-color:var(--gold-light); }

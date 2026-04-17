@@ -185,6 +185,97 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    const CC_FX_FALLBACK = 1.09;
+    const ccGetRate = () => {
+        const r = parseFloat(localStorage.getItem('fx_eurusd_rate'));
+        return (isFinite(r) && r > 0) ? r : CC_FX_FALLBACK;
+    };
+    const ccFmtNum = (n, dec = 0) => {
+        const abs = Math.abs(n);
+        return abs.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    };
+    const ccDualFromUsd = (usd, dec = 0, suffix = '') => {
+        const rate = ccGetRate();
+        const eur = usd / rate;
+        const sign = usd < 0 ? '-' : '';
+        const eurDec = Math.abs(eur) >= 1000 ? 0 : (dec || 0);
+        return `<span class="mn-primary">${sign}€${ccFmtNum(eur, eurDec)}${suffix}</span><span class="mn-secondary">${sign}$${ccFmtNum(usd, dec)}${suffix}</span>`;
+    };
+
+    const ccMoneyRegex = /^\s*(-)?\$\s*([\d]{1,3}(?:,\d{3})*(?:\.\d+)?|\d+(?:\.\d+)?)\s*(\/mo|\/month)?\s*$/i;
+    const ccRenderDualMoneyScope = (root) => {
+        if (!root) return;
+        const selectors = [
+            '.kpi-value',
+            '.row .value',
+            '.live-val',
+            'td strong',
+            '.fx-base',
+            '.fx-good',
+            '.fx-warn',
+            '.fx-bad'
+        ];
+        const nodes = root.querySelectorAll(selectors.join(','));
+        nodes.forEach(node => {
+            if (node.querySelector('input, button, select, textarea')) return;
+            if (node.querySelector('.mn-primary')) {
+                if (!node.dataset.ccUsd) return;
+                const usd = parseFloat(node.dataset.ccUsd);
+                const suffix = node.dataset.ccSuffix || '';
+                if (!isFinite(usd)) return;
+                const dec = (usd % 1 !== 0) ? 2 : 0;
+                node.innerHTML = ccDualFromUsd(usd, dec, suffix);
+                return;
+            }
+            const raw = (node.textContent || '').trim();
+            const m = raw.match(ccMoneyRegex);
+            if (!m) return;
+            const neg = m[1] === '-';
+            const numStr = m[2].replace(/,/g, '');
+            const value = parseFloat(numStr);
+            if (!isFinite(value)) return;
+            const usd = neg ? -value : value;
+            const suffix = m[3] ? m[3] : '';
+            const dec = numStr.includes('.') ? (numStr.split('.')[1].length) : 0;
+            const decOut = dec > 2 ? 2 : dec;
+            node.dataset.ccUsd = String(usd);
+            node.dataset.ccSuffix = suffix;
+            node.innerHTML = ccDualFromUsd(usd, decOut, suffix);
+        });
+    };
+    const ccRenderDualMoney = () => ccRenderDualMoneyScope(document);
+
+    const addBudgetInputEurMirrors = () => {
+        document.querySelectorAll('.budget-input').forEach(inp => {
+            const cell = inp.closest('td') || inp.parentElement;
+            if (!cell) return;
+            let mirror = cell.querySelector(':scope > .input-eur-live');
+            if (!mirror) {
+                mirror = document.createElement('span');
+                mirror.className = 'input-eur-live';
+                cell.appendChild(mirror);
+            }
+            const rate = ccGetRate();
+            const usd = parseFloat(inp.value) || 0;
+            const eur = usd / rate;
+            mirror.textContent = `≈ €${Math.round(eur).toLocaleString('en-US')}`;
+            if (!inp.dataset.ccEurBound) {
+                inp.addEventListener('input', () => {
+                    const r = ccGetRate();
+                    const u = parseFloat(inp.value) || 0;
+                    const e = u / r;
+                    mirror.textContent = `≈ €${Math.round(e).toLocaleString('en-US')}`;
+                });
+                inp.dataset.ccEurBound = '1';
+            }
+        });
+    };
+
+    window.ccRenderAllMoney = () => {
+        ccRenderDualMoney();
+        addBudgetInputEurMirrors();
+    };
+
     const setupCountdown = () => {
         const card = document.getElementById('countdown-card');
         if (!card) return;
@@ -704,36 +795,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        const fmt = (num) => '$' + num.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits:2});
+        const writeDual = (el, usd) => {
+            if (!el) return;
+            el.dataset.ccUsd = String(usd);
+            el.dataset.ccSuffix = '';
+            el.innerHTML = ccDualFromUsd(usd, 0, '');
+        };
 
         const dynGross1 = document.getElementById('dyn-total-gross');
         const dynGross2 = document.getElementById('dyn-total-gross-2');
-        if (dynGross1) dynGross1.textContent = fmt(totalGross);
-        if (dynGross2) dynGross2.textContent = fmt(totalGross);
-        
-        // Update DOM by hard IDs
+        writeDual(dynGross1, totalGross);
+        writeDual(dynGross2, totalGross);
+
         const dynExp1 = document.getElementById('dyn-total-expenses');
         const dynExp2 = document.getElementById('dyn-total-expenses-2');
-        if (dynExp1) dynExp1.textContent = fmt(totalExpenses);
-        if (dynExp2) dynExp2.textContent = fmt(totalExpenses);
+        writeDual(dynExp1, totalExpenses);
+        writeDual(dynExp2, totalExpenses);
 
-        const surpStrFmt = fmt(totalGross - totalExpenses);
         const dynSurp1 = document.getElementById('dyn-monthly-surplus');
         const dynSurp2 = document.getElementById('dyn-monthly-surplus-2');
-        if (dynSurp1) dynSurp1.textContent = surpStrFmt;
-        if (dynSurp2) dynSurp2.innerHTML = `<strong>${surpStrFmt}</strong>`;
-        
-        const spainEl = document.getElementById('dyn-spain-subtotal');
-        if (spainEl) spainEl.textContent = fmt(spanSum);
-        
-        const usEl = document.getElementById('dyn-us-subtotal');
-        if (usEl) usEl.textContent = fmt(usSum);
-        
-        const bizEl = document.getElementById('dyn-biz-subtotal');
-        if (bizEl) bizEl.textContent = fmt(bizSum);
-        
-        const adminEl = document.getElementById('dyn-admin-subtotal');
-        if (adminEl) adminEl.textContent = fmt(adminSum);
+        writeDual(dynSurp1, totalGross - totalExpenses);
+        writeDual(dynSurp2, totalGross - totalExpenses);
+
+        writeDual(document.getElementById('dyn-spain-subtotal'), spanSum);
+        writeDual(document.getElementById('dyn-us-subtotal'), usSum);
+        writeDual(document.getElementById('dyn-biz-subtotal'), bizSum);
+        writeDual(document.getElementById('dyn-admin-subtotal'), adminSum);
+
+        addBudgetInputEurMirrors();
 
         // Connect reactivity to the What-If Emily Slider via global var
         window.DYNAMIC_EXPENSES = totalExpenses;
@@ -780,6 +869,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run first calculation iteration
     calculate();
+
+    if (typeof window.ccRenderAllMoney === 'function') window.ccRenderAllMoney();
 
     setupCountdown();
 
@@ -948,6 +1039,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('fx_eurusd_rate', String(rate));
             localStorage.setItem('fx_eurusd_ts', String(Date.now()));
             render(rate, false);
+            if (typeof window.ccRenderAllMoney === 'function') window.ccRenderAllMoney();
         } catch (e) {
             if (!cachedRate) {
                 el.textContent = '● Rate unavailable';
@@ -1063,6 +1155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             updateDividendCalendar();
+            if (typeof window.ccRenderAllMoney === 'function') window.ccRenderAllMoney();
         };
 
         refreshBtn.addEventListener('click', fetchLivePrices);
@@ -1087,6 +1180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             updateDividendCalendar();
+            if (typeof window.ccRenderAllMoney === 'function') window.ccRenderAllMoney();
         }
     }
 });
