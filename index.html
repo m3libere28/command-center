@@ -509,6 +509,8 @@
       .tc-label-cell { padding: 10px 0 2px; }
       .tc-label-cell .role { font-size: 13px; }
 
+      .time-circuits { margin-bottom: 16px; }
+
       .tc-display-cell {
         padding: 10px 12px;
         overflow-x: auto;
@@ -527,6 +529,25 @@
       .tc-display-cell { min-height: 70px; }
       .cd-cell { padding: 14px 10px 12px; border-radius: 14px; }
       .cd-unit { margin-top: 8px; }
+
+      .countdown-head { margin-bottom: 12px; padding-bottom: 10px; }
+      .countdown-head .date-badge { font-size: 10px; padding: 5px 10px; letter-spacing: 1.2px; }
+
+      .cd-num { font-size: clamp(28px, 9vw, 42px); }
+
+      .tc-label-cell.last,
+      .tc-label-cell.last + .tc-display-cell {
+        display: none;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .bttf-countdown { padding: 14px 12px 12px; }
+      .bttf-title { font-size: 12.5px; }
+      .bttf-sub { font-size: 12px; }
+      .cd-num { font-size: clamp(26px, 10vw, 38px); }
+      .cd-grid { gap: 8px; }
+      .cd-cell { padding: 12px 9px 10px; }
     }
     .cd-cell {
       border-radius: 16px;
