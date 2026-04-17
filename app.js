@@ -1121,6 +1121,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const fmtPort = (num) => '$' + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits:2});
 
+        const fmtSigned = (num) => {
+            const abs = Math.abs(num);
+            const s = '$' + abs.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            return (num >= 0 ? '' : '-') + s;
+        };
+
+        const updateTickerDayGain = (ticker, dollarDelta, pctChange) => {
+            const row = document.querySelector(`.day-gain-row[data-ticker="${ticker}"]`);
+            const amtEl = document.getElementById(`day-gain-${ticker}`);
+            const pctEl = document.getElementById(`day-gain-${ticker}-pct`);
+            if (amtEl) {
+                const arrow = dollarDelta >= 0 ? '↑' : '↓';
+                amtEl.textContent = `${arrow} ${fmtSigned(dollarDelta)}`;
+                amtEl.classList.remove('green', 'red');
+                amtEl.classList.add(dollarDelta >= 0 ? 'green' : 'red');
+            }
+            if (pctEl && isFinite(pctChange)) {
+                const sign = pctChange >= 0 ? '+' : '';
+                pctEl.textContent = `${sign}${pctChange.toFixed(2)}%`;
+            }
+        };
+
+        const renderDayGainTotal = () => {
+            const tickers = ['SPYI', 'SCHD', 'SCHY'];
+            let totalDelta = 0;
+            let totalPrev = 0;
+            let haveAny = false;
+            tickers.forEach(t => {
+                const el = document.querySelector(`.live-val[data-ticker="${t}"]`);
+                if (!el) return;
+                const shares = parseFloat(el.getAttribute('data-shares')) || 0;
+                const dPerShare = parseFloat(localStorage.getItem(`dprice_${t}`));
+                const pcPerShare = parseFloat(localStorage.getItem(`pclose_${t}`));
+                if (isFinite(dPerShare)) { totalDelta += dPerShare * shares; haveAny = true; }
+                if (isFinite(pcPerShare)) totalPrev += pcPerShare * shares;
+            });
+            if (!haveAny) return;
+            const bigEl = document.getElementById('day-gain-total-val');
+            const amtEl = document.getElementById('day-gain-total-amt');
+            const pctEl = document.getElementById('day-gain-total-pct');
+            const arrowEl = bigEl ? bigEl.querySelector('.day-gain-arrow') : null;
+            if (bigEl) {
+                bigEl.classList.remove('green', 'red');
+                bigEl.classList.add(totalDelta >= 0 ? 'green' : 'red');
+            }
+            if (arrowEl) arrowEl.textContent = totalDelta >= 0 ? '↑' : '↓';
+            if (amtEl) amtEl.textContent = fmtSigned(totalDelta);
+            if (pctEl && totalPrev > 0) {
+                const pct = (totalDelta / totalPrev) * 100;
+                const sign = pct >= 0 ? '+' : '';
+                const asof = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+                pctEl.textContent = `${sign}${pct.toFixed(2)}% · updated ${asof}`;
+            }
+        };
+
         const fetchLivePrices = async () => {
             const key = localStorage.getItem('finnhub_key');
             if (!key) {
@@ -1145,18 +1200,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!res.ok) throw new Error('API limit or error');
                     const data = await res.json();
                     
-                    // The 'c' property is current price
-                    const price = data.c; 
+                    // The 'c' property is current price; 'd' is day $ change per share; 'dp' is % change; 'pc' is previous close
+                    const price = data.c;
+                    const dChange = (typeof data.d === 'number') ? data.d : null;
+                    const dPct = (typeof data.dp === 'number') ? data.dp : null;
+                    const prevClose = (typeof data.pc === 'number') ? data.pc : null;
                     if (price) {
                         localStorage.setItem(`price_${ticker}`, price);
+                        if (dChange !== null) localStorage.setItem(`dprice_${ticker}`, String(dChange));
+                        if (prevClose !== null) localStorage.setItem(`pclose_${ticker}`, String(prevClose));
                         priceSpans.forEach(el => el.textContent = `@ $${price.toFixed(2)}`);
-                        
+
+                        let tickerShares = 0;
                         valSpans.forEach(el => {
                             const shares = parseFloat(el.getAttribute('data-shares')) || 0;
                             const total = shares * price;
                             el.textContent = fmtPort(total);
-                            overallTotal += total; // only add once? Wait, this loop modifies spans but we only want to add to overall once per ticker.
+                            tickerShares = shares;
                         });
+
+                        if (dChange !== null && tickerShares > 0) {
+                            updateTickerDayGain(ticker, dChange * tickerShares, dPct);
+                        }
                     }
                 } catch (err) {
                     hasError = true;
@@ -1200,8 +1265,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             updateDividendCalendar();
+            renderDayGainTotal();
             if (typeof window.ccRenderAllMoney === 'function') window.ccRenderAllMoney();
         };
+
+        // Render day-gain immediately from cached values (so offline / pre-fetch shows live-ish numbers)
+        renderDayGainTotal();
+        (['SPYI','SCHD','SCHY']).forEach(t => {
+            const d = parseFloat(localStorage.getItem(`dprice_${t}`));
+            const pc = parseFloat(localStorage.getItem(`pclose_${t}`));
+            if (isFinite(d)) {
+                const el = document.querySelector(`.live-val[data-ticker="${t}"]`);
+                const shares = el ? (parseFloat(el.getAttribute('data-shares')) || 0) : 0;
+                const pct = isFinite(pc) && pc > 0 ? (d / pc) * 100 : NaN;
+                if (shares > 0) updateTickerDayGain(t, d * shares, pct);
+            }
+        });
 
         refreshBtn.addEventListener('click', fetchLivePrices);
         

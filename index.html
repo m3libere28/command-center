@@ -764,6 +764,68 @@
       50% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 90px rgba(201, 168, 76, 0.5); }
     }
 
+    /* -- TODAY'S GAIN CARD -- */
+    .day-gain-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 20px;
+      align-items: center;
+    }
+    @media (max-width: 760px) {
+      .day-gain-grid { grid-template-columns: 1fr; gap: 14px; }
+    }
+    .day-gain-total { padding: 4px 0; }
+    .day-gain-big {
+      font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 3.5vw, 40px);
+      line-height: 1;
+      letter-spacing: -0.5px;
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .day-gain-big.green { color: var(--green); }
+    .day-gain-big.red { color: var(--red); }
+    .day-gain-arrow {
+      display: inline-block;
+      font-size: 0.8em;
+      transition: transform .3s ease;
+    }
+    .day-gain-big.red .day-gain-arrow { transform: rotate(180deg); }
+    .day-gain-tickers {
+      display: grid;
+      gap: 8px;
+    }
+    .day-gain-row {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--surface-2);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .dg-tkr {
+      font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+    .dg-amt {
+      font-family: 'Courier New', monospace;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .dg-pct {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
     /* -- DUAL CURRENCY (EUR primary · USD secondary) -- */
     .mn-primary { font-weight:inherit; }
     .mn-secondary {
@@ -1220,6 +1282,21 @@
       <span id="api-status-badge" style="color:var(--text-muted);">● Static</span>
       <input type="password" id="finnhub-api-key" placeholder="Finnhub.io API Key" style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:4px; color:var(--text); width:140px; font-size:11px;">
       <button id="btn-fetch-live" style="background:var(--gold-soft); color:var(--gold); border:1px solid var(--gold); border-radius:4px; padding:4px 8px; cursor:pointer; font-size:11px;">Refresh</button>
+    </div>
+  </div>
+  <div class="card" id="day-gain-card" style="margin-bottom:20px;">
+    <div class="section-title" style="margin-top:0">Today's Gain · <span id="day-gain-asof" style="font-family:'Courier New',monospace;color:var(--text-muted);letter-spacing:1px;font-size:10px;">04/17/2026</span></div>
+    <div class="day-gain-grid">
+      <div class="day-gain-total">
+        <div class="kpi-label">Day's Gain</div>
+        <div class="day-gain-big green" id="day-gain-total-val"><span class="day-gain-arrow">↑</span> <span id="day-gain-total-amt">$1,635.43</span></div>
+        <div class="kpi-sub" id="day-gain-total-pct">+0.56% · market close</div>
+      </div>
+      <div class="day-gain-tickers">
+        <div class="day-gain-row" data-ticker="SPYI"><span class="dg-tkr gold">SPYI</span><span class="dg-amt green" id="day-gain-SPYI">↑ $818.65</span><span class="dg-pct" id="day-gain-SPYI-pct">+0.67%</span></div>
+        <div class="day-gain-row" data-ticker="SCHD"><span class="dg-tkr blue">SCHD</span><span class="dg-amt green" id="day-gain-SCHD">↑ $750.72</span><span class="dg-pct" id="day-gain-SCHD-pct">+0.78%</span></div>
+        <div class="day-gain-row" data-ticker="SCHY"><span class="dg-tkr purple">SCHY</span><span class="dg-amt green" id="day-gain-SCHY">↑ $66.06</span><span class="dg-pct" id="day-gain-SCHY-pct">+0.28%</span></div>
+      </div>
     </div>
   </div>
   <div class="grid-4">
