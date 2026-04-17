@@ -338,6 +338,16 @@
     }
     .bttf-title::before { content: '◆'; color: var(--gold); font-size: 12px; }
     .bttf-sub { margin-top: 8px; color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+    .bttf-sub-mobile {
+      display:none;
+      margin-top:8px;
+      color:rgba(237,241,250,0.78);
+      font-size:12px;
+      line-height:1.35;
+      font-family:'Courier New',monospace;
+      letter-spacing:1px;
+      text-transform:uppercase;
+    }
     .bttf-chips { display: flex; gap: 8px; flex-wrap: wrap; }
     .bttf-chip {
       border: 1px solid rgba(201, 168, 76, 0.25);
@@ -499,46 +509,33 @@
     @media (max-width: 760px) { .cd-grid { grid-template-columns: repeat(2, 1fr); } }
 
     @media (max-width: 760px) {
-      .bttf-countdown { padding: 18px 16px 16px; }
-      .bttf-top { margin-bottom: 16px; }
+      .bttf-countdown { padding: 16px 14px 14px; margin-bottom: 18px; }
+      .bttf-top { margin-bottom: 12px; }
       .bttf-title-block { min-width: 0; }
-      .bttf-title { font-size: 14px; letter-spacing: 1.1px; }
-      .bttf-sub { font-size: 12.5px; }
-      .bttf-chip { padding: 7px 12px; }
+      .bttf-title { font-size: 13.5px; letter-spacing: 1px; }
+      .bttf-sub { display:none; }
+      .bttf-sub-mobile { display:block; }
+      .bttf-chip { padding: 7px 11px; font-size: 10.5px; }
 
-      .tc-label-cell { padding: 10px 0 2px; }
-      .tc-label-cell .role { font-size: 13px; }
+      .time-circuits { display:none; }
 
-      .time-circuits { margin-bottom: 16px; }
+      .countdown-head { margin-bottom: 10px; padding-bottom: 10px; }
+      .countdown-head .title { font-size: 10px; letter-spacing: 2px; }
+      .countdown-head .date-badge { font-size: 10px; padding: 5px 10px; letter-spacing: 1.1px; }
 
-      .tc-display-cell {
-        padding: 10px 12px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        justify-content: flex-start;
-      }
-      .tc-unit { flex: 0 0 auto; }
-      .tc-unit-val { font-size: 22px; }
-      .tc-divider { height: auto; }
+      .cd-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .cd-cell { padding: 12px 10px 10px; border-radius: 14px; }
+      .cd-num { font-size: clamp(28px, 9.5vw, 44px); }
+      .cd-unit { margin-top: 8px; font-size: 9.5px; letter-spacing: 1.7px; }
     }
 
     @media (max-width: 420px) {
-      .bttf-countdown { padding: 16px 14px 14px; }
+      .bttf-countdown { padding: 14px 12px 12px; }
       .bttf-title { font-size: 13px; }
-      .bttf-chip { padding: 7px 11px; font-size: 10.5px; }
-      .tc-display-cell { min-height: 70px; }
-      .cd-cell { padding: 14px 10px 12px; border-radius: 14px; }
-      .cd-unit { margin-top: 8px; }
-
-      .countdown-head { margin-bottom: 12px; padding-bottom: 10px; }
-      .countdown-head .date-badge { font-size: 10px; padding: 5px 10px; letter-spacing: 1.2px; }
-
-      .cd-num { font-size: clamp(28px, 9vw, 42px); }
-
-      .tc-label-cell.last,
-      .tc-label-cell.last + .tc-display-cell {
-        display: none;
-      }
+      .countdown-head .date-badge { display:none; }
+      .cd-grid { gap: 8px; }
+      .cd-cell { padding: 11px 9px 9px; }
+      .cd-num { font-size: clamp(26px, 10vw, 40px); }
     }
 
     @media (max-width: 360px) {
@@ -948,6 +945,7 @@
       <div class="bttf-title-block">
         <div class="bttf-title">Temporal Displacement · Valencia Departure Sequence</div>
         <div class="bttf-sub">June 14, 2026 · Fort Lauderdale ▸ Valencia · Keep all systems green through arrival.</div>
+        <div class="bttf-sub-mobile">06·14·2026 · 09:00 AM · Valencia arrival</div>
       </div>
       <div class="bttf-chips">
         <span class="bttf-chip status"><span class="status-dot"></span><span id="status-text">ENGAGED</span></span>
