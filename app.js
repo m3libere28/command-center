@@ -186,9 +186,44 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const CC_FX_FALLBACK = 1.09;
+    const CC_MIGRATION_RATE = 1.09;
+    const CC_MIGRATION_KEY = 'budget_cur_migrated_v1';
     const ccGetRate = () => {
         const r = parseFloat(localStorage.getItem('fx_eurusd_rate'));
         return (isFinite(r) && r > 0) ? r : CC_FX_FALLBACK;
+    };
+    const ccIsEurNative = (inp) => !!(inp && inp.getAttribute && inp.getAttribute('data-cur') === 'eur');
+    const ccInputUsdValue = (inp) => {
+        if (!inp) return 0;
+        const v = parseFloat(inp.value);
+        if (!isFinite(v)) return 0;
+        return ccIsEurNative(inp) ? v * ccGetRate() : v;
+    };
+    const migrateBudgetCurrenciesIfNeeded = () => {
+        try {
+            if (localStorage.getItem(CC_MIGRATION_KEY) === '1') return false;
+            const eurInputs = document.querySelectorAll('.budget-input[data-cur="eur"]');
+            let changed = false;
+            eurInputs.forEach(inp => {
+                const cat = inp.getAttribute('data-cat');
+                if (!cat) return;
+                const key = 'budget_' + cat;
+                const stored = localStorage.getItem(key);
+                if (stored === null || stored === '') return;
+                const num = parseFloat(stored);
+                if (!isFinite(num) || num <= 0) return;
+                const eurGuess = Math.round(num / CC_MIGRATION_RATE);
+                if (eurGuess > 0 && num > eurGuess) {
+                    localStorage.setItem(key, String(eurGuess));
+                    changed = true;
+                }
+            });
+            localStorage.setItem(CC_MIGRATION_KEY, '1');
+            return changed;
+        } catch (e) {
+            console.log('budget currency migration skipped:', e);
+            return false;
+        }
     };
     const ccFmtNum = (n, dec = 0) => {
         const abs = Math.abs(n);
@@ -255,17 +290,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 mirror.className = 'input-eur-live';
                 cell.appendChild(mirror);
             }
-            const rate = ccGetRate();
-            const usd = parseFloat(inp.value) || 0;
-            const eur = usd / rate;
-            mirror.textContent = `≈ €${Math.round(eur).toLocaleString('en-US')}`;
+            const renderMirror = () => {
+                const rate = ccGetRate();
+                const v = parseFloat(inp.value) || 0;
+                if (ccIsEurNative(inp)) {
+                    const usd = v * rate;
+                    mirror.textContent = `≈ $${Math.round(usd).toLocaleString('en-US')}`;
+                } else {
+                    const eur = v / rate;
+                    mirror.textContent = `≈ €${Math.round(eur).toLocaleString('en-US')}`;
+                }
+            };
+            renderMirror();
             if (!inp.dataset.ccEurBound) {
-                inp.addEventListener('input', () => {
-                    const r = ccGetRate();
-                    const u = parseFloat(inp.value) || 0;
-                    const e = u / r;
-                    mirror.textContent = `≈ €${Math.round(e).toLocaleString('en-US')}`;
-                });
+                inp.addEventListener('input', renderMirror);
                 inp.dataset.ccEurBound = '1';
             }
         });
@@ -481,11 +519,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const user = (await sb.auth.getUser()).data.user;
             if (!user) return;
             await pullSettingsIntoLocal(sb);
+            const migrated = migrateBudgetCurrenciesIfNeeded();
             applyLocalBudgetToInputs();
             hydrateChecklistFromLocal();
             calculate();
+            if (typeof window.ccRenderAllMoney === 'function') window.ccRenderAllMoney();
             localStorage.setItem('sync_last_pull_ts', String(Date.now()));
             await refreshBadgeFromState();
+            if (migrated) {
+                try { await pushBudget(); } catch (e) { console.log('push after migration failed:', e); }
+            }
         };
 
         const schedulePush = () => {
@@ -779,18 +822,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalGross = incomeVA + incomeEmily + grossDividends;
 
         inputs.forEach(inp => {
-            const val = parseFloat(inp.value) || 0;
-            totalExpenses += val;
-            
+            const usdVal = ccInputUsdValue(inp);
+            totalExpenses += usdVal;
+
             const table = inp.closest('table');
             if (table) {
                 const titleElement = table.previousElementSibling;
                 if (titleElement && titleElement.classList.contains('section-title')) {
                     const title = titleElement.textContent.toLowerCase();
-                    if (title.includes('spain')) spanSum += val;
-                    else if (title.includes('us carrying')) usSum += val;
-                    else if (title.includes('business')) bizSum += val;
-                    else if (title.includes('admin')) adminSum += val;
+                    if (title.includes('spain')) spanSum += usdVal;
+                    else if (title.includes('us carrying')) usSum += usdVal;
+                    else if (title.includes('business')) bizSum += usdVal;
+                    else if (title.includes('admin')) adminSum += usdVal;
                 }
             }
         });
@@ -852,6 +895,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // State Hydration from Browser LocalStorage
+    migrateBudgetCurrenciesIfNeeded();
+
     inputs.forEach(inp => {
         const cat = inp.getAttribute('data-cat');
         if (cat) {
