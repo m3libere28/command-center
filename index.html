@@ -1389,10 +1389,10 @@
   </div>
   <div class="sp"></div>
   <div class="grid-4">
-    <div class="card"><div class="kpi-label">Total Expenses</div><div class="kpi-value red" id="dyn-total-expenses">$8,670</div><div class="kpi-sub">Year 2+ regular RETA phase total (includes $1,192 tax set-aside)</div></div>
+    <div class="card"><div class="kpi-label">Total Expenses</div><div class="kpi-value red" id="dyn-total-expenses">$7,478</div><div class="kpi-sub">Year 2+ regular RETA phase (excludes $1,192 tax set-aside — shown separately)</div></div>
     <div class="card purple-soft"><div class="kpi-label">Tax Set-Aside</div><div class="kpi-value purple">$1,192</div><div class="kpi-sub">Conservative · Spain progressive, no Beckham (Scenario C)</div></div>
     <div class="card blue-soft"><div class="kpi-label">Gross Dividends</div><div class="kpi-value blue">$1,691</div><div class="kpi-sub">Portfolio income · Spain-exempt under Beckham; US FTC/CTC offsets</div></div>
-    <div class="card green-soft"><div class="kpi-label">Monthly Surplus</div><div class="kpi-value green" id="dyn-monthly-surplus">$1,193</div><div class="kpi-sub">Year 2+ conservative (no Beckham) · $10,013 − $7,628 − $1,192 tax<br>Optimistic B: $1,379/mo · Best case A: $1,839/mo</div></div>
+    <div class="card green-soft"><div class="kpi-label">Monthly Surplus</div><div class="kpi-value green" id="dyn-monthly-surplus">$1,343</div><div class="kpi-sub">Year 2+ conservative (no Beckham) · $10,013 − $7,478 − $1,192 tax<br>Optimistic B: $1,529/mo · Best case A: $1,989/mo</div></div>
   </div>
   <div class="sp"></div>
   <div class="grid-2">
@@ -1452,13 +1452,13 @@
     <div class="card">
       <div class="section-title" style="margin-top:0">Admin, tax & buffers</div>
       <table><thead><tr><th>Item</th><th>Monthly</th></tr></thead><tbody>
-        <tr><td>Tax set-aside (all sources)<div style="font-size:10px;color:var(--text-muted);line-height:1.5;margin-top:2px">Conservative · Spain progressive rates (no Beckham). Breakdown: Spain RETA $522/mo + Spain income tax $647/mo + US tax $24/mo. If Beckham approved, could drop to $546–$1,006/mo.</div></td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="tax_set_aside_all_sources" value="1192"></div></td></tr>
         <tr><td>International travel fund</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="international_travel_fund" value="300"></div></td></tr>
         <tr><td>LLC ongoing costs</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="llc_ongoing_costs" value="35"></div></td></tr>
         <tr><td>Wise monthly transfer charges (USD → Spain)</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="wise_monthly_transfer_charges" value="0"></div></td></tr>
         <tr><td>Currency risk buffer</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="currency_risk_buffer" value="200"></div></td></tr>
         <tr><td>Pharmacy & OTC healthcare</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="pharmacy_&_otc_healthcare" value="50"></div></td></tr>
-        <tr><td><strong>Admin subtotal</strong></td><td><strong id="dyn-admin-subtotal">$1,777</strong></td></tr>
+        <tr><td><strong>Admin subtotal</strong></td><td><strong id="dyn-admin-subtotal">$585</strong></td></tr>
+        <tr><td colspan="2" style="font-size:10px;color:var(--text-muted);padding-top:8px;line-height:1.5">Tax set-aside ($1,192/mo) is shown separately in the KPI row above and the Year 2+ summary — it is <strong>not</strong> included in this admin subtotal. Breakdown: Spain RETA $522 + Spain income tax $647 + US tax $24. If Beckham approved, drops to $546–$1,006/mo.</td></tr>
       </tbody></table>
     </div>
   </div>
@@ -1468,12 +1468,12 @@
       <div class="section-title" style="margin-top:0">Year 2+ — Spain phase summary (Conservative · No Beckham)</div>
       <div class="list">
         <div class="row"><div class="label">Total gross income</div><div class="value gold" id="dyn-total-gross-2">$10,013</div></div>
-        <div class="row"><div class="label">Total expenses (incl. tax)</div><div class="value red" id="dyn-total-expenses-2">$8,670</div></div>
+        <div class="row"><div class="label">Total expenses (excl. tax)</div><div class="value red" id="dyn-total-expenses-2">$7,478</div></div>
         <div class="row"><div class="label">Tax set-aside (Scenario C)</div><div class="value purple">$1,192</div></div>
-        <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green" id="dyn-monthly-surplus-2"><strong>$1,193</strong></div></div>
+        <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green" id="dyn-monthly-surplus-2"><strong>$1,343</strong></div></div>
         <div class="row"><div class="label">Regular RETA built in</div><div class="value blue">$523 / ~€479</div></div>
-        <div class="row"><div class="label">Optimistic · Beckham B surplus</div><div class="value blue">$1,379/mo</div></div>
-        <div class="row"><div class="label">Best case · Beckham A surplus</div><div class="value green">$1,839/mo</div></div>
+        <div class="row"><div class="label">Optimistic · Beckham B surplus</div><div class="value blue">$1,529/mo</div></div>
+        <div class="row"><div class="label">Best case · Beckham A surplus</div><div class="value green">$1,989/mo</div></div>
       </div>
     </div>
     <div class="card blue-soft">

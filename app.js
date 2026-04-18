@@ -855,10 +855,14 @@ document.addEventListener('DOMContentLoaded', () => {
         writeDual(dynExp1, totalExpenses);
         writeDual(dynExp2, totalExpenses);
 
+        // Tax set-aside is kept outside the budget inputs so the admin subtotal
+        // represents lifestyle/admin only. The conservative Scenario C tax is
+        // deducted here so the displayed surplus reflects real cash flow.
+        const TAX_SETASIDE_MO = 1192;
         const dynSurp1 = document.getElementById('dyn-monthly-surplus');
         const dynSurp2 = document.getElementById('dyn-monthly-surplus-2');
-        writeDual(dynSurp1, totalGross - totalExpenses);
-        writeDual(dynSurp2, totalGross - totalExpenses);
+        writeDual(dynSurp1, totalGross - totalExpenses - TAX_SETASIDE_MO);
+        writeDual(dynSurp2, totalGross - totalExpenses - TAX_SETASIDE_MO);
 
         writeDual(document.getElementById('dyn-spain-subtotal'), spanSum);
         writeDual(document.getElementById('dyn-us-subtotal'), usSum);
