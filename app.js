@@ -43,6 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (accessGrantedAudio === a) accessGrantedAudio = null;
                     });
 
+                    // Play for ~5 seconds total, then fade out over 400ms and stop.
+                    const PLAY_MS = 5000;
+                    const FADE_MS = 400;
+                    const FADE_STEPS = 20;
+                    setTimeout(() => {
+                        if (!a || a.paused) return;
+                        const startVol = a.volume;
+                        let step = 0;
+                        const fade = setInterval(() => {
+                            step++;
+                            const v = Math.max(0, startVol * (1 - step / FADE_STEPS));
+                            try { a.volume = v; } catch (_) {}
+                            if (step >= FADE_STEPS) {
+                                clearInterval(fade);
+                                try { a.pause(); } catch (_) {}
+                                if (accessGrantedAudio === a) accessGrantedAudio = null;
+                            }
+                        }, FADE_MS / FADE_STEPS);
+                    }, PLAY_MS - FADE_MS);
+
                     const p = a.play();
                     return p;
                 } catch (e) {
