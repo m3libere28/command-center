@@ -1995,13 +1995,14 @@
   <!-- 2027 Jul onward -->
   <div class="card" style="background:linear-gradient(135deg,rgba(224,85,85,0.08),rgba(255,255,255,0.01)); border:2px solid rgba(224,85,85,0.55)">
     <div class="kpi-label" style="color:var(--red)">Phase 2 · Jul 2027 onward · Full RETA rate (tarifa plana expired)</div>
-    <div class="kpi-sub" style="margin:6px 0 12px"><strong>Spanish progressive tax on €29,847 (= $32,533 net income):</strong></div>
+    <div class="kpi-sub" style="margin:6px 0 12px"><strong>Spanish progressive IRPF on €29,847 (= $32,533 net income) · combined state + Valencia autonomic rates (2024 reform):</strong></div>
     <div class="list" style="margin-bottom:12px">
-      <div class="row"><div class="label">€0–€12,450 @ 19%</div><div class="value">€2,366</div></div>
-      <div class="row"><div class="label">€12,450–€20,200 @ 24%</div><div class="value">€1,860</div></div>
-      <div class="row"><div class="label">€20,200–€29,847 @ 30%</div><div class="value">€2,894</div></div>
-      <div class="row"><div class="label"><strong>Total IRPF</strong></div><div class="value red"><strong>€7,120 ≈ $7,760/yr ≈ $647/mo</strong></div></div>
+      <div class="row"><div class="label">€0–€12,450 @ ~19% (9.5% state + 9–12% Valencia)</div><div class="value">€2,366</div></div>
+      <div class="row"><div class="label">€12,450–€20,200 @ ~24% (12% state + 12% Valencia)</div><div class="value">€1,860</div></div>
+      <div class="row"><div class="label">€20,200–€29,847 @ ~30% (15% state + 12–15% Valencia)</div><div class="value">€2,894</div></div>
+      <div class="row"><div class="label"><strong>Total IRPF (combined)</strong></div><div class="value red"><strong>€7,120 ≈ $7,760/yr ≈ $647/mo</strong></div></div>
     </div>
+    <div class="kpi-sub" style="font-size:11px;color:var(--text-muted);margin:4px 0 10px;line-height:1.5"><strong>Methodology note:</strong> Simplified 3-bracket model approximating the Valencia autonomic overlay. Real Valencia brackets are more granular (9% → 12% → 15% → 17.5% across different thresholds than state). Piecewise exact calculation yields ~€7,017 (within 1.5% of the simplified total). <strong>Verify 2026 Valencia rates with your gestor in writing</strong> — autonomic rates change when regional governments pass new budgets.</div>
     <div class="list">
       <div class="row"><div class="label">Spain RETA (full rate)</div><div class="value teal">€438/mo · ~$477/mo · ~$5,729/yr</div></div>
       <div class="row"><div class="label">Spain progressive income tax</div><div class="value red">$647/mo · $7,760/yr</div></div>
@@ -2086,6 +2087,7 @@
         <div class="row"><div class="label">File annual Modelo 100 (Spain)</div><div class="value">☐</div></div>
         <div class="row"><div class="label">File annual Form 1040 (US) by Jun 15</div><div class="value">☐</div></div>
         <div class="row"><div class="label">Watch for Jul 2027 RETA step-up (€80 → €438)</div><div class="value red">☐</div></div>
+        <div class="row"><div class="label"><strong>Verify 2026 Valencia autonomic IRPF rates in writing with gestor</strong></div><div class="value red">☐</div></div>
       </div>
     </div>
   </div>
@@ -2099,6 +2101,7 @@
       • <strong>Standard deduction:</strong> $30,000 (MFJ) · <strong>Qualified div 0% rate:</strong> below $96,700 MFJ<br>
       • <strong>RETA 2026 rates:</strong> confirmed · no increase from 2025 · frozen throughout 2026<br>
       • <strong>RETA Year 2+ bracket:</strong> €2,330–€3,190 monthly net profit · €426–€451/mo range · €438 used as mid-range<br>
+      • <strong>IRPF rates shown:</strong> combined state + Valencia autonomic (2024 reform, simplified 3-bracket model). Piecewise-exact combined total: €7,017 · simplified total: €7,120 · difference ~1.5%. Verify 2026 rates with gestor.<br>
       • <strong>Tarifa plana:</strong> flat €80/mo for the first 12 consecutive months · non-renewable without 2–3 year waiting period<br>
       • <strong>US-Spain Totalization Agreement (1988):</strong> Certificate of Coverage required to exempt US SE tax<br>
       • <strong>No Beckham Law election:</strong> Emily files as standard resident autónomo · progressive IRPF 19–45%<br>
@@ -2219,10 +2222,34 @@
   </div>
 
   <div class="sp"></div>
+  <div class="card" style="border:2px solid rgba(224,85,85,0.35); background:linear-gradient(135deg,rgba(224,85,85,0.06),rgba(255,255,255,0.01))">
+    <div class="section-title" style="margin-top:0;color:var(--red)">⚠ SPYI NAV Drift Stress Test · Phase 1</div>
+    <div class="kpi-sub" style="margin-bottom:12px;line-height:1.6">SPYI is a NEOS covered-call ETF. These funds distribute aggressively (12%+) which historically erodes NAV over time because part of the distribution comes from principal, not pure income. Base projection assumes flat-to-slight-appreciation; below are conservative alternative scenarios for the 2-year distribution-only phase.</div>
+    <div class="grid-3">
+      <div class="card soft" style="padding:14px">
+        <div class="kpi-label" style="color:var(--green)">Base case (current plan)</div>
+        <div class="kpi-value green" style="font-size:24px">~$293,000</div>
+        <div class="kpi-sub">SPYI NAV flat · assumes ~4% blended appreciation offsets distribution drag</div>
+      </div>
+      <div class="card" style="padding:14px;border-color:rgba(240,148,77,0.4); background:rgba(240,148,77,0.06)">
+        <div class="kpi-label" style="color:var(--orange)">Conservative (−5% SPYI NAV)</div>
+        <div class="kpi-value orange" style="font-size:24px">~$286,900</div>
+        <div class="kpi-sub">SPYI $122.9K → $116.8K · SCHD/SCHY/VMFXX flat · −$6.1K vs base</div>
+      </div>
+      <div class="card" style="padding:14px;border-color:rgba(224,85,85,0.4); background:rgba(224,85,85,0.06)">
+        <div class="kpi-label" style="color:var(--red)">Pessimistic (−10% SPYI NAV)</div>
+        <div class="kpi-value red" style="font-size:24px">~$280,700</div>
+        <div class="kpi-sub">SPYI $122.9K → $110.6K · −$12.3K vs base · Phase 2 starts lower but math still works</div>
+      </div>
+    </div>
+    <div class="kpi-sub" style="margin-top:14px;font-size:11px;line-height:1.6;color:var(--text-muted)"><strong>Why this matters:</strong> Phase 2 DRIP compounding starts from whatever the portfolio is worth in June 2028. A lower starting point compounds into a lower 2032 portfolio — but even in the pessimistic case, the Oakland Park sale proceeds ($458K) keep the June 2032 total above $930K. <strong>Mitigation options:</strong> (1) Monitor SPYI NAV trend quarterly · (2) Consider partial rotation from SPYI into SCHD if NAV drift exceeds −5% in first 6 months · (3) Use a portion of the VMFXX float to smooth dividend shortfalls rather than selling SPYI at a loss.</div>
+  </div>
+
+  <div class="sp"></div>
   <div class="grid-3">
     <div class="callout">
       <h2>Phase 1 reality check</h2>
-      <p>During years 1–2 you spend all dividends as income and the portfolio barely moves. This is intentional — you prioritize living well in early Valencia over aggressive growth. The portfolio is still working; it just isn't compounding yet.</p>
+      <p>During years 1–2 you spend all dividends as income and the portfolio barely moves. This is intentional — you prioritize living well in early Valencia over aggressive growth. The portfolio is still working; it just isn't compounding yet. <strong>Watch SPYI NAV</strong> — covered-call ETFs can drift down during heavy-distribution phases.</p>
     </div>
     <div class="callout teal">
       <h2 style="color:var(--teal)">Phase 2 acceleration</h2>
