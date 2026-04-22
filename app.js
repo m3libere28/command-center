@@ -1258,6 +1258,84 @@ document.addEventListener('DOMContentLoaded', () => {
             setDual('dyn-inc-total-monthly', totMonthly, 2);
         };
 
+        const renderPortfolioTicker = () => {
+            const track = document.getElementById('pf-ticker-track');
+            if (!track) return;
+            const tickers = [
+                { sym: 'SPYI',  cls: 'spyi',  shares: 2339.000, yld: 0.1224, cash: false },
+                { sym: 'SCHD',  cls: 'schd',  shares: 3128.000, yld: 0.0330, cash: false },
+                { sym: 'SCHY',  cls: 'schy',  shares: 734.000,  yld: 0.0312, cash: false },
+                { sym: 'VMFXX', cls: 'vmfxx', shares: 50009.17, yld: 0.0358, cash: true  },
+            ];
+            const fmtMoney = (n) => {
+                if (!isFinite(n)) return '--';
+                const abs = Math.abs(n);
+                if (abs >= 1000) return '$' + (n / 1000).toFixed(1) + 'K';
+                return '$' + Math.round(n).toLocaleString('en-US');
+            };
+            const fmtShares = (n) => n >= 1000
+                ? n.toLocaleString('en-US', { maximumFractionDigits: 0 })
+                : n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+            const mkChip = (t) => {
+                const price = t.cash ? 1 : parseFloat(localStorage.getItem(`price_${t.sym}`)) || 0;
+                const pcl = parseFloat(localStorage.getItem(`pclose_${t.sym}`)) || 0;
+                const d = parseFloat(localStorage.getItem(`dprice_${t.sym}`));
+                const val = t.cash ? t.shares : (price > 0 ? t.shares * price : 0);
+                const monthly = (val * t.yld) / 12;
+                let chgClass = 'flat', arrow = '·', chgStr = '--';
+                if (t.cash) { chgClass = 'flat'; arrow = '≡'; chgStr = 'MMF'; }
+                else if (isFinite(d) && pcl > 0) {
+                    const pct = (d / pcl) * 100;
+                    chgClass = pct >= 0 ? 'up' : 'down';
+                    arrow = pct >= 0 ? '▲' : '▼';
+                    chgStr = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+                }
+                const priceStr = t.cash ? '$1.00' : (price > 0 ? '$' + price.toFixed(2) : '--');
+                return ''
+                    + '<span class="pf-chip">'
+                    +   '<span class="pf-chip-tkr ' + t.cls + '">' + t.sym + '</span>'
+                    +   '<span class="pf-chip-val">' + priceStr + '</span>'
+                    +   '<span class="pf-chip-chg ' + chgClass + '">' + arrow + ' ' + chgStr + '</span>'
+                    +   '<span class="pf-chip-sep">│</span>'
+                    +   '<span class="pf-chip-lbl">Shs</span>'
+                    +   '<span class="pf-chip-val">' + fmtShares(t.shares) + '</span>'
+                    +   '<span class="pf-chip-sep">│</span>'
+                    +   '<span class="pf-chip-lbl">Val</span>'
+                    +   '<span class="pf-chip-val">' + fmtMoney(val) + '</span>'
+                    +   '<span class="pf-chip-sep">│</span>'
+                    +   '<span class="pf-chip-lbl">Yield</span>'
+                    +   '<span class="pf-chip-val">' + (t.yld * 100).toFixed(2) + '%</span>'
+                    +   '<span class="pf-chip-sep">│</span>'
+                    +   '<span class="pf-chip-lbl">Mo Div</span>'
+                    +   '<span class="pf-chip-mo">' + fmtMoney(monthly) + '</span>'
+                    + '</span>';
+            };
+            // Totals chip: full portfolio + aggregate monthly dividend
+            let totVal = 0, totMonthly = 0;
+            tickers.forEach(t => {
+                const price = t.cash ? 1 : parseFloat(localStorage.getItem(`price_${t.sym}`)) || 0;
+                const v = t.cash ? t.shares : (price > 0 ? t.shares * price : 0);
+                totVal += v;
+                totMonthly += (v * t.yld) / 12;
+            });
+            const totalsChip = ''
+                + '<span class="pf-chip">'
+                +   '<span class="pf-chip-tkr" style="color:var(--gold-light);background:rgba(201,168,76,0.12)">PORTFOLIO</span>'
+                +   '<span class="pf-chip-lbl">Total</span>'
+                +   '<span class="pf-chip-val" style="color:var(--gold-light)">' + fmtMoney(totVal) + '</span>'
+                +   '<span class="pf-chip-sep">│</span>'
+                +   '<span class="pf-chip-lbl">Mo Div</span>'
+                +   '<span class="pf-chip-mo">' + fmtMoney(totMonthly) + '</span>'
+                +   '<span class="pf-chip-sep">│</span>'
+                +   '<span class="pf-chip-lbl">Target 2032</span>'
+                +   '<span class="pf-chip-val" style="color:var(--gold-light)">$944.7K</span>'
+                + '</span>';
+            const gem = '<span class="pf-chip-gem">◆</span>';
+            const sequence = [mkChip(tickers[0]), mkChip(tickers[1]), mkChip(tickers[2]), mkChip(tickers[3]), totalsChip].join(gem);
+            // Duplicate for seamless loop; the -50% translate at end returns to start
+            track.innerHTML = sequence + gem + sequence + gem;
+        };
+
         const renderDayGainTotal = () => {
             const tickers = ['SPYI', 'SCHD', 'SCHY'];
             let totalDelta = 0;
@@ -1382,12 +1460,14 @@ document.addEventListener('DOMContentLoaded', () => {
             updateDividendCalendar();
             renderDayGainTotal();
             recalcAllPortfolioDerivedTotals();
+            renderPortfolioTicker();
             if (typeof window.ccRenderAllMoney === 'function') window.ccRenderAllMoney();
         };
 
         // Initial paint from cached values (works offline / before first fetch)
         recalcAllPortfolioDerivedTotals();
         renderDayGainTotal();
+        renderPortfolioTicker();
         (['SPYI','SCHD','SCHY']).forEach(t => {
             const d = parseFloat(localStorage.getItem(`dprice_${t}`));
             const pc = parseFloat(localStorage.getItem(`pclose_${t}`));
@@ -1422,6 +1502,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             updateDividendCalendar();
             recalcAllPortfolioDerivedTotals();
+            renderPortfolioTicker();
             if (typeof window.ccRenderAllMoney === 'function') window.ccRenderAllMoney();
         }
     }
