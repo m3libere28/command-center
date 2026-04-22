@@ -1186,7 +1186,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const schdVal = getTickerLiveValue('SCHD');
             const schyVal = getTickerLiveValue('SCHY');
             const vmfxxVal = getTickerLiveValue('VMFXX');
-            const total = spyiVal + schdVal + schyVal + vmfxxVal;
+            const fxeValForTotal = getTickerLiveValue('FXE');
+            const total = spyiVal + schdVal + schyVal + vmfxxVal + fxeValForTotal;
 
             const setDual = (id, usd, dec = 0) => {
                 const el = document.getElementById(id);
@@ -1204,7 +1205,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setDual('dyn-overview-total', total, 0);
             setDual('dyn-plan-total', total, 2);
             setDual('dyn-plan-spyi', spyiVal, 2);
-            setDual('dyn-plan-other', schdVal + schyVal + vmfxxVal, 2);
+            setDual('dyn-plan-other', schdVal + schyVal + vmfxxVal + fxeValForTotal, 2);
 
             // Emily-Optional progress
             const EO_TARGET = 364690;
@@ -1241,12 +1242,14 @@ document.addEventListener('DOMContentLoaded', () => {
             setDual('dyn-port-card-spyi', spyiVal, 2);
             setDual('dyn-port-card-schd', schdVal, 2);
             setDual('dyn-port-card-schy', schyVal, 2);
+            setDual('dyn-port-card-fxe', fxeValForTotal, 2);
 
             // Income table: estimated annual/monthly per ticker = value * yield
-            const yields = { SPYI: 0.1224, SCHD: 0.0330, SCHY: 0.0312, VMFXX: 0.0358 };
-            const vals = { SPYI: spyiVal, SCHD: schdVal, SCHY: schyVal, VMFXX: vmfxxVal };
+            const fxeVal = getTickerLiveValue('FXE');
+            const yields = { SPYI: 0.1224, SCHD: 0.0330, SCHY: 0.0312, VMFXX: 0.0358, FXE: 0 };
+            const vals = { SPYI: spyiVal, SCHD: schdVal, SCHY: schyVal, VMFXX: vmfxxVal, FXE: fxeVal };
             let totAnnual = 0, totMonthly = 0;
-            ['SPYI', 'SCHD', 'SCHY', 'VMFXX'].forEach(t => {
+            ['SPYI', 'SCHD', 'SCHY', 'FXE', 'VMFXX'].forEach(t => {
                 const annual = vals[t] * yields[t];
                 const monthly = annual / 12;
                 totAnnual += annual;
@@ -1263,9 +1266,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!track) return;
             const tickers = [
                 { sym: 'SPYI',  cls: 'spyi',  shares: 2339.000, yld: 0.1224, cash: false },
-                { sym: 'SCHD',  cls: 'schd',  shares: 3128.000, yld: 0.0330, cash: false },
+                { sym: 'SCHD',  cls: 'schd',  shares: 2643.000, yld: 0.0330, cash: false },
                 { sym: 'SCHY',  cls: 'schy',  shares: 734.000,  yld: 0.0312, cash: false },
-                { sym: 'VMFXX', cls: 'vmfxx', shares: 50009.17, yld: 0.0358, cash: true  },
+                { sym: 'FXE',   cls: 'fxe',   shares: 82.000,   yld: 0,      cash: false, hedge: true },
+                { sym: 'VMFXX', cls: 'vmfxx', shares: 50000.11, yld: 0.0358, cash: true  },
             ];
             const fmtMoney = (n) => {
                 if (!isFinite(n)) return '--';
@@ -1356,7 +1360,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const renderDayGainTotal = () => {
-            const tickers = ['SPYI', 'SCHD', 'SCHY'];
+            const tickers = ['SPYI', 'SCHD', 'SCHY', 'FXE'];
             let totalDelta = 0;
             let totalPrev = 0;
             let haveAny = false;
@@ -1399,8 +1403,8 @@ document.addEventListener('DOMContentLoaded', () => {
             statusBadge.textContent = '● Fetching...';
             statusBadge.style.color = 'var(--blue)';
 
-            const tickers = ['SPYI', 'SCHD', 'SCHY'];
-            let overallTotal = 50009.17; // Start with fixed VMFXX amount
+            const tickers = ['SPYI', 'SCHD', 'SCHY', 'FXE'];
+            let overallTotal = 50000.11; // Start with fixed VMFXX amount
             let hasError = false;
 
             for (const ticker of tickers) {
@@ -1452,7 +1456,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Fix the loop bug: we shouldn't add to `overallTotal` inside `valSpans.forEach` because there are TWO spans per ticker (one in table, one in list).
             // Let's recalculate the overall safely
-            let finalOverall = 50009.17; // VMFXX
+            let finalOverall = 50000.11; // VMFXX
             for (const ticker of tickers) {
                 const el = document.querySelector(`.live-val[data-ticker="${ticker}"]`);
                 if (el) {
@@ -1487,7 +1491,7 @@ document.addEventListener('DOMContentLoaded', () => {
         recalcAllPortfolioDerivedTotals();
         renderDayGainTotal();
         renderPortfolioTicker();
-        (['SPYI','SCHD','SCHY']).forEach(t => {
+        (['SPYI','SCHD','SCHY','FXE']).forEach(t => {
             const d = parseFloat(localStorage.getItem(`dprice_${t}`));
             const pc = parseFloat(localStorage.getItem(`pclose_${t}`));
             if (isFinite(d)) {

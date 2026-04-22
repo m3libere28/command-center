@@ -1453,36 +1453,40 @@
     <div class="pf-ticker-track" id="pf-ticker-track"></div>
   </div>
   <div class="card" id="day-gain-card" style="margin-bottom:20px;">
-    <div class="section-title" style="margin-top:0">Today's Gain · <span id="day-gain-asof" style="font-family:'Courier New',monospace;color:var(--text-muted);letter-spacing:1px;font-size:10px;">04/17/2026</span></div>
+    <div class="section-title" style="margin-top:0">Today's Gain · <span id="day-gain-asof" style="font-family:'Courier New',monospace;color:var(--text-muted);letter-spacing:1px;font-size:10px;">04/22/2026</span></div>
     <div class="day-gain-grid">
       <div class="day-gain-total">
         <div class="kpi-label">Day's Gain</div>
-        <div class="day-gain-big green" id="day-gain-total-val"><span class="day-gain-arrow">↑</span> <span id="day-gain-total-amt">$1,635.43</span></div>
-        <div class="kpi-sub" id="day-gain-total-pct">+0.56% · market close</div>
+        <div class="day-gain-big green" id="day-gain-total-val"><span class="day-gain-arrow">↑</span> <span id="day-gain-total-amt">$655.76</span></div>
+        <div class="kpi-sub" id="day-gain-total-pct">+0.23% · market close</div>
       </div>
       <div class="day-gain-tickers">
-        <div class="day-gain-row" data-ticker="SPYI"><span class="dg-tkr gold">SPYI</span><span class="dg-amt green" id="day-gain-SPYI">↑ $818.65</span><span class="dg-pct" id="day-gain-SPYI-pct">+0.67%</span></div>
-        <div class="day-gain-row" data-ticker="SCHD"><span class="dg-tkr blue">SCHD</span><span class="dg-amt green" id="day-gain-SCHD">↑ $750.72</span><span class="dg-pct" id="day-gain-SCHD-pct">+0.78%</span></div>
-        <div class="day-gain-row" data-ticker="SCHY"><span class="dg-tkr purple">SCHY</span><span class="dg-amt green" id="day-gain-SCHY">↑ $66.06</span><span class="dg-pct" id="day-gain-SCHY-pct">+0.28%</span></div>
+        <div class="day-gain-row" data-ticker="SPYI"><span class="dg-tkr gold">SPYI</span><span class="dg-amt green" id="day-gain-SPYI">↑ $561.36</span><span class="dg-pct" id="day-gain-SPYI-pct">+0.47%</span></div>
+        <div class="day-gain-row" data-ticker="SCHD"><span class="dg-tkr blue">SCHD</span><span class="dg-amt green" id="day-gain-SCHD">↑ $52.86</span><span class="dg-pct" id="day-gain-SCHD-pct">+0.06%</span></div>
+        <div class="day-gain-row" data-ticker="SCHY"><span class="dg-tkr purple">SCHY</span><span class="dg-amt green" id="day-gain-SCHY">↑ $51.38</span><span class="dg-pct" id="day-gain-SCHY-pct">+0.23%</span></div>
+        <div class="day-gain-row" data-ticker="FXE"><span class="dg-tkr" style="color:#ff9d54">FXE</span><span class="dg-amt red" id="day-gain-FXE">↓ $9.84</span><span class="dg-pct" id="day-gain-FXE-pct">-0.11%</span></div>
       </div>
     </div>
   </div>
-  <div class="grid-4">
-    <div class="card soft"><div class="kpi-label">SPYI</div><div class="kpi-value gold" id="dyn-port-card-spyi">$122,914.45</div><div class="kpi-sub">Income engine · 12.24% yield · Monthly payer</div></div>
-    <div class="card blue-soft"><div class="kpi-label">SCHD</div><div class="kpi-value blue" id="dyn-port-card-schd">$97,124.40</div><div class="kpi-sub">US dividend core · 3.30% yield · Quarterly payer</div></div>
-    <div class="card purple-soft"><div class="kpi-label">SCHY</div><div class="kpi-value purple" id="dyn-port-card-schy">$24,075.20</div><div class="kpi-sub">Intl dividend sleeve · 3.12% yield · Quarterly payer</div></div>
-    <div class="card"><div class="kpi-label">VMFXX Reserve</div><div class="kpi-value teal">$50,009.17</div><div class="kpi-sub">Cash reserve · 3.58% yield · Monthly accrual · Deploy Jun/Jul 2026</div></div>
+  <div class="grid-4" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr));">
+    <div class="card soft"><div class="kpi-label">SPYI</div><div class="kpi-value gold" id="dyn-port-card-spyi">$121,651.16</div><div class="kpi-sub">Income engine · 12.24% yield · Monthly payer</div></div>
+    <div class="card blue-soft"><div class="kpi-label">SCHD</div><div class="kpi-value blue" id="dyn-port-card-schd">$81,933.26</div><div class="kpi-sub">US dividend core · 3.30% yield · Quarterly payer</div></div>
+    <div class="card purple-soft"><div class="kpi-label">SCHY</div><div class="kpi-value purple" id="dyn-port-card-schy">$23,799.95</div><div class="kpi-sub">Intl dividend sleeve · 3.12% yield · Quarterly payer</div></div>
+    <div class="card" style="border-color:rgba(255,157,84,0.35);"><div class="kpi-label">FXE · EUR Hedge</div><div class="kpi-value" id="dyn-port-card-fxe" style="color:#ff9d54">$8,864.20</div><div class="kpi-sub">Invesco CurrencyShares Euro Trust · Currency hedge (not income) · Protects Spain CoL from USD weakness</div></div>
+    <div class="card"><div class="kpi-label">VMFXX Reserve</div><div class="kpi-value teal">$50,000.11</div><div class="kpi-sub">Cash reserve · 3.58% yield · Monthly accrual · Deploy Jun/Jul 2026</div></div>
   </div>
   <div class="sp"></div>
   <div class="card">
     <table>
       <thead><tr><th>Holding</th><th>Current Value</th><th>Yield Used</th><th>Est. Annual</th><th>Est. Monthly</th><th>Role</th></tr></thead>
       <tbody>
-        <tr><td><div class="ticker">SPYI</div><div class="ticker-name">NEOS S&P 500 High Income ETF</div></td><td><strong class="live-val" data-ticker="SPYI" data-shares="2339.000" data-yield="0.1224">$122,914.45</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SPYI">Loading...</span></td><td>12.24%</td><td class="green" id="dyn-inc-SPYI-annual">$14,602.41</td><td class="green" id="dyn-inc-SPYI-monthly">$1,216.87</td><td><span class="pill pill-green">Income engine</span></td></tr>
-        <tr><td><div class="ticker">SCHD</div><div class="ticker-name">Schwab U.S. Dividend Equity ETF</div></td><td><strong class="live-val" data-ticker="SCHD" data-shares="3128.000" data-yield="0.0330">$97,124.40</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SCHD">Loading...</span></td><td>3.30%</td><td class="blue" id="dyn-inc-SCHD-annual">$3,151.94</td><td class="blue" id="dyn-inc-SCHD-monthly">$262.66</td><td><span class="pill pill-blue">US dividend core</span></td></tr>
-        <tr><td><div class="ticker">SCHY</div><div class="ticker-name">Schwab International Dividend ETF</div></td><td><strong class="live-val" data-ticker="SCHY" data-shares="734.000" data-yield="0.0312">$24,075.20</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SCHY">Loading...</span></td><td>3.12%</td><td class="purple" id="dyn-inc-SCHY-annual">$743.36</td><td class="purple" id="dyn-inc-SCHY-monthly">$61.95</td><td><span class="pill pill-purple">Intl sleeve</span></td></tr>
-        <tr><td><div class="ticker">VMFXX</div><div class="ticker-name">Vanguard Federal Money Market</div></td><td><strong class="live-val" data-ticker="VMFXX" data-shares="50009.17" data-yield="0.0358">$50,009.17</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="VMFXX">Fixed $1.00</span></td><td>3.58%</td><td class="teal" id="dyn-inc-VMFXX-annual">$1,790.33</td><td class="teal" id="dyn-inc-VMFXX-monthly">$149.19</td><td><span class="pill pill-teal">Cash reserve</span></td></tr>
-        <tr><td colspan="3"><strong>Total gross income stream</strong></td><td class="green"><strong id="dyn-inc-total-annual">$20,288.04</strong></td><td class="green"><strong id="dyn-inc-total-monthly">$1,690.67</strong></td><td><span class="pill pill-gold">Current phase</span></td></tr>
+        <tr><td><div class="ticker">SPYI</div><div class="ticker-name">NEOS S&P 500 High Income ETF</div></td><td><strong class="live-val" data-ticker="SPYI" data-shares="2339.000" data-yield="0.1224">$121,651.16</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SPYI">Loading...</span></td><td>12.24%</td><td class="green" id="dyn-inc-SPYI-annual">$14,890.10</td><td class="green" id="dyn-inc-SPYI-monthly">$1,240.84</td><td><span class="pill pill-green">Income engine</span></td></tr>
+        <tr><td><div class="ticker">SCHD</div><div class="ticker-name">Schwab U.S. Dividend Equity ETF</div></td><td><strong class="live-val" data-ticker="SCHD" data-shares="2643.000" data-yield="0.0330">$81,933.26</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SCHD">Loading...</span></td><td>3.30%</td><td class="blue" id="dyn-inc-SCHD-annual">$2,703.80</td><td class="blue" id="dyn-inc-SCHD-monthly">$225.32</td><td><span class="pill pill-blue">US dividend core</span></td></tr>
+        <tr><td><div class="ticker">SCHY</div><div class="ticker-name">Schwab International Dividend ETF</div></td><td><strong class="live-val" data-ticker="SCHY" data-shares="734.000" data-yield="0.0312">$23,799.95</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="SCHY">Loading...</span></td><td>3.12%</td><td class="purple" id="dyn-inc-SCHY-annual">$742.56</td><td class="purple" id="dyn-inc-SCHY-monthly">$61.88</td><td><span class="pill pill-purple">Intl sleeve</span></td></tr>
+        <tr><td><div class="ticker" style="color:#ff9d54">FXE</div><div class="ticker-name">Invesco CurrencyShares Euro Trust</div></td><td><strong class="live-val" data-ticker="FXE" data-shares="82.000" data-yield="0">$8,864.20</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="FXE">Loading...</span></td><td>0%*</td><td style="color:#ff9d54" id="dyn-inc-FXE-annual">$0.00</td><td style="color:#ff9d54" id="dyn-inc-FXE-monthly">$0.00</td><td><span class="pill" style="background:rgba(255,157,84,0.15);color:#ff9d54;border:1px solid rgba(255,157,84,0.4)">EUR hedge</span></td></tr>
+        <tr><td><div class="ticker">VMFXX</div><div class="ticker-name">Vanguard Federal Money Market</div></td><td><strong class="live-val" data-ticker="VMFXX" data-shares="50000.11" data-yield="0.0358">$50,000.11</strong><br><span style="font-size:10px;color:var(--text-muted)" class="live-price" data-ticker="VMFXX">Fixed $1.00</span></td><td>3.58%</td><td class="teal" id="dyn-inc-VMFXX-annual">$1,790.00</td><td class="teal" id="dyn-inc-VMFXX-monthly">$149.17</td><td><span class="pill pill-teal">Cash reserve</span></td></tr>
+        <tr><td colspan="3"><strong>Total gross income stream</strong></td><td class="green"><strong id="dyn-inc-total-annual">$20,126.46</strong></td><td class="green"><strong id="dyn-inc-total-monthly">$1,677.21</strong></td><td><span class="pill pill-gold">Current phase</span></td></tr>
+        <tr><td colspan="6" style="font-size:10px;color:var(--text-muted);padding-top:4px;">* FXE modeled at 0% for conservative income planning. Distributes accrued EUR deposit interest periodically (~2–3% when ECB rates positive); role here is USD→EUR hedge, not yield.</td></tr>
       </tbody>
     </table>
   </div>
@@ -1491,7 +1495,7 @@
     <div class="card">
       <div class="section-title" style="margin-top:0">Current holdings status</div>
       <div class="list">
-        <div class="row"><div class="label">Gross monthly income</div><div class="value green">$1,690.67</div></div>
+        <div class="row"><div class="label">Gross monthly income</div><div class="value green">$1,677.21</div></div>
         <div class="row"><div class="label">Tax set-aside · Y2+ (all sources)</div><div class="value red">$1,148/mo</div></div>
         <div class="row"><div class="label">Move services owed</div><div class="value red">$2,977.45</div></div>
         <div class="row"><div class="label">ETF holdings live</div><div class="value gold">Yes — purchased 04/13/2026</div></div>
@@ -1501,11 +1505,12 @@
     <div class="card">
       <div class="section-title" style="margin-top:0">Live dollar amounts</div>
       <div class="list">
-        <div class="row"><div class="label">SPYI</div><div class="value gold live-val" data-ticker="SPYI" data-shares="2339.000">$122,914.45</div></div>
-        <div class="row"><div class="label">SCHD</div><div class="value blue live-val" data-ticker="SCHD" data-shares="3128.000">$97,124.40</div></div>
-        <div class="row"><div class="label">SCHY</div><div class="value purple live-val" data-ticker="SCHY" data-shares="734.000">$24,075.20</div></div>
-        <div class="row"><div class="label">VMFXX</div><div class="value teal live-val" data-ticker="VMFXX" data-shares="50009.17">$50,009.17</div></div>
-        <div class="row"><div class="label"><strong>Total</strong></div><div class="value gold"><strong id="dyn-portfolio-total">$294,123.22</strong></div></div>
+        <div class="row"><div class="label">SPYI</div><div class="value gold live-val" data-ticker="SPYI" data-shares="2339.000">$121,651.16</div></div>
+        <div class="row"><div class="label">SCHD</div><div class="value blue live-val" data-ticker="SCHD" data-shares="2643.000">$81,933.26</div></div>
+        <div class="row"><div class="label">SCHY</div><div class="value purple live-val" data-ticker="SCHY" data-shares="734.000">$23,799.95</div></div>
+        <div class="row"><div class="label">FXE</div><div class="value live-val" data-ticker="FXE" data-shares="82.000" style="color:#ff9d54">$8,864.20</div></div>
+        <div class="row"><div class="label">VMFXX</div><div class="value teal live-val" data-ticker="VMFXX" data-shares="50000.11">$50,000.11</div></div>
+        <div class="row"><div class="label"><strong>Total</strong></div><div class="value gold"><strong id="dyn-portfolio-total">$286,248.68</strong></div></div>
       </div>
     </div>
   </div>
