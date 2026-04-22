@@ -1276,11 +1276,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const fmtShares = (n) => n >= 1000
                 ? n.toLocaleString('en-US', { maximumFractionDigits: 0 })
                 : n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+            // Fallback: read the static live-val element text when localStorage has no price yet.
+            const readStaticVal = (sym) => {
+                const el = document.querySelector('.live-val[data-ticker="' + sym + '"]');
+                if (!el) return 0;
+                const m = (el.textContent || '').match(/\$?([\d,]+\.?\d*)/);
+                return m ? parseFloat(m[1].replace(/,/g, '')) : 0;
+            };
             const mkChip = (t) => {
-                const price = t.cash ? 1 : parseFloat(localStorage.getItem(`price_${t.sym}`)) || 0;
+                let price = t.cash ? 1 : parseFloat(localStorage.getItem(`price_${t.sym}`));
                 const pcl = parseFloat(localStorage.getItem(`pclose_${t.sym}`)) || 0;
                 const d = parseFloat(localStorage.getItem(`dprice_${t.sym}`));
-                const val = t.cash ? t.shares : (price > 0 ? t.shares * price : 0);
+                let val;
+                if (t.cash) {
+                    val = t.shares;
+                } else if (isFinite(price) && price > 0) {
+                    val = t.shares * price;
+                } else {
+                    // No live price yet — fall back to static element value and derive price
+                    val = readStaticVal(t.sym);
+                    if (val > 0 && t.shares > 0) price = val / t.shares;
+                }
                 const monthly = (val * t.yld) / 12;
                 let chgClass = 'flat', arrow = '·', chgStr = '--';
                 if (t.cash) { chgClass = 'flat'; arrow = '≡'; chgStr = 'MMF'; }
@@ -1310,11 +1326,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     +   '<span class="pf-chip-mo">' + fmtMoney(monthly) + '</span>'
                     + '</span>';
             };
-            // Totals chip: full portfolio + aggregate monthly dividend
+            // Totals chip: full portfolio + aggregate monthly dividend (with static fallback)
             let totVal = 0, totMonthly = 0;
             tickers.forEach(t => {
-                const price = t.cash ? 1 : parseFloat(localStorage.getItem(`price_${t.sym}`)) || 0;
-                const v = t.cash ? t.shares : (price > 0 ? t.shares * price : 0);
+                const price = t.cash ? 1 : parseFloat(localStorage.getItem(`price_${t.sym}`));
+                let v;
+                if (t.cash) v = t.shares;
+                else if (isFinite(price) && price > 0) v = t.shares * price;
+                else v = readStaticVal(t.sym);
                 totVal += v;
                 totMonthly += (v * t.yld) / 12;
             });
