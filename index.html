@@ -1271,7 +1271,7 @@
   <div class="sp"></div>
   <div class="callout" style="background:rgba(240,148,77,0.08); border-left:4px solid var(--orange); padding:16px; border-radius:6px">
     <h2 style="color:var(--orange);margin:0 0 10px">⚠ Tax Planning Note</h2>
-    <p style="line-height:1.7;margin:0"><strong>Conservative tax assumption:</strong> $1,192/mo (Spain progressive rates, no Beckham Law)<br><strong>Optimistic scenario:</strong> $1,006/mo (Beckham Scenario B · Spanish-source)<br><strong>Best case:</strong> $546/mo (Beckham Scenario A · foreign-source, low probability)<br>See the <strong>Tax Exposure</strong> tab for the complete analysis.</p>
+    <p style="line-height:1.7;margin:0"><strong>Single-scenario plan (standard Spanish resident autonomo, no Beckham):</strong><br><strong>Year 1 (Jul 2026 – Jun 2027):</strong> $744/mo tax set-aside · RETA tarifa plana €80/mo (~$73) + Spain IRPF $647 + US tax $24<br><strong>Year 2+ (Jul 2027+):</strong> $1,071/mo tax set-aside · RETA €438/mo (~$402) + Spain IRPF $647 + US tax $24<br>See the <strong>Tax Exposure</strong> tab for the complete analysis.</p>
   </div>
   <div class="sp"></div>
   <div class="grid-2">
@@ -1294,7 +1294,8 @@
       <div class="section-title" style="margin-top:0">Plan at a glance</div>
       <div class="list">
         <div class="row"><div class="label">Gross dividends now</div><div class="value green">$1,691/mo</div></div>
-        <div class="row"><div class="label">Tax set-aside (conservative · Year 2+)</div><div class="value red">$1,192/mo</div></div>
+        <div class="row"><div class="label">Tax set-aside · Year 2+ (Jul 2027+)</div><div class="value red">$1,071/mo</div></div>
+        <div class="row"><div class="label">Tax set-aside · Year 1 (tarifa plana)</div><div class="value orange">$744/mo</div></div>
         <div class="row"><div class="label">Known move services owed</div><div class="value red">$2,977.45</div></div>
         <div class="row"><div class="label">Total invested holdings today</div><div class="value gold" id="dyn-plan-total">$294,123.22</div></div>
         <div class="row"><div class="label">SPYI balance</div><div class="value gold" id="dyn-plan-spyi">$122,914.45</div></div>
@@ -1359,7 +1360,7 @@
       <div class="section-title" style="margin-top:0">Current holdings status</div>
       <div class="list">
         <div class="row"><div class="label">Gross monthly income</div><div class="value green">$1,690.67</div></div>
-        <div class="row"><div class="label">Tax set-aside (conservative, all sources)</div><div class="value red">$1,192/mo</div></div>
+        <div class="row"><div class="label">Tax set-aside · Y2+ (all sources)</div><div class="value red">$1,071/mo</div></div>
         <div class="row"><div class="label">Move services owed</div><div class="value red">$2,977.45</div></div>
         <div class="row"><div class="label">ETF holdings live</div><div class="value gold">Yes — purchased 04/13/2026</div></div>
         <div class="row"><div class="label">VMFXX deploy timing</div><div class="value teal">Jun/Jul 2026 post-visa</div></div>
@@ -1380,7 +1381,7 @@
 
 <section id="page-budget" class="page">
   <div class="section-title">Monthly Budget · Spain Phase</div>
-  <div class="kpi-sub" style="margin:-6px 0 18px;color:var(--text-muted)">Spain bills entered in € (native), US bills in $ (native). Totals reconcile via live EUR/USD. RETA is phase-based: Year 1 tarifa plana ≈ €80, Year 2+ regular RETA ≈ €479 (not both).</div>
+  <div class="kpi-sub" style="margin:-6px 0 18px;color:var(--text-muted)">Spain bills entered in € (native), US bills in $ (native). Totals reconcile via live EUR/USD. RETA is phase-based: Year 1 tarifa plana €80/mo (Jul 2026 – Jun 2027), Year 2+ regular RETA €438/mo (Jul 2027+).</div>
   <div class="grid-4">
     <div class="card green-soft"><div class="kpi-label">VA Disability</div><div class="kpi-value green">$4,822</div><div class="kpi-sub">Core monthly foundation — guaranteed</div></div>
     <div class="card blue-soft"><div class="kpi-label">Emily Income</div><div class="kpi-value blue" style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;"><span style="opacity:0.95">$</span><input id="income-emily" type="number" inputmode="decimal" style="background:rgba(0,0,0,0.12); border:1px solid rgba(255,255,255,0.10); border-radius:12px; padding:8px 10px; color:var(--blue); font-family:'Trebuchet MS','Arial Black',sans-serif; font-weight:900; font-size:26px; width:160px; outline:none;" value="3500"></div><div class="kpi-sub">Gross monthly — 1099 contractor (Kickoff / EverFit Inc.)<br>$42,000/yr gross · $32,533/yr net after $9,467 business deductions</div></div>
@@ -1389,10 +1390,10 @@
   </div>
   <div class="sp"></div>
   <div class="grid-4">
-    <div class="card"><div class="kpi-label">Total Expenses</div><div class="kpi-value red" id="dyn-total-expenses">$7,478</div><div class="kpi-sub">Year 2+ regular RETA phase (excludes $1,192 tax set-aside — shown separately)</div></div>
-    <div class="card purple-soft"><div class="kpi-label">Tax Set-Aside</div><div class="kpi-value purple">$1,192</div><div class="kpi-sub">Conservative · Spain progressive, no Beckham (Scenario C)</div></div>
-    <div class="card blue-soft"><div class="kpi-label">Gross Dividends</div><div class="kpi-value blue">$1,691</div><div class="kpi-sub">Portfolio income · Spain-exempt under Beckham; US FTC/CTC offsets</div></div>
-    <div class="card green-soft"><div class="kpi-label">Monthly Surplus</div><div class="kpi-value green" id="dyn-monthly-surplus">$1,343</div><div class="kpi-sub">Year 2+ conservative (no Beckham) · $10,013 − $7,478 − $1,192 tax<br>Optimistic B: $1,529/mo · Best case A: $1,989/mo</div></div>
+    <div class="card"><div class="kpi-label">Total Expenses</div><div class="kpi-value red" id="dyn-total-expenses">$7,478</div><div class="kpi-sub">Year 2+ regular RETA phase (excludes $1,071 tax set-aside — shown separately)</div></div>
+    <div class="card purple-soft"><div class="kpi-label">Tax Set-Aside (Y2+)</div><div class="kpi-value purple">$1,071</div><div class="kpi-sub">RETA €438 + Spain IRPF + US tax · standard autonomo, no Beckham</div></div>
+    <div class="card blue-soft"><div class="kpi-label">Gross Dividends</div><div class="kpi-value blue">$1,691</div><div class="kpi-sub">Portfolio income · taxed at Spain progressive rates + US FTC/CTC offsets</div></div>
+    <div class="card green-soft"><div class="kpi-label">Monthly Surplus</div><div class="kpi-value green" id="dyn-monthly-surplus">$1,464</div><div class="kpi-sub">Year 2+ · $10,013 − $7,478 − $1,071 tax<br>Year 1 (tarifa plana) surplus: $1,791/mo</div></div>
   </div>
   <div class="sp"></div>
   <div class="grid-2">
@@ -1458,30 +1459,29 @@
         <tr><td>Currency risk buffer</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="currency_risk_buffer" value="200"></div></td></tr>
         <tr><td>Pharmacy & OTC healthcare</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="pharmacy_&_otc_healthcare" value="50"></div></td></tr>
         <tr><td><strong>Admin subtotal</strong></td><td><strong id="dyn-admin-subtotal">$585</strong></td></tr>
-        <tr><td colspan="2" style="font-size:10px;color:var(--text-muted);padding-top:8px;line-height:1.5">Tax set-aside ($1,192/mo) is shown separately in the KPI row above and the Year 2+ summary — it is <strong>not</strong> included in this admin subtotal. Breakdown: Spain RETA $522 + Spain income tax $647 + US tax $24. If Beckham approved, drops to $546–$1,006/mo.</td></tr>
+        <tr><td colspan="2" style="font-size:10px;color:var(--text-muted);padding-top:8px;line-height:1.5">Tax set-aside is shown separately in the KPI row above and the Year 2+ summary — <strong>not</strong> included in this admin subtotal. <strong>Year 2+ (Jul 2027+):</strong> $1,071/mo = Spain RETA €438 ($402) + Spain IRPF $647 + US tax $24. <strong>Year 1 (Jul 2026 – Jun 2027 tarifa plana):</strong> $744/mo = RETA €80 ($73) + IRPF $647 + US $24.</td></tr>
       </tbody></table>
     </div>
   </div>
   <div class="sp"></div>
   <div class="grid-2">
     <div class="card soft">
-      <div class="section-title" style="margin-top:0">Year 2+ — Spain phase summary (Conservative · No Beckham)</div>
+      <div class="section-title" style="margin-top:0">Year 2+ — Spain phase summary (Jul 2027+)</div>
       <div class="list">
         <div class="row"><div class="label">Total gross income</div><div class="value gold" id="dyn-total-gross-2">$10,013</div></div>
         <div class="row"><div class="label">Total expenses (excl. tax)</div><div class="value red" id="dyn-total-expenses-2">$7,478</div></div>
-        <div class="row"><div class="label">Tax set-aside (Scenario C)</div><div class="value purple">$1,192</div></div>
-        <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green" id="dyn-monthly-surplus-2"><strong>$1,343</strong></div></div>
-        <div class="row"><div class="label">Regular RETA built in</div><div class="value blue">$523 / ~€479</div></div>
-        <div class="row"><div class="label">Optimistic · Beckham B surplus</div><div class="value blue">$1,529/mo</div></div>
-        <div class="row"><div class="label">Best case · Beckham A surplus</div><div class="value green">$1,989/mo</div></div>
+        <div class="row"><div class="label">Tax set-aside (all sources)</div><div class="value purple">$1,071</div></div>
+        <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green" id="dyn-monthly-surplus-2"><strong>$1,464</strong></div></div>
+        <div class="row"><div class="label">RETA full rate (Y2+)</div><div class="value blue">$402 / €438</div></div>
       </div>
     </div>
     <div class="card blue-soft">
-      <div class="section-title" style="margin-top:0">Year 1 tarifa plana snapshot</div>
+      <div class="section-title" style="margin-top:0">Year 1 tarifa plana snapshot (Jul 2026 – Jun 2027)</div>
       <div class="list">
-        <div class="row"><div class="label">Tarifa plana instead of regular RETA</div><div class="value green">Save ~$436/mo</div></div>
-        <div class="row"><div class="label">Year 1 monthly expense base</div><div class="value gold">$7,192</div></div>
-        <div class="row"><div class="label">Year 1 monthly surplus</div><div class="value blue">$2,821</div></div>
+        <div class="row"><div class="label">RETA tarifa plana €80/mo vs €438 full rate</div><div class="value green">Save ~$329/mo</div></div>
+        <div class="row"><div class="label">Year 1 tax set-aside (all sources)</div><div class="value orange">$744/mo</div></div>
+        <div class="row"><div class="label">Year 1 monthly surplus</div><div class="value blue">$1,791</div></div>
+        <div class="row"><div class="label">Tarifa plana window</div><div class="value">12 consecutive months (non-renewable)</div></div>
       </div>
     </div>
   </div>
@@ -1753,28 +1753,20 @@
   <div class="section-title">Tax Exposure · US &amp; Spanish Obligations</div>
 
   <div class="callout" style="background:rgba(240,148,77,0.08); border-left:4px solid var(--orange); padding:16px; margin-bottom:20px; border-radius:6px">
-    <p style="margin:0;line-height:1.7"><strong>⚠ Planning Assumption:</strong> Conservative approach budgets for Spanish progressive rates (Scenario C). Beckham Law eligibility <strong>UNCERTAIN (25–30% chance)</strong> due to Emily's 1099 contractor status. All scenarios keep the household budget healthy — this tab shows the real bounds.</p>
+    <p style="margin:0;line-height:1.7"><strong>⚠ Single-scenario plan:</strong> standard Spanish resident autónomo · progressive IRPF (19–45%) · <strong>no Beckham Law</strong>. Rates are 2026-confirmed (frozen at 2025 levels). Tarifa plana runs Jul 2026 – Jun 2027, then full RETA rate from Jul 2027 onward.</p>
   </div>
 
-  <!-- Three-scenario KPI row -->
-  <div class="grid-3">
-    <div class="card green-soft">
-      <div class="kpi-label">Scenario A · Foreign-Source</div>
-      <div class="kpi-value green">$546/mo</div>
-      <div class="kpi-sub">Beckham + foreign-source · $6,547/yr · surplus $1,839/mo</div>
-      <div style="margin-top:10px"><span class="tax-badge tax-green">Best case · 5–10%</span></div>
-    </div>
+  <!-- Dual KPI row: Year 1 vs Year 2+ -->
+  <div class="grid-2">
     <div class="card" style="border-color:rgba(240,148,77,0.35); background:linear-gradient(135deg,rgba(240,148,77,0.06),rgba(255,255,255,0.01))">
-      <div class="kpi-label">Scenario B · Spanish-Source</div>
-      <div class="kpi-value orange">$1,006/mo</div>
-      <div class="kpi-sub">Beckham 24% flat · $12,073/yr · surplus $1,379/mo</div>
-      <div style="margin-top:10px"><span class="tax-badge tax-orange">Possible · 20–25%</span></div>
+      <div class="kpi-label">Year 1 · Jul 2026 – Jun 2027 (Tarifa Plana)</div>
+      <div class="kpi-value orange">$744/mo</div>
+      <div class="kpi-sub">RETA €80 ($73) + Spain IRPF $647 + US tax $24 · monthly surplus <strong>$1,791</strong></div>
     </div>
     <div class="card" style="border-color:rgba(224,85,85,0.4); background:linear-gradient(135deg,rgba(224,85,85,0.08),rgba(255,255,255,0.01))">
-      <div class="kpi-label">Scenario C · No Beckham</div>
-      <div class="kpi-value red">$1,192/mo</div>
-      <div class="kpi-sub">Spain progressive · $14,307/yr · surplus $1,193/mo</div>
-      <div style="margin-top:10px"><span class="tax-badge tax-red">Most likely · 65–75% ← PLAN</span></div>
+      <div class="kpi-label">Year 2+ · Jul 2027 onward (Full Rate)</div>
+      <div class="kpi-value red">$1,071/mo</div>
+      <div class="kpi-sub">RETA €438 ($402) + Spain IRPF $647 + US tax $24 · monthly surplus <strong>$1,464</strong></div>
     </div>
   </div>
 
@@ -1815,7 +1807,7 @@
         <div class="row"><div class="label">Taxable income</div><div class="value orange">$22,821</div></div>
         <div class="row"><div class="label">Federal tax (pre-CTC)</div><div class="value orange">~$2,282</div></div>
         <div class="row"><div class="label">Child Tax Credit</div><div class="value green">−$2,000</div></div>
-        <div class="row"><div class="label"><strong>Net US tax (varies by scenario)</strong></div><div class="value green"><strong>$0 to $282/yr</strong></div></div>
+        <div class="row"><div class="label"><strong>Net US tax</strong></div><div class="value green"><strong>~$282/yr (~$24/mo)</strong></div></div>
       </div>
     </div>
   </div>
@@ -1824,151 +1816,80 @@
   <div class="card green-soft">
     <div class="section-title" style="margin-top:0">Self-employment tax · exempt via Certificate of Coverage</div>
     <div class="kpi-value green">$0 US SE tax</div>
-    <div class="kpi-sub" style="margin-top:8px;line-height:1.7">Savings: <strong>$4,597/yr</strong>. Must obtain <em>"Certificado de legislación aplicable"</em> from Spanish Social Security (Tesorería General) after RETA registration. Submit with US tax return annually under the US-Spain Totalization Agreement (1988).</div>
+    <div class="kpi-sub" style="margin-top:8px;line-height:1.7">Savings: <strong>$4,597/yr</strong>. Must obtain <em>"Certificado de legislación aplicable"</em> from Spanish Social Security (Tesorería General) after RETA registration. Submit with US tax return annually under the US-Spain Totalization Agreement (1988). <strong>Standard RETA registration — not Beckham-related.</strong></div>
   </div>
 
   <div class="sp"></div>
   <div class="card teal-soft">
-    <div class="section-title" style="margin-top:0">🇪🇸 RETA · Spanish self-employed social security</div>
+    <div class="section-title" style="margin-top:0">🇪🇸 RETA · confirmed 2026–2027 rates</div>
     <table>
+      <thead><tr><th>Period</th><th>Monthly</th><th>Annual</th><th>USD</th></tr></thead>
       <tbody>
-        <tr><td><strong>Year 1 · Tarifa Plana</strong></td><td class="teal">€80/mo × 12 = <strong>$1,046/yr ($87/mo)</strong></td></tr>
-        <tr><td><strong>Year 2+ · Regular Rate</strong></td><td class="teal">€479/mo × 12 = <strong>$6,265/yr ($522/mo)</strong></td></tr>
+        <tr><td><strong>Jul 2026 – Jun 2027</strong> · Tarifa Plana (flat, first 12 months)</td><td class="teal">€80/mo</td><td class="teal">€960/yr</td><td class="teal">~$73/mo · ~$876/yr</td></tr>
+        <tr><td><strong>Jul 2027 onward</strong> · Full rate (€2,330–€3,190 profit bracket mid-range)</td><td class="teal">€438/mo</td><td class="teal">€5,256/yr</td><td class="teal">~$402/mo · ~$4,814/yr</td></tr>
       </tbody>
     </table>
+    <div class="kpi-sub" style="margin-top:8px"><strong>Tarifa plana</strong> is a flat €80/mo regardless of income for the first 12 consecutive months of RETA registration. Non-renewable without a 2–3 year gap. <strong>Full rate</strong> is income-based and ranges €426–€451/mo across the bracket.</div>
   </div>
 
   <div class="sp"></div>
-  <div class="section-title">Spanish income tax — three scenarios</div>
-
-  <!-- Scenario A -->
-  <div class="card green-soft" style="border:2px solid rgba(46,204,142,0.5)">
-    <div class="kpi-label" style="color:var(--green)">✦ Scenario A · Beckham + Foreign-Source (BEST CASE)</div>
-    <div class="kpi-sub" style="margin:6px 0 12px"><strong>Probability: 5–10%.</strong> Emily's remote work classified as foreign-source income under Beckham Law.</div>
-    <div class="list">
-      <div class="row"><div class="label">Spanish tax on Emily's income</div><div class="value green">$0/yr</div></div>
-      <div class="row"><div class="label">Spain RETA (Year 2+)</div><div class="value teal">$6,265/yr</div></div>
-      <div class="row"><div class="label">US tax (net after CTC)</div><div class="value">$282/yr</div></div>
-      <div class="row"><div class="label"><strong>Total Year 2+</strong></div><div class="value green"><strong>$6,547/yr · $546/mo</strong></div></div>
-      <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green"><strong>$1,839</strong></div></div>
-    </div>
-  </div>
-
-  <div class="sp"></div>
-
-  <!-- Scenario B -->
+  <div class="section-title">2026 tax obligations (Jul – Dec 2026, 6 months)</div>
   <div class="card" style="background:linear-gradient(135deg,rgba(240,148,77,0.06),rgba(255,255,255,0.01)); border:2px solid rgba(240,148,77,0.5)">
-    <div class="kpi-label" style="color:var(--orange)">✦ Scenario B · Beckham + Spanish-Source (POSSIBLE)</div>
-    <div class="kpi-sub" style="margin:6px 0 12px"><strong>Probability: 20–25%.</strong> Beckham approved but work performed in Spain classified as Spanish-source. Flat 24% applies.</div>
-    <div class="list">
-      <div class="row"><div class="label">Spanish tax · 24% × $32,533</div><div class="value orange">$7,808/yr</div></div>
-      <div class="row"><div class="label">Spain RETA (Year 2+)</div><div class="value teal">$6,265/yr</div></div>
-      <div class="row"><div class="label">US refund (FTC + CTC)</div><div class="value green">−$2,000/yr</div></div>
-      <div class="row"><div class="label"><strong>Total Year 2+</strong></div><div class="value orange"><strong>$12,073/yr · $1,006/mo</strong></div></div>
-      <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green"><strong>$1,379</strong></div></div>
+    <div class="kpi-label" style="color:var(--orange)">Partial-year obligations · Tarifa plana in effect</div>
+    <div class="list" style="margin-top:10px">
+      <div class="row"><div class="label">RETA (Tarifa Plana) · €80 × 6</div><div class="value teal">€480 · ~$523</div></div>
+      <div class="row"><div class="label">Spain IRPF on Emily's 6-month net income · ~€3,528</div><div class="value orange">~€2,106 · ~$2,296</div></div>
+      <div class="row"><div class="label">US tax (net after CTC) · prorated</div><div class="value">~$141</div></div>
+      <div class="row"><div class="label"><strong>Total Jul – Dec 2026</strong></div><div class="value orange"><strong>~$2,960</strong></div></div>
+      <div class="row"><div class="label">Effective monthly set-aside</div><div class="value orange">~$493/mo (below Y1 steady-state $744 due to partial-year IRPF &amp; standard-deduction arithmetic)</div></div>
+    </div>
+  </div>
+
+  <div class="sp"></div>
+  <div class="section-title">2027+ tax obligations (two phases)</div>
+
+  <!-- 2027 Jan – Jun -->
+  <div class="card" style="background:linear-gradient(135deg,rgba(240,148,77,0.06),rgba(255,255,255,0.01)); border:2px solid rgba(240,148,77,0.5)">
+    <div class="kpi-label" style="color:var(--orange)">Phase 1 · Jan – Jun 2027 · Still in Tarifa Plana (months 7–12)</div>
+    <div class="list" style="margin-top:10px">
+      <div class="row"><div class="label">RETA (Tarifa Plana)</div><div class="value teal">€80/mo · ~$73/mo</div></div>
+      <div class="row"><div class="label">Spain IRPF (6-month pro-rata on Emily's net)</div><div class="value orange">~$647/mo</div></div>
+      <div class="row"><div class="label">US tax (ongoing)</div><div class="value">~$24/mo</div></div>
+      <div class="row"><div class="label"><strong>Monthly set-aside</strong></div><div class="value orange"><strong>$744/mo</strong></div></div>
+      <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green"><strong>$1,791</strong></div></div>
     </div>
   </div>
 
   <div class="sp"></div>
 
-  <!-- Scenario C -->
+  <!-- 2027 Jul onward -->
   <div class="card" style="background:linear-gradient(135deg,rgba(224,85,85,0.08),rgba(255,255,255,0.01)); border:2px solid rgba(224,85,85,0.55)">
-    <div class="kpi-label" style="color:var(--red)">✦ Scenario C · NO Beckham — Progressive Rates (MOST LIKELY)</div>
-    <div class="kpi-sub" style="margin:6px 0 12px"><strong>Probability: 65–75% ← CONSERVATIVE PLANNING USES THIS.</strong> Emily does not qualify for Beckham Law due to 1099 contractor status.</div>
-    <div class="kpi-sub" style="margin-bottom:8px"><strong>Spanish progressive tax on €29,847 (= $32,533 net income):</strong></div>
+    <div class="kpi-label" style="color:var(--red)">Phase 2 · Jul 2027 onward · Full RETA rate (tarifa plana expired)</div>
+    <div class="kpi-sub" style="margin:6px 0 12px"><strong>Spanish progressive tax on €29,847 (= $32,533 net income):</strong></div>
     <div class="list" style="margin-bottom:12px">
       <div class="row"><div class="label">€0–€12,450 @ 19%</div><div class="value">€2,366</div></div>
       <div class="row"><div class="label">€12,450–€20,200 @ 24%</div><div class="value">€1,860</div></div>
       <div class="row"><div class="label">€20,200–€29,847 @ 30%</div><div class="value">€2,894</div></div>
-      <div class="row"><div class="label"><strong>Total</strong></div><div class="value red"><strong>€7,120 ≈ $7,760</strong></div></div>
+      <div class="row"><div class="label"><strong>Total IRPF</strong></div><div class="value red"><strong>€7,120 ≈ $7,760/yr ≈ $647/mo</strong></div></div>
     </div>
     <div class="list">
-      <div class="row"><div class="label">Spain RETA (Year 2+)</div><div class="value teal">$6,265/yr</div></div>
-      <div class="row"><div class="label">Spain progressive income tax</div><div class="value red">$7,760/yr</div></div>
-      <div class="row"><div class="label">US tax (net)</div><div class="value">$282/yr</div></div>
-      <div class="row"><div class="label"><strong>Total Year 2+</strong></div><div class="value red"><strong>$14,307/yr · $1,192/mo</strong></div></div>
-      <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green"><strong>$1,193 ← Budget uses this</strong></div></div>
+      <div class="row"><div class="label">Spain RETA (full rate)</div><div class="value teal">€438/mo · ~$402/mo · $4,814/yr</div></div>
+      <div class="row"><div class="label">Spain progressive income tax</div><div class="value red">$647/mo · $7,760/yr</div></div>
+      <div class="row"><div class="label">US tax (net after CTC)</div><div class="value">$24/mo · $282/yr</div></div>
+      <div class="row"><div class="label"><strong>Total Year 2+</strong></div><div class="value red"><strong>$12,856/yr · $1,071/mo</strong></div></div>
+      <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green"><strong>$1,464 ← Budget uses this</strong></div></div>
     </div>
   </div>
 
   <div class="sp"></div>
   <div class="callout" style="background:rgba(74,158,232,0.1); border-left:4px solid var(--blue); padding:16px; border-radius:6px">
     <h2 style="color:var(--blue);margin:0 0 10px">Recommended budget planning</h2>
-    <p style="margin:0;line-height:1.7"><strong>Use Scenario C (progressive rates) for conservative budgeting:</strong></p>
-    <ul style="margin:8px 0 10px 20px;line-height:1.7">
-      <li><strong>Monthly tax set-aside: $1,192</strong></li>
-      <li>If Beckham approved, treat savings as bonus</li>
-      <li>Protects against shortfalls and penalties</li>
+    <ul style="margin:0 0 10px 20px;line-height:1.7">
+      <li><strong>Year 1 monthly tax set-aside: $744</strong> (steady-state Jan–Jun 2027; Jul–Dec 2026 prorated average ~$493)</li>
+      <li><strong>Year 2+ monthly tax set-aside: $1,071</strong> (from Jul 2027)</li>
+      <li>Both phases leave a healthy monthly surplus ($1,791 Y1 · $1,464 Y2+)</li>
+      <li>Obtain the Certificate of Coverage immediately after RETA registration to eliminate $4,597/yr US SE tax</li>
     </ul>
-    <p style="margin:0;line-height:1.7"><strong>Difference between Scenario B and C: only $186/month</strong> — not worth significant legal risk or gestor fees. Budget works comfortably in all scenarios.</p>
-  </div>
-
-  <div class="sp"></div>
-  <div class="callout red">
-    <h2 style="color:var(--red)">⚠ Beckham Law eligibility — UNCERTAIN</h2>
-    <div class="grid-2" style="margin-top:12px">
-      <div class="list">
-        <div class="row"><div class="label" style="color:var(--green)"><strong>Helpful factors</strong></div><div class="value"></div></div>
-        <div class="row"><div class="label">Agreement titled "Employment Agreement"</div><div class="value green">✓</div></div>
-        <div class="row"><div class="label">2023 DNV law added remote workers</div><div class="value green">✓</div></div>
-        <div class="row"><div class="label">Ongoing single-client relationship</div><div class="value green">✓</div></div>
-      </div>
-      <div class="list">
-        <div class="row"><div class="label" style="color:var(--red)"><strong>Problematic factors</strong></div><div class="value"></div></div>
-        <div class="row"><div class="label">Contract says "independent contractor" (5+×)</div><div class="value red">✗</div></div>
-        <div class="row"><div class="label">Per-client payment ($60–70/client)</div><div class="value red">✗</div></div>
-        <div class="row"><div class="label">No salary or benefits</div><div class="value red">✗</div></div>
-        <div class="row"><div class="label">US 1099 tax treatment</div><div class="value red">✗</div></div>
-        <div class="row"><div class="label">Auth letter says "Self-Employed" / "cuenta propia"</div><div class="value red">✗</div></div>
-      </div>
-    </div>
-    <p style="margin-top:14px;line-height:1.7"><strong>Required actions before filing Modelo 149:</strong></p>
-    <ol style="margin:6px 0 0 20px;line-height:1.8">
-      <li>Consult gestor specializing in DNV + Beckham Law</li>
-      <li>Request revised authorization letter from Kickoff (remove "self-employed" language)</li>
-      <li>Get written assessment of success probability with current documents</li>
-      <li>Budget conservatively for Scenario C regardless of decision</li>
-    </ol>
-  </div>
-
-  <div class="sp"></div>
-  <div class="callout" style="background:rgba(224,85,85,0.12); border-left:4px solid var(--red); padding:16px; border-radius:6px">
-    <p style="margin:0;line-height:1.7"><strong>⚠ CRITICAL DEADLINE:</strong> Modelo 149 must be filed <strong>within 6 months of RETA registration</strong>. Missing this window means losing Beckham eligibility permanently.</p>
-  </div>
-
-  <div class="sp"></div>
-  <div class="callout teal">
-    <h2 style="color:var(--teal)">Certificate of Coverage · 3-step implementation plan</h2>
-    <p style="color:var(--text-muted);line-height:1.7">Official document from Spanish Social Security proving Emily is covered by Spain's RETA, exempting her from US self-employment tax under the US-Spain Totalization Agreement (1988). <strong>Not automatic — must be explicitly requested.</strong></p>
-    <div class="grid-3" style="margin-top:14px">
-      <div class="card">
-        <div class="kpi-label">Step 1 · Register with RETA (July 2026)</div>
-        <div class="kpi-sub" style="line-height:1.6;margin-top:8px">
-          <strong>Where:</strong> Tesorería General de la Seguridad Social (Valencia)<br>
-          <strong>Bring:</strong> NIE, US passport, work documentation<br>
-          <strong>Choose:</strong> Tarifa plana (€80/mo)<br>
-          <strong>Receive:</strong> RETA number
-        </div>
-      </div>
-      <div class="card">
-        <div class="kpi-label">Step 2 · Request the Certificate</div>
-        <div class="kpi-sub" style="line-height:1.6;margin-top:8px">
-          <strong>Say (ES):</strong> "Necesito un certificado de legislación aplicable para el convenio de totalización con Estados Unidos."<br>
-          <strong>Or:</strong> "Necesito el formulario ES/USA 1 del convenio bilateral de Seguridad Social."<br>
-          <strong>Docs:</strong> NIE, passport, RETA confirmation, client contract<br>
-          <strong>Processing:</strong> 2–6 weeks · mail or office pickup
-        </div>
-      </div>
-      <div class="card">
-        <div class="kpi-label">Step 3 · File with IRS (April 2027)</div>
-        <div class="kpi-sub" style="line-height:1.6;margin-top:8px">
-          <strong>Attach</strong> Certificate to Form 1040<br>
-          <strong>Include</strong> written statement of SE tax exemption<br>
-          <strong>Reference</strong> US-Spain Totalization Agreement<br>
-          <strong>Claim</strong> $0 self-employment tax on Schedule SE
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="sp"></div>
@@ -1977,18 +1898,17 @@
     <div class="card">
       <div class="section-title" style="margin-top:0">🇪🇸 Spain</div>
       <div class="list">
-        <div class="row"><div class="label">RETA · monthly</div><div class="value teal">€80 (Y1) / €479 (Y2+) · auto-debit</div></div>
-        <div class="row"><div class="label">Modelo 130 · quarterly (if Scenario B/C)</div><div class="value orange">Apr 20 · Jul 20 · Oct 20 · Jan 20 · 20% of net</div></div>
-        <div class="row"><div class="label">Modelo 100 · annual return</div><div class="value orange">Apr–Jun following tax year</div></div>
-        <div class="row"><div class="label">Modelo 149 · Beckham election</div><div class="value red">ONE-TIME · within 6 mo of RETA</div></div>
+        <div class="row"><div class="label">RETA · monthly auto-debit</div><div class="value teal">€80 (Jul 26 – Jun 27) · €438 (Jul 27+)</div></div>
+        <div class="row"><div class="label">Modelo 130 · quarterly IRPF payments</div><div class="value orange">Apr 20 · Jul 20 · Oct 20 · Jan 20 · 20% of net</div></div>
+        <div class="row"><div class="label">Modelo 100 · annual IRPF return</div><div class="value orange">Apr–Jun following tax year</div></div>
       </div>
     </div>
     <div class="card">
       <div class="section-title" style="margin-top:0">🇺🇸 United States</div>
       <div class="list">
         <div class="row"><div class="label">Form 1040 + Schedules C/SE/8812/1116</div><div class="value orange">Due Jun 15 (auto 2-mo expat extension)</div></div>
-        <div class="row"><div class="label">Expected outcome</div><div class="value">$282 owed → $2,000 refund (scenario-dependent)</div></div>
-        <div class="row"><div class="label"><strong>Attach Certificate of Coverage</strong></div><div class="value red"><strong>Saves $4,597 SE tax</strong></div></div>
+        <div class="row"><div class="label">Expected outcome</div><div class="value">~$282/yr owed (net of CTC)</div></div>
+        <div class="row"><div class="label"><strong>Attach Certificate of Coverage</strong></div><div class="value red"><strong>Saves $4,597/yr SE tax</strong></div></div>
         <div class="row"><div class="label">FBAR · FinCEN 114</div><div class="value red">If foreign accts &gt; $10K · Apr 15 (auto Oct 15)</div></div>
         <div class="row"><div class="label">Form 8938 · FATCA</div><div class="value red">If assets &gt; $400K EOY / $600K anytime (MFJ abroad)</div></div>
       </div>
@@ -1997,16 +1917,16 @@
 
   <div class="sp"></div>
   <div class="card">
-    <div class="section-title" style="margin-top:0">💰 Monthly tax summary · Year 2+</div>
+    <div class="section-title" style="margin-top:0">💰 Monthly tax summary</div>
     <table>
-      <thead><tr><th>Scenario</th><th>Monthly Tax</th><th>Monthly Surplus</th><th>Budget Status</th></tr></thead>
+      <thead><tr><th>Period</th><th>RETA</th><th>Spain IRPF</th><th>US Tax</th><th>Total</th><th>Surplus</th></tr></thead>
       <tbody>
-        <tr><td><strong>Scenario A</strong> (foreign-source)</td><td class="green">$546</td><td class="green">$1,839</td><td class="green">✓ Excellent</td></tr>
-        <tr><td><strong>Scenario B</strong> (Spanish-source)</td><td class="orange">$1,006</td><td class="green">$1,379</td><td class="green">✓ Strong</td></tr>
-        <tr style="background:rgba(224,85,85,0.08)"><td><strong>Scenario C</strong> (no Beckham)</td><td class="red">$1,192</td><td class="green">$1,193</td><td class="green">✓ Works ← PLAN WITH THIS</td></tr>
+        <tr><td><strong>Jul – Dec 2026</strong> (tarifa plana, partial year)</td><td class="teal">€80 · $73</td><td class="orange">~$380</td><td>~$24</td><td class="orange">~$493/mo avg</td><td class="green">~$2,042</td></tr>
+        <tr><td><strong>Jan – Jun 2027</strong> (tarifa plana, full year run-rate)</td><td class="teal">€80 · $73</td><td class="orange">$647</td><td>$24</td><td class="orange">$744</td><td class="green">$1,791</td></tr>
+        <tr style="background:rgba(224,85,85,0.08)"><td><strong>Jul 2027 onward</strong> · full RETA rate</td><td class="teal">€438 · $402</td><td class="red">$647</td><td>$24</td><td class="red">$1,071</td><td class="green">$1,464</td></tr>
       </tbody>
     </table>
-    <p style="margin-top:10px;color:var(--text-muted)"><strong>Conservative planning uses Scenario C. Budget works in all scenarios.</strong></p>
+    <p style="margin-top:10px;color:var(--text-muted)"><strong>Budget set-asides</strong> use the $1,071/mo Year 2+ figure for conservative long-term planning. Year 1 runs with a larger cushion.</p>
   </div>
 
   <div class="sp"></div>
@@ -2015,26 +1935,27 @@
     <div class="card">
       <div class="section-title" style="margin-top:0">Before departure · June 2026</div>
       <div class="list">
-        <div class="row"><div class="label">Request revised Kickoff authorization letter</div><div class="value orange">☐</div></div>
-        <div class="row"><div class="label">Consult gestor about Beckham eligibility</div><div class="value orange">☐</div></div>
-        <div class="row"><div class="label">Decide whether to pursue Modelo 149</div><div class="value orange">☐</div></div>
+        <div class="row"><div class="label">Hire Spanish gestor (autónomo specialist)</div><div class="value orange">☐</div></div>
+        <div class="row"><div class="label">Hire cross-border US tax advisor</div><div class="value orange">☐</div></div>
+        <div class="row"><div class="label">Confirm RETA profit bracket estimate</div><div class="value orange">☐</div></div>
       </div>
     </div>
     <div class="card">
       <div class="section-title" style="margin-top:0">After arrival · July 2026</div>
       <div class="list">
-        <div class="row"><div class="label">Register with RETA</div><div class="value orange">☐</div></div>
+        <div class="row"><div class="label">Register RETA (tarifa plana €80/mo)</div><div class="value orange">☐</div></div>
         <div class="row"><div class="label"><strong>Immediately request Certificate of Coverage</strong> (not automatic)</div><div class="value red">☐</div></div>
-        <div class="row"><div class="label">File Modelo 149 if pursuing Beckham (within 6 mo of RETA)</div><div class="value orange">☐</div></div>
+        <div class="row"><div class="label">Open Spanish bank account for RETA auto-debit</div><div class="value orange">☐</div></div>
       </div>
     </div>
     <div class="card">
       <div class="section-title" style="margin-top:0">Ongoing compliance</div>
       <div class="list">
-        <div class="row"><div class="label">File quarterly Modelo 130 (Scenario B/C)</div><div class="value">☐</div></div>
+        <div class="row"><div class="label">File quarterly Modelo 130 (IRPF pagos fraccionados)</div><div class="value">☐</div></div>
         <div class="row"><div class="label">Submit Certificate with annual US 1040</div><div class="value">☐</div></div>
         <div class="row"><div class="label">File annual Modelo 100 (Spain)</div><div class="value">☐</div></div>
         <div class="row"><div class="label">File annual Form 1040 (US) by Jun 15</div><div class="value">☐</div></div>
+        <div class="row"><div class="label">Watch for Jul 2027 RETA step-up (€80 → €438)</div><div class="value red">☐</div></div>
       </div>
     </div>
   </div>
@@ -2043,13 +1964,15 @@
   <div class="card" style="background:rgba(255,255,255,0.02);border-style:dashed">
     <div class="section-title" style="margin-top:0;font-size:14px;color:var(--text-muted)">Notes &amp; assumptions</div>
     <div class="kpi-sub" style="line-height:1.7;color:var(--text-muted)">
-      • <strong>Exchange rate:</strong> 1 EUR = 1.09 USD (planning rate)<br>
+      • <strong>Exchange rate:</strong> 1 EUR ≈ 1.09 USD (USD values use planning conversion of €438 ≈ $402, €80 ≈ $73)<br>
       • <strong>2026 MFJ brackets:</strong> 10% to $23,200 · 12% to $94,300 · 22% to $201,050<br>
       • <strong>Standard deduction:</strong> $30,000 (MFJ) · <strong>Qualified div 0% rate:</strong> below $96,700 MFJ<br>
-      • <strong>RETA base:</strong> €3,190–€3,620/mo bracket · <strong>Tarifa plana:</strong> €80/mo first 12 months<br>
-      • <strong>US-Spain Totalization Agreement (1988):</strong> in full effect for 2026 · Certificate of Coverage required<br>
-      • <strong>EverFit Inc.:</strong> Delaware corporation · no Spanish presence (strengthens Scenario A case)<br>
-      • <strong>Disclaimer:</strong> Tax laws change. Consult cross-border advisor + Spanish gestor before filing. This analysis is for planning purposes only.
+      • <strong>RETA 2026 rates:</strong> confirmed · no increase from 2025 · frozen throughout 2026<br>
+      • <strong>RETA Year 2+ bracket:</strong> €2,330–€3,190 monthly net profit · €426–€451/mo range · €438 used as mid-range<br>
+      • <strong>Tarifa plana:</strong> flat €80/mo for the first 12 consecutive months · non-renewable without 2–3 year waiting period<br>
+      • <strong>US-Spain Totalization Agreement (1988):</strong> Certificate of Coverage required to exempt US SE tax<br>
+      • <strong>No Beckham Law election:</strong> Emily files as standard resident autónomo · progressive IRPF 19–45%<br>
+      • <strong>Disclaimer:</strong> Tax laws change. Confirm final figures with cross-border advisor + Spanish gestor before filing.
     </div>
   </div>
 
@@ -2184,8 +2107,8 @@
 
 <section id="page-spain" class="page">
   <div class="callout blue" style="margin-bottom:18px">
-    <h2>RETA 2026 planning assumption</h2>
-    <p>Dashboard now assumes Emily qualifies for tarifa plana at ~€80/month (~$87) for months 1–12, then shifts to the regular RETA estimate of ~€479/month (~$523) from month 13 onward based on ~€3,211/month net income and the minimum base in the €3,190–€3,620 bracket.</p>
+    <h2>RETA 2026–2027 planning (confirmed rates)</h2>
+    <p>Dashboard assumes Emily qualifies for tarifa plana at <strong>€80/month (~$73)</strong> for the first 12 months (Jul 2026 – Jun 2027), then shifts to the full rate of <strong>€438/month (~$402)</strong> from Jul 2027 onward (mid-range for the €2,330–€3,190 monthly profit bracket on ~$32,000–$40,000 net income). Full rates frozen at 2025 levels through 2026. Tarifa plana is non-renewable without a 2–3 year waiting period. Standard resident autónomo · progressive IRPF (no Beckham).</p>
   </div>
   <div class="section-title">Spain Move Plan</div>
   <div class="grid-2">
@@ -2288,9 +2211,7 @@
         <div class="check" data-doc="reta_signed"><span>Reta document signed by applicant</span><span class="status done">Confirmed</span></div>
         <div class="check" data-doc="self_employment_origin"><span>Self-employment registration in the origin</span><span class="status pending">Pending</span></div>
         <div class="check" data-doc="social_security_cert"><span>Social security certificate</span><span class="status done">Confirmed</span></div>
-        <div class="check" data-doc="certificate_of_coverage"><span>Certificate of Coverage (Spanish SS)<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Request "Certificado de legislación aplicable" after RETA registration — NOT automatic. Saves $4,597/yr US SE tax.</div></span><span class="status pending">Pending</span></div>
-        <div class="check" data-doc="modelo_149_decision"><span>Modelo 149 decision (Beckham Law)<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Consult gestor first — file within 6 months of RETA if pursuing Beckham. Uncertain eligibility (25–30%).</div></span><span class="status pending">Pending</span></div>
-        <div class="check" data-doc="kickoff_auth_letter_revised"><span>Revised Kickoff authorization letter<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Request removal of "self-employed" / "trabajadores por cuenta propia" language to strengthen Beckham eligibility.</div></span><span class="status pending">Pending</span></div>
+        <div class="check" data-doc="certificate_of_coverage"><span>Certificate of Coverage (Spanish SS)<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Request "Certificado de legislación aplicable" after RETA registration — NOT automatic. Saves $4,597/yr US SE tax. Standard RETA registration, not Beckham-related.</div></span><span class="status pending">Pending</span></div>
       </div>
     </div>
     <div class="card">
@@ -2300,9 +2221,8 @@
         <div class="timeline-item"><div class="date">Apr 20, 2026</div><div class="text">VMS acceptance deadline</div><div class="sub">Return signed acceptance to secure son's spot. Alboraya/La Patacona housing evaluation pending bus route confirmation.</div></div>
         <div class="timeline-item"><div class="date">Jun 14, 2026</div><div class="text">Departure date</div><div class="sub">Family departs Florida for Valencia. BMW i3 sale to sister in Colorado coordinated separately.</div></div>
         <div class="timeline-item"><div class="date">Jun/Jul 2026</div><div class="text">Deploy VMFXX — redeploy ~$50K into 50/40/10 mix</div><div class="sub">After visa process clears. Retain $3–4K cash float to cover quarterly dividend smoothing.</div></div>
-        <div class="timeline-item"><div class="date">Jul 2026</div><div class="text">Request Certificate of Coverage</div><div class="sub"><strong>CRITICAL:</strong> Not automatic. Must explicitly request "Certificado de legislación aplicable para el convenio de totalización con Estados Unidos" from Tesorería General de la Seguridad Social. Saves $4,597/yr in US self-employment tax.</div></div>
-        <div class="timeline-item"><div class="date">Within 6 months of RETA registration</div><div class="text">DECIDE: File Modelo 149 for Beckham Law?</div><div class="sub">Consult gestor first. Eligibility uncertain (25–30%) due to 1099 contractor status. Budget conservatively for progressive rates ($1,192/mo) regardless of decision. Missing 6-month window = permanent loss of Beckham eligibility.</div></div>
-        <div class="timeline-item"><div class="date">Within 6 months of SS registration</div><div class="text">File Beckham Law — Modelo 149</div><div class="sub">High priority. Locks in 24% flat rate on Spanish-source income and exempts foreign income.</div></div>
+        <div class="timeline-item"><div class="date">Jul 2026</div><div class="text">Register RETA (tarifa plana) + request Certificate of Coverage</div><div class="sub"><strong>CRITICAL:</strong> CoC is not automatic. Must explicitly request "Certificado de legislación aplicable para el convenio de totalización con Estados Unidos" from Tesorería General de la Seguridad Social. Saves $4,597/yr in US self-employment tax. Tarifa plana €80/mo locks in for 12 consecutive months.</div></div>
+        <div class="timeline-item"><div class="date">Jul 2027</div><div class="text">Tarifa plana expires → full RETA rate begins</div><div class="sub">After 12 months the discounted €80/mo ends. Regular rate of €438/mo (mid-range for €2,330–€3,190 profit bracket) kicks in automatically. Tax set-aside steps up from $744 to $1,071/mo.</div></div>
         <div class="timeline-item"><div class="date">Jun 2028</div><div class="text">Switch to full DRIP + $1,000/mo contributions</div><div class="sub">Phase 2 begins. Compounding machine turns on.</div></div>
         <div class="timeline-item"><div class="date">Jun 2032</div><div class="text">Oakland Park sale · Portfolio consolidation</div><div class="sub">~$458K proceeds reinvested. Portfolio hits ~$944K. Dividends reach ~$6,103/mo.</div></div>
       </div>
@@ -2311,7 +2231,7 @@
   <div class="sp"></div>
   <div class="callout">
     <h2>Spain move focus</h2>
-    <p>All financial tracks are aligned. The portfolio is live, the move budget is intact, the deposit strategy is mapped, and the six-year execution path is clear. The next critical action items are the VMS acceptance (Apr 20), the Beckham filing window after Social Security registration, and the VMFXX redeployment in Jun/Jul 2026.</p>
+    <p>All financial tracks are aligned. The portfolio is live, the move budget is intact, the deposit strategy is mapped, and the six-year execution path is clear. The next critical action items are the VMS acceptance (Apr 20), RETA registration + Certificate of Coverage request in July 2026, and the VMFXX redeployment in Jun/Jul 2026.</p>
   </div>
 </section>
 
@@ -2409,11 +2329,11 @@
   <div class="card soft">
     <div class="section-title" style="margin-top:0">Tax assumptions for 2032</div>
     <div class="list">
-      <div class="row"><div class="label">Spanish tax rate regime</div><div class="value">Progressive rates assumed throughout projections</div></div>
+      <div class="row"><div class="label">Spanish tax regime</div><div class="value">Standard resident autonomo · progressive IRPF (19–45%)</div></div>
       <div class="row"><div class="label">VA disability</div><div class="value green">Tax-exempt in perpetuity (US & Spain)</div></div>
-      <div class="row"><div class="label">Emily's income</div><div class="value orange">Subject to Spanish tax · rate TBD (Beckham outcome)</div></div>
-      <div class="row"><div class="label">Dividend taxation</div><div class="value green">Remains low · tax-efficient portfolio structure</div></div>
-      <div class="row"><div class="label">Budget projection robustness</div><div class="value green">Works across all tax scenarios</div></div>
+      <div class="row"><div class="label">Emily's income</div><div class="value orange">Subject to Spanish progressive IRPF</div></div>
+      <div class="row"><div class="label">Dividend taxation</div><div class="value green">Spanish savings-income rates; US FTC/CTC offsets</div></div>
+      <div class="row"><div class="label">RETA Year 2+</div><div class="value blue">€438/mo mid-bracket assumption</div></div>
     </div>
   </div>
 </section>

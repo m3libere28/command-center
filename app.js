@@ -876,9 +876,10 @@ document.addEventListener('DOMContentLoaded', () => {
         writeDual(dynExp2, totalExpenses);
 
         // Tax set-aside is kept outside the budget inputs so the admin subtotal
-        // represents lifestyle/admin only. The conservative Scenario C tax is
-        // deducted here so the displayed surplus reflects real cash flow.
-        const TAX_SETASIDE_MO = 1192;
+        // represents lifestyle/admin only. The Year 2+ (Jul 2027+) tax set-aside
+        // is deducted here so the displayed surplus reflects real cash flow.
+        // Standard resident autonomo · progressive IRPF · no Beckham election.
+        const TAX_SETASIDE_MO = 1071;
         const dynSurp1 = document.getElementById('dyn-monthly-surplus');
         const dynSurp2 = document.getElementById('dyn-monthly-surplus-2');
         writeDual(dynSurp1, totalGross - totalExpenses - TAX_SETASIDE_MO);
