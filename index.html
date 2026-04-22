@@ -1390,10 +1390,10 @@
   </div>
   <div class="sp"></div>
   <div class="grid-4">
-    <div class="card"><div class="kpi-label">Total Expenses</div><div class="kpi-value red" id="dyn-total-expenses">$7,478</div><div class="kpi-sub">Year 2+ regular RETA phase (excludes $1,071 tax set-aside — shown separately)</div></div>
+    <div class="card"><div class="kpi-label">Total Expenses</div><div class="kpi-value red" id="dyn-total-expenses">$6,869</div><div class="kpi-sub">Lifestyle + operational — excludes RETA and all taxes (those live in the Tax Set-Aside card)</div></div>
     <div class="card purple-soft"><div class="kpi-label">Tax Set-Aside (Y2+)</div><div class="kpi-value purple">$1,071</div><div class="kpi-sub">RETA €438 + Spain IRPF + US tax · standard autonomo, no Beckham</div></div>
     <div class="card blue-soft"><div class="kpi-label">Gross Dividends</div><div class="kpi-value blue">$1,691</div><div class="kpi-sub">Portfolio income · taxed at Spain progressive rates + US FTC/CTC offsets</div></div>
-    <div class="card green-soft"><div class="kpi-label">Monthly Surplus</div><div class="kpi-value green" id="dyn-monthly-surplus">$1,464</div><div class="kpi-sub">Year 2+ · $10,013 − $7,478 − $1,071 tax<br>Year 1 (tarifa plana) surplus: $1,791/mo</div></div>
+    <div class="card green-soft"><div class="kpi-label">Monthly Surplus</div><div class="kpi-value green" id="dyn-monthly-surplus">$2,073</div><div class="kpi-sub">Year 2+ · $10,013 − $6,869 − $1,071 tax<br>Year 1 (tarifa plana) surplus: $2,400/mo</div></div>
   </div>
   <div class="sp"></div>
   <div class="grid-2">
@@ -1407,15 +1407,13 @@
         <tr><td>Transport & travel</td><td><div class="input-wrap"><span>€</span><input type="number" class="budget-input" data-cat="transport_&_travel" data-cur="eur" value="229"></div></td></tr>
         <tr><td>Utilities + internet</td><td><div class="input-wrap"><span>€</span><input type="number" class="budget-input" data-cat="utilities_+_internet" data-cur="eur" value="183"></div></td></tr>
         <tr><td>Summer AC seasonal avg</td><td><div class="input-wrap"><span>€</span><input type="number" class="budget-input" data-cat="summer_ac_seasonal_avg" data-cur="eur" value="69"></div></td></tr>
-        <tr><td>RETA social security</td><td><div class="input-wrap"><span>€</span><input type="number" class="budget-input" data-cat="reta_social_security" data-cur="eur" value="479"></div></td></tr>
-        <tr><td>Year 1 tarifa plana</td><td><div class="input-wrap"><span>€</span><input type="number" class="budget-input" data-cat="year_1_tarifa_plana" data-cur="eur" value="80"></div> <span style="color:var(--text-muted);font-size:10px">(first 12 months)</span></td></tr>
         <tr><td>2 Spain phone plans</td><td><div class="input-wrap"><span>€</span><input type="number" class="budget-input" data-cat="2_spain_phone_plans" data-cur="eur" value="73"></div></td></tr>
         <tr><td>Entertainment / misc</td><td><div class="input-wrap"><span>€</span><input type="number" class="budget-input" data-cat="entertainment_/_misc" data-cur="eur" value="275"></div></td></tr>
         <tr><td>Gym — Helbert</td><td><div class="input-wrap"><span>€</span><input type="number" class="budget-input" data-cat="gym_—_helbert" data-cur="eur" value="50"></div></td></tr>
         <tr><td>Emily Therapy</td><td><div class="input-wrap"><span>€</span><input type="number" class="budget-input" data-cat="emily_therapy" data-cur="eur" value="92"></div></td></tr>
-        <tr><td><strong>Spain subtotal</strong></td><td><strong id="dyn-spain-subtotal">$5,411</strong></td></tr>
+        <tr><td><strong>Spain subtotal</strong></td><td><strong id="dyn-spain-subtotal">$4,802</strong></td></tr>
       </tbody></table>
-      <div class="kpi-sub" style="margin-top:12px">Regular ongoing Spain subtotal uses full RETA (€479). During Emily's first 12 months on tarifa plana, subtract about €399/month.</div>
+      <div class="kpi-sub" style="margin-top:12px">RETA is <strong>not</strong> included here — it lives in the Tax Set-Aside KPI (€80/mo during Jul 2026 – Jun 2027 tarifa plana, then €438/mo from Jul 2027 onward). Keeps budget and tax buckets from double-counting.</div>
     </div>
     <div class="card">
       <div class="section-title" style="margin-top:0">US carrying costs (temp)</div>
@@ -1459,7 +1457,7 @@
         <tr><td>Currency risk buffer</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="currency_risk_buffer" value="200"></div></td></tr>
         <tr><td>Pharmacy & OTC healthcare</td><td><div class="input-wrap"><span>$</span><input type="number" class="budget-input" data-cat="pharmacy_&_otc_healthcare" value="50"></div></td></tr>
         <tr><td><strong>Admin subtotal</strong></td><td><strong id="dyn-admin-subtotal">$585</strong></td></tr>
-        <tr><td colspan="2" style="font-size:10px;color:var(--text-muted);padding-top:8px;line-height:1.5">Tax set-aside is shown separately in the KPI row above and the Year 2+ summary — <strong>not</strong> included in this admin subtotal. <strong>Year 2+ (Jul 2027+):</strong> $1,071/mo = Spain RETA €438 ($402) + Spain IRPF $647 + US tax $24. <strong>Year 1 (Jul 2026 – Jun 2027 tarifa plana):</strong> $744/mo = RETA €80 ($73) + IRPF $647 + US $24.</td></tr>
+        <tr><td colspan="2" style="font-size:10px;color:var(--text-muted);padding-top:8px;line-height:1.5">Admin subtotal is lifestyle/admin only. <strong>RETA + all taxes</strong> are tracked in the Tax Set-Aside KPI, not here. <strong>Year 2+ (Jul 2027+):</strong> $1,071/mo = Spain RETA €438 ($402) + Spain IRPF $647 + US tax $24. <strong>Year 1 (Jul 2026 – Jun 2027 tarifa plana):</strong> $744/mo = RETA €80 ($73) + IRPF $647 + US $24.</td></tr>
       </tbody></table>
     </div>
   </div>
@@ -1469,18 +1467,18 @@
       <div class="section-title" style="margin-top:0">Year 2+ — Spain phase summary (Jul 2027+)</div>
       <div class="list">
         <div class="row"><div class="label">Total gross income</div><div class="value gold" id="dyn-total-gross-2">$10,013</div></div>
-        <div class="row"><div class="label">Total expenses (excl. tax)</div><div class="value red" id="dyn-total-expenses-2">$7,478</div></div>
-        <div class="row"><div class="label">Tax set-aside (all sources)</div><div class="value purple">$1,071</div></div>
-        <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green" id="dyn-monthly-surplus-2"><strong>$1,464</strong></div></div>
-        <div class="row"><div class="label">RETA full rate (Y2+)</div><div class="value blue">$402 / €438</div></div>
+        <div class="row"><div class="label">Total expenses (lifestyle, excl. RETA &amp; tax)</div><div class="value red" id="dyn-total-expenses-2">$6,869</div></div>
+        <div class="row"><div class="label">Tax set-aside (RETA + IRPF + US)</div><div class="value purple">$1,071</div></div>
+        <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green" id="dyn-monthly-surplus-2"><strong>$2,073</strong></div></div>
+        <div class="row"><div class="label">RETA full rate (Y2+) · in tax bucket</div><div class="value blue">$402 / €438</div></div>
       </div>
     </div>
     <div class="card blue-soft">
       <div class="section-title" style="margin-top:0">Year 1 tarifa plana snapshot (Jul 2026 – Jun 2027)</div>
       <div class="list">
         <div class="row"><div class="label">RETA tarifa plana €80/mo vs €438 full rate</div><div class="value green">Save ~$329/mo</div></div>
-        <div class="row"><div class="label">Year 1 tax set-aside (all sources)</div><div class="value orange">$744/mo</div></div>
-        <div class="row"><div class="label">Year 1 monthly surplus</div><div class="value blue">$1,791</div></div>
+        <div class="row"><div class="label">Year 1 tax set-aside (RETA + IRPF + US)</div><div class="value orange">$744/mo</div></div>
+        <div class="row"><div class="label">Year 1 monthly surplus</div><div class="value blue">$2,400</div></div>
         <div class="row"><div class="label">Tarifa plana window</div><div class="value">12 consecutive months (non-renewable)</div></div>
       </div>
     </div>
@@ -1761,12 +1759,12 @@
     <div class="card" style="border-color:rgba(240,148,77,0.35); background:linear-gradient(135deg,rgba(240,148,77,0.06),rgba(255,255,255,0.01))">
       <div class="kpi-label">Year 1 · Jul 2026 – Jun 2027 (Tarifa Plana)</div>
       <div class="kpi-value orange">$744/mo</div>
-      <div class="kpi-sub">RETA €80 ($73) + Spain IRPF $647 + US tax $24 · monthly surplus <strong>$1,791</strong></div>
+      <div class="kpi-sub">RETA €80 ($73) + Spain IRPF $647 + US tax $24 · monthly surplus <strong>$2,400</strong></div>
     </div>
     <div class="card" style="border-color:rgba(224,85,85,0.4); background:linear-gradient(135deg,rgba(224,85,85,0.08),rgba(255,255,255,0.01))">
       <div class="kpi-label">Year 2+ · Jul 2027 onward (Full Rate)</div>
       <div class="kpi-value red">$1,071/mo</div>
-      <div class="kpi-sub">RETA €438 ($402) + Spain IRPF $647 + US tax $24 · monthly surplus <strong>$1,464</strong></div>
+      <div class="kpi-sub">RETA €438 ($402) + Spain IRPF $647 + US tax $24 · monthly surplus <strong>$2,073</strong></div>
     </div>
   </div>
 
@@ -1856,7 +1854,7 @@
       <div class="row"><div class="label">Spain IRPF (6-month pro-rata on Emily's net)</div><div class="value orange">~$647/mo</div></div>
       <div class="row"><div class="label">US tax (ongoing)</div><div class="value">~$24/mo</div></div>
       <div class="row"><div class="label"><strong>Monthly set-aside</strong></div><div class="value orange"><strong>$744/mo</strong></div></div>
-      <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green"><strong>$1,791</strong></div></div>
+      <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green"><strong>$2,400</strong></div></div>
     </div>
   </div>
 
@@ -1877,7 +1875,7 @@
       <div class="row"><div class="label">Spain progressive income tax</div><div class="value red">$647/mo · $7,760/yr</div></div>
       <div class="row"><div class="label">US tax (net after CTC)</div><div class="value">$24/mo · $282/yr</div></div>
       <div class="row"><div class="label"><strong>Total Year 2+</strong></div><div class="value red"><strong>$12,856/yr · $1,071/mo</strong></div></div>
-      <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green"><strong>$1,464 ← Budget uses this</strong></div></div>
+      <div class="row"><div class="label"><strong>Monthly surplus</strong></div><div class="value green"><strong>$2,073 ← Budget uses this</strong></div></div>
     </div>
   </div>
 
@@ -1887,7 +1885,7 @@
     <ul style="margin:0 0 10px 20px;line-height:1.7">
       <li><strong>Year 1 monthly tax set-aside: $744</strong> (steady-state Jan–Jun 2027; Jul–Dec 2026 prorated average ~$493)</li>
       <li><strong>Year 2+ monthly tax set-aside: $1,071</strong> (from Jul 2027)</li>
-      <li>Both phases leave a healthy monthly surplus ($1,791 Y1 · $1,464 Y2+)</li>
+      <li>Both phases leave a healthy monthly surplus ($2,400 Y1 · $2,073 Y2+)</li>
       <li>Obtain the Certificate of Coverage immediately after RETA registration to eliminate $4,597/yr US SE tax</li>
     </ul>
   </div>
@@ -1921,9 +1919,9 @@
     <table>
       <thead><tr><th>Period</th><th>RETA</th><th>Spain IRPF</th><th>US Tax</th><th>Total</th><th>Surplus</th></tr></thead>
       <tbody>
-        <tr><td><strong>Jul – Dec 2026</strong> (tarifa plana, partial year)</td><td class="teal">€80 · $73</td><td class="orange">~$380</td><td>~$24</td><td class="orange">~$493/mo avg</td><td class="green">~$2,042</td></tr>
-        <tr><td><strong>Jan – Jun 2027</strong> (tarifa plana, full year run-rate)</td><td class="teal">€80 · $73</td><td class="orange">$647</td><td>$24</td><td class="orange">$744</td><td class="green">$1,791</td></tr>
-        <tr style="background:rgba(224,85,85,0.08)"><td><strong>Jul 2027 onward</strong> · full RETA rate</td><td class="teal">€438 · $402</td><td class="red">$647</td><td>$24</td><td class="red">$1,071</td><td class="green">$1,464</td></tr>
+        <tr><td><strong>Jul – Dec 2026</strong> (tarifa plana, partial year)</td><td class="teal">€80 · $73</td><td class="orange">~$380</td><td>~$24</td><td class="orange">~$493/mo avg</td><td class="green">~$2,651</td></tr>
+        <tr><td><strong>Jan – Jun 2027</strong> (tarifa plana, full year run-rate)</td><td class="teal">€80 · $73</td><td class="orange">$647</td><td>$24</td><td class="orange">$744</td><td class="green">$2,400</td></tr>
+        <tr style="background:rgba(224,85,85,0.08)"><td><strong>Jul 2027 onward</strong> · full RETA rate</td><td class="teal">€438 · $402</td><td class="red">$647</td><td>$24</td><td class="red">$1,071</td><td class="green">$2,073</td></tr>
       </tbody>
     </table>
     <p style="margin-top:10px;color:var(--text-muted)"><strong>Budget set-asides</strong> use the $1,071/mo Year 2+ figure for conservative long-term planning. Year 1 runs with a larger cushion.</p>
