@@ -1,4 +1,4 @@
-const CACHE_NAME = 'am-dashboard-v48';
+const CACHE_NAME = 'am-dashboard-v49';
 
 self.addEventListener('install', e => {
   self.skipWaiting();

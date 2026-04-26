@@ -1336,6 +1336,7 @@
   <button class="tab" onclick="switchTab(event,'networth')">🏦 Net Worth</button>
   <button class="tab" onclick="switchTab(event,'compounding')">📈 Compounding</button>
   <button class="tab" onclick="switchTab(event,'spain')">🇪🇸 Spain Move</button>
+  <button class="tab" onclick="switchTab(event,'logistics')">✈️ Logistics</button>
   <button class="tab" onclick="switchTab(event,'dream')">✨ Dream 2032</button>
 </div>
 
@@ -2394,6 +2395,198 @@
   <div class="callout">
     <h2>Spain move focus</h2>
     <p>All financial tracks are aligned. The portfolio is live, the move budget is intact, the deposit strategy is mapped, and the six-year execution path is clear. The next critical action items are the VMS acceptance (Apr 20), RETA registration + Certificate of Coverage request in July 2026, and the VMFXX redeployment in Jun/Jul 2026.</p>
+  </div>
+</section>
+
+<section id="page-logistics" class="page">
+  <div class="section-title">Travel Day Logistics · Valencia 🇪🇸</div>
+  <div class="kpi-sub" style="margin:-6px 0 18px;color:var(--text-muted)">Drop your itineraries when ready and these placeholders get replaced with real flight numbers, addresses, and confirmation codes.</div>
+
+  <!-- Hero countdown -->
+  <div class="grid-4">
+    <div class="card soft"><div class="kpi-label">Departure date</div><div class="kpi-value gold" id="log-depart-date">June 14, 2026</div><div class="kpi-sub" id="log-countdown">Countdown updates live</div></div>
+    <div class="card blue-soft"><div class="kpi-label">Travelers</div><div class="kpi-value blue">2 adults</div><div class="kpi-sub">Wesley + Emily</div></div>
+    <div class="card purple-soft"><div class="kpi-label">Direction</div><div class="kpi-value purple">One-way</div><div class="kpi-sub">USA → Spain (residency)</div></div>
+    <div class="card green-soft"><div class="kpi-label">Final destination</div><div class="kpi-value green">Valencia</div><div class="kpi-sub">via Madrid (TBD on routing)</div></div>
+  </div>
+  <div class="sp"></div>
+
+  <!-- Flight info -->
+  <div class="card">
+    <div class="section-title" style="margin-top:0">✈️ Flight itinerary</div>
+    <div class="kpi-sub" style="margin:-4px 0 12px;color:var(--text-muted)">Drop your booking confirmation and I'll fill in the segments.</div>
+    <table>
+      <thead><tr><th>Segment</th><th>Flight</th><th>Depart</th><th>Arrive</th><th>Duration</th><th>Confirmation</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Outbound 1</strong><br><span style="font-size:10px;color:var(--text-muted)">Origin → Hub</span></td>
+          <td><span style="color:var(--text-muted)">Add airline + flight #</span></td>
+          <td><span style="color:var(--text-muted)">Airport · Date · Time</span></td>
+          <td><span style="color:var(--text-muted)">Airport · Date · Time</span></td>
+          <td><span style="color:var(--text-muted)">--h --m</span></td>
+          <td><span style="color:var(--text-muted)">PNR / locator</span></td>
+        </tr>
+        <tr>
+          <td><strong>Outbound 2</strong><br><span style="font-size:10px;color:var(--text-muted)">Hub → Spain</span></td>
+          <td><span style="color:var(--text-muted)">Add airline + flight #</span></td>
+          <td><span style="color:var(--text-muted)">Airport · Date · Time</span></td>
+          <td><span style="color:var(--text-muted)">Airport · Date · Time</span></td>
+          <td><span style="color:var(--text-muted)">--h --m</span></td>
+          <td><span style="color:var(--text-muted)">PNR / locator</span></td>
+        </tr>
+        <tr>
+          <td><strong>Domestic Spain</strong><br><span style="font-size:10px;color:var(--text-muted)">Madrid → Valencia (if needed)</span></td>
+          <td><span style="color:var(--text-muted)">--</span></td>
+          <td><span style="color:var(--text-muted)">--</span></td>
+          <td><span style="color:var(--text-muted)">--</span></td>
+          <td><span style="color:var(--text-muted)">--</span></td>
+          <td><span style="color:var(--text-muted)">--</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="grid-3" style="margin-top:14px;">
+      <div class="card soft" style="margin:0;"><div class="kpi-label">Seats</div><div class="kpi-value" style="font-size:18px;color:var(--text-muted)">TBD</div><div class="kpi-sub">Aisle preferred · Wesley / Emily</div></div>
+      <div class="card soft" style="margin:0;"><div class="kpi-label">Baggage allowance</div><div class="kpi-value" style="font-size:18px;color:var(--text-muted)">TBD</div><div class="kpi-sub">Confirm checked + carry-on per pax</div></div>
+      <div class="card soft" style="margin:0;"><div class="kpi-label">Total airfare paid</div><div class="kpi-value gold" style="font-size:18px">$ TBD</div><div class="kpi-sub">Card used · paid in full · receipt filed</div></div>
+    </div>
+  </div>
+  <div class="sp"></div>
+
+  <!-- Lodging / Booking.com -->
+  <div class="card">
+    <div class="section-title" style="margin-top:0">🏨 Lodging · Booking.com & rentals</div>
+    <div class="kpi-sub" style="margin:-4px 0 12px;color:var(--text-muted)">Sequential stays from arrival through long-term Valencia rental.</div>
+    <table>
+      <thead><tr><th>Stage</th><th>Property</th><th>Dates</th><th>Nights</th><th>Cost</th><th>Confirmation</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="pill pill-blue">Stay 1</span><br><span style="font-size:10px;color:var(--text-muted)">Arrival night</span></td>
+          <td><span style="color:var(--text-muted)">Hotel/apt name + address</span><br><span style="font-size:10px;color:var(--text-muted)">Booking.com link</span></td>
+          <td><span style="color:var(--text-muted)">Jun 14 → Jun 15</span></td>
+          <td><span style="color:var(--text-muted)">1</span></td>
+          <td><span style="color:var(--text-muted)">€ TBD</span></td>
+          <td><span style="color:var(--text-muted)">Booking ref</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-purple">Stay 2</span><br><span style="font-size:10px;color:var(--text-muted)">Transit / interim</span></td>
+          <td><span style="color:var(--text-muted)">--</span></td>
+          <td><span style="color:var(--text-muted)">--</span></td>
+          <td><span style="color:var(--text-muted)">--</span></td>
+          <td><span style="color:var(--text-muted)">--</span></td>
+          <td><span style="color:var(--text-muted)">--</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-green">Long-term</span><br><span style="font-size:10px;color:var(--text-muted)">Valencia rental</span></td>
+          <td><span style="color:var(--text-muted)">Address, neighborhood, landlord</span></td>
+          <td><span style="color:var(--text-muted)">Move-in date</span></td>
+          <td><span style="color:var(--text-muted)">12-mo lease</span></td>
+          <td><span style="color:var(--text-muted)">€/mo</span></td>
+          <td><span style="color:var(--text-muted)">Contract ref</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sp"></div>
+
+  <!-- Ground transport -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-title" style="margin-top:0">🚗 Ground transportation</div>
+      <div class="list">
+        <div class="row"><div class="label">Home → US departure airport</div><div class="value" style="color:var(--text-muted)">TBD · Uber / friend / parked car</div></div>
+        <div class="row"><div class="label">Spain arrival airport → Stay 1</div><div class="value" style="color:var(--text-muted)">TBD · Taxi / Cabify / pre-booked transfer</div></div>
+        <div class="row"><div class="label">Stay 1 → Valencia long-term rental</div><div class="value" style="color:var(--text-muted)">TBD · Renfe AVE / rental car / private transfer</div></div>
+        <div class="row"><div class="label">Pre-booked transfer service</div><div class="value" style="color:var(--text-muted)">Provider + confirmation #</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin-top:0">📦 Luggage & shipping</div>
+      <div class="list">
+        <div class="row"><div class="label">Checked bags (per person)</div><div class="value" style="color:var(--text-muted)">TBD · weight limit per airline</div></div>
+        <div class="row"><div class="label">Carry-ons</div><div class="value" style="color:var(--text-muted)">2 · personal item each</div></div>
+        <div class="row"><div class="label">Shipped boxes (sea/air freight)</div><div class="value" style="color:var(--text-muted)">Provider · tracking · ETA</div></div>
+        <div class="row"><div class="label">Items left in storage US</div><div class="value" style="color:var(--text-muted)">Storage facility + access plan</div></div>
+        <div class="row"><div class="label">Insurance on shipment</div><div class="value" style="color:var(--text-muted)">Policy + claim contact</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="sp"></div>
+
+  <!-- Documents -->
+  <div class="card">
+    <div class="section-title" style="margin-top:0">🪪 Documents to carry on travel day</div>
+    <div class="kpi-sub" style="margin:-4px 0 12px;color:var(--text-muted)">All originals in carry-on. Scanned PDFs in encrypted cloud + offline copy on phone.</div>
+    <div class="grid-2">
+      <div class="list">
+        <div class="row"><div class="label">Passports (W + E)</div><div class="value gold">Carry-on · checked: ≥6 mo validity</div></div>
+        <div class="row"><div class="label">Spanish visa (NLV/digital nomad)</div><div class="value gold">In passport · approval letter printed</div></div>
+        <div class="row"><div class="label">FBI background check (apostilled)</div><div class="value">Originals + 2 copies</div></div>
+        <div class="row"><div class="label">Marriage certificate (apostilled)</div><div class="value">Original + 2 copies</div></div>
+        <div class="row"><div class="label">Birth certificates (apostilled)</div><div class="value">Originals + 2 copies</div></div>
+        <div class="row"><div class="label">Sworn translations</div><div class="value">All apostilled docs</div></div>
+        <div class="row"><div class="label">Health insurance (Spanish-compliant)</div><div class="value teal">Card + policy PDF on phone</div></div>
+      </div>
+      <div class="list">
+        <div class="row"><div class="label">VA disability award letter</div><div class="value green">Income proof for empadronamiento</div></div>
+        <div class="row"><div class="label">Bank statements (last 3 mo)</div><div class="value">Vanguard + checking</div></div>
+        <div class="row"><div class="label">Proof of accommodation</div><div class="value">Lease or Booking confirmations</div></div>
+        <div class="row"><div class="label">US driver's licenses</div><div class="value">Both · valid 1 yr in Spain</div></div>
+        <div class="row"><div class="label">International driving permit</div><div class="value" style="color:var(--text-muted)">Optional · AAA $20</div></div>
+        <div class="row"><div class="label">Vaccination / medical records</div><div class="value teal">PDF + paper</div></div>
+        <div class="row"><div class="label">Pet records (if applicable)</div><div class="value" style="color:var(--text-muted)">EU health cert · microchip · rabies</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="sp"></div>
+
+  <!-- Day-of checklist -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-title" style="margin-top:0">✅ T-24h checklist</div>
+      <div class="list">
+        <div class="row"><div class="label">☐ Online check-in (24h prior)</div><div class="value" style="color:var(--text-muted)">Save boarding passes offline</div></div>
+        <div class="row"><div class="label">☐ Notify Vanguard + banks of travel</div><div class="value" style="color:var(--text-muted)">Avoid card freezes</div></div>
+        <div class="row"><div class="label">☐ Charge all electronics</div><div class="value" style="color:var(--text-muted)">Phones, laptops, AirPods, Kindle</div></div>
+        <div class="row"><div class="label">☐ EU plug adapters in carry-on</div><div class="value" style="color:var(--text-muted)">Type C/F · 2+ each</div></div>
+        <div class="row"><div class="label">☐ Cash in EUR (€500–€1,000)</div><div class="value" style="color:var(--text-muted)">For taxis, deposits, contingencies</div></div>
+        <div class="row"><div class="label">☐ eSIM / Spanish data plan ready</div><div class="value" style="color:var(--text-muted)">Airalo / Holafly / Orange</div></div>
+        <div class="row"><div class="label">☐ Forward US mail to address</div><div class="value" style="color:var(--text-muted)">USPS or scanning service</div></div>
+        <div class="row"><div class="label">☐ Set US house final state</div><div class="value" style="color:var(--text-muted)">Utilities, locks, neighbor key</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin-top:0">✅ Day-of checklist</div>
+      <div class="list">
+        <div class="row"><div class="label">☐ Passports + docs in carry-on</div><div class="value" style="color:var(--text-muted)">Final pat-down before leaving</div></div>
+        <div class="row"><div class="label">☐ Liquids ≤100ml in clear bag</div><div class="value" style="color:var(--text-muted)">Per TSA / EU rules</div></div>
+        <div class="row"><div class="label">☐ Snacks + empty water bottle</div><div class="value" style="color:var(--text-muted)">Long-haul prep</div></div>
+        <div class="row"><div class="label">☐ Arrive airport 3h before intl</div><div class="value" style="color:var(--text-muted)">Buffer for bag check + immigration</div></div>
+        <div class="row"><div class="label">☐ Photo of checked bags + tags</div><div class="value" style="color:var(--text-muted)">For lost-luggage claim</div></div>
+        <div class="row"><div class="label">☐ Screenshot all confirmations</div><div class="value" style="color:var(--text-muted)">Flight, hotel, transfer · offline</div></div>
+        <div class="row"><div class="label">☐ Comfort kit in carry-on</div><div class="value" style="color:var(--text-muted)">Eye mask, neck pillow, meds, change of clothes</div></div>
+        <div class="row"><div class="label">☐ Spanish customs declaration</div><div class="value" style="color:var(--text-muted)">Cash >€10K, food, electronics</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="sp"></div>
+
+  <!-- Contacts -->
+  <div class="card">
+    <div class="section-title" style="margin-top:0">📞 Critical contacts</div>
+    <div class="grid-2">
+      <div class="list">
+        <div class="row"><div class="label">Spanish gestor (tax/visa)</div><div class="value" style="color:var(--text-muted)">Name · phone · email</div></div>
+        <div class="row"><div class="label">Valencia landlord</div><div class="value" style="color:var(--text-muted)">Name · phone · email</div></div>
+        <div class="row"><div class="label">Spanish health insurance</div><div class="value" style="color:var(--text-muted)">24/7 line + policy #</div></div>
+        <div class="row"><div class="label">US embassy Madrid</div><div class="value">+34 91 587 2200</div></div>
+      </div>
+      <div class="list">
+        <div class="row"><div class="label">Airline customer service</div><div class="value" style="color:var(--text-muted)">Number on ticket</div></div>
+        <div class="row"><div class="label">Booking.com support</div><div class="value">+1 888 850 3958 (24/7)</div></div>
+        <div class="row"><div class="label">Vanguard international line</div><div class="value">+1 610 669 1000</div></div>
+        <div class="row"><div class="label">Emergency in Spain</div><div class="value red">112 (all services)</div></div>
+      </div>
+    </div>
   </div>
 </section>
 
