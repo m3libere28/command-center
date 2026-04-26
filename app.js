@@ -832,6 +832,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Next Payout Strip
         renderNextPayouts({ spyiMo, schdQ, schyQ, vmfxxMo });
+
+        // Take Home hero
+        const smoothed = annual / 12; // smoothed monthly draw
+        const currentMonth = new Date().getMonth();
+        const isQMonth = QUARTERLY_MONTHS.includes(currentMonth);
+        const arrivingThisMonth = isQMonth ? qHit : nonQ;
+
+        const smoothEl = document.getElementById('div-takehome-smoothed');
+        if (smoothEl) smoothEl.textContent = fmtMoney0(smoothed);
+
+        const arrEl = document.getElementById('div-takehome-arriving');
+        if (arrEl) arrEl.textContent = fmtMoney0(arrivingThisMonth);
+
+        const tagEl = document.getElementById('div-takehome-month-tag');
+        const monthName = new Date().toLocaleDateString('en-US', { month: 'long' });
+        if (tagEl) tagEl.textContent = isQMonth ? `${monthName.toUpperCase()} · QUARTERLY HIT` : `${monthName.toUpperCase()} · NON-QUARTERLY`;
+
+        const breakdownEl = document.getElementById('div-takehome-breakdown');
+        if (breakdownEl) {
+            const parts = [`SPYI ${fmtMoney0(spyiMo)}`, `VMFXX ${fmtMoney0(vmfxxMo)}`];
+            if (isQMonth) {
+                parts.push(`SCHD ${fmtMoney0(schdQ)}`, `SCHY ${fmtMoney0(schyQ)}`);
+            }
+            const diff = arrivingThisMonth - smoothed;
+            const diffTxt = diff >= 0
+                ? `<span style="color:var(--green)">+${fmtMoney0(diff)} above smoothed</span>`
+                : `<span style="color:var(--orange)">${fmtMoney0(diff)} below smoothed (draw float)</span>`;
+            breakdownEl.innerHTML = `${parts.join(' · ')}<br><span style="font-size:11px;">${diffTxt}</span>`;
+        }
     };
 
     // ─────────────────────────────────────────────────────────────
