@@ -983,6 +983,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchDividendNews = async (force = false) => {
         const status = document.getElementById('div-news-status');
+        const btn = document.getElementById('div-news-refresh');
         const key = localStorage.getItem('finnhub_key');
 
         if (!key) {
@@ -1010,6 +1011,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (status) { status.textContent = '● Fetching…'; status.style.color = 'var(--blue)'; }
+        if (btn) { btn.classList.add('is-loading'); btn.classList.remove('just-refreshed'); }
 
         const today = new Date();
         const from = new Date(today.getTime() - 14 * 86400000);
@@ -1041,6 +1043,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (status) { status.textContent = '● Live'; status.style.color = 'var(--green)'; }
         } else {
             if (status) { status.textContent = '● Fetch failed'; status.style.color = 'var(--red)'; }
+        }
+
+        if (btn) {
+            btn.classList.remove('is-loading');
+            if (anySuccess) {
+                btn.classList.add('just-refreshed');
+                setTimeout(() => btn.classList.remove('just-refreshed'), 900);
+            }
         }
     };
 
