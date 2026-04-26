@@ -1215,10 +1215,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const eoText = document.getElementById('dyn-eo-progress');
             if (eoText) eoText.textContent = `$${Math.round(total).toLocaleString('en-US')} of $364,690 · ${eoPct.toFixed(1)}% complete`;
 
-            // Independence
-            setDual('dyn-ind-portfolio', total, 0);
-            setDual('dyn-ind-postmove', total - 2977, 0);
-
             // Net Worth
             const NW_HOUSE = 458000;
             const NW_LIABS = 2977.45;
