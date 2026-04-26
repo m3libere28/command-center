@@ -2843,6 +2843,7 @@
   <script>
   (function(){
     const defaultDocs = [
+      {id:'master-folder', label:'📁 Master folder · all Spain-move PDFs', category:'Quick access', featured:true},
       {id:'ae-helbert', label:'Air Europa e-ticket · Helbert', category:'Flights'},
       {id:'ae-emily', label:'Air Europa e-ticket · Emily', category:'Flights'},
       {id:'ae-michel', label:'Air Europa e-ticket · Michelangelo', category:'Flights'},
@@ -2969,9 +2970,21 @@
       }
     }
 
+    function seedDefaults(){
+      const SEED_KEY = 'docLinks.seeded.v1';
+      if (localStorage.getItem(SEED_KEY)) return;
+      const links = loadLinks();
+      if (!links['master-folder']){
+        links['master-folder'] = 'https://drive.google.com/drive/folders/1_DmhOS97dlFbWoRB_GYxSojNzoe74Ezl?usp=sharing';
+        saveLinks(links);
+      }
+      localStorage.setItem(SEED_KEY, '1');
+    }
+
     function init(){
       const container = document.getElementById('doc-rows');
       if (!container) return;
+      seedDefaults();
       render();
       container.addEventListener('click', handleClick);
       const addBtn = document.getElementById('doc-add-custom');
