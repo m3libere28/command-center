@@ -1448,7 +1448,7 @@
     </div>
     <div class="card green-soft">
       <div class="kpi-label">Gross Dividends / Mo</div>
-      <div class="kpi-value green">$1,691</div>
+      <div class="kpi-value green" id="dyn-snapshot-gross-divs">$1,691</div>
       <div class="kpi-sub">All four holdings at current yield assumptions</div>
     </div>
     <div class="card blue-soft">
@@ -1492,7 +1492,7 @@
     <div class="card">
       <div class="section-title" style="margin-top:0">🗺️ Plan at a glance</div>
       <div class="list">
-        <div class="row"><div class="label">Gross dividends now</div><div class="value green">$1,691/mo</div></div>
+        <div class="row"><div class="label">Gross dividends now</div><div class="value green" id="dyn-plan-gross-divs">$1,691/mo</div></div>
         <div class="row"><div class="label">Tax set-aside · Year 2+ (Jul 2027+)</div><div class="value red">$1,148/mo</div></div>
         <div class="row"><div class="label">Tax set-aside · Year 1 (tarifa plana)</div><div class="value orange">$758/mo</div></div>
         <div class="row"><div class="label">Known move services owed</div><div class="value red">$2,977.45</div></div>
@@ -1595,14 +1595,14 @@
   <div class="grid-4">
     <div class="card green-soft"><div class="kpi-label">VA Disability</div><div class="kpi-value green">$4,822</div><div class="kpi-sub">Core monthly foundation — guaranteed</div></div>
     <div class="card blue-soft"><div class="kpi-label">Emily Income</div><div class="kpi-value blue" style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;"><span style="opacity:0.95">$</span><input id="income-emily" type="number" inputmode="decimal" style="background:rgba(0,0,0,0.12); border:1px solid rgba(255,255,255,0.10); border-radius:12px; padding:8px 10px; color:var(--blue); font-family:'Trebuchet MS','Arial Black',sans-serif; font-weight:900; font-size:26px; width:160px; outline:none;" value="3500"></div><div class="kpi-sub">Gross monthly — 1099 contractor (Kickoff / EverFit Inc.)<br>$42,000/yr gross · $32,533/yr net after $9,467 business deductions</div></div>
-    <div class="card soft"><div class="kpi-label">Gross Dividends</div><div class="kpi-value gold">$1,691</div><div class="kpi-sub">Gross portfolio income — before tax set-aside</div></div>
+    <div class="card soft"><div class="kpi-label">Gross Dividends</div><div class="kpi-value gold" id="dyn-cashflow-gross-divs">$1,691</div><div class="kpi-sub">Gross portfolio income — before tax set-aside</div></div>
     <div class="card green-soft"><div class="kpi-label">Total Gross Income</div><div class="kpi-value green" id="dyn-total-gross">$10,013</div><div class="kpi-sub">VA + Emily + gross dividends</div></div>
   </div>
   <div class="sp"></div>
   <div class="grid-4">
     <div class="card"><div class="kpi-label">Total Expenses</div><div class="kpi-value red" id="dyn-total-expenses">$6,954</div><div class="kpi-sub">Lifestyle + operational — excludes RETA and all taxes (those live in the Tax Set-Aside card)</div></div>
     <div class="card purple-soft"><div class="kpi-label">Tax Set-Aside (Y2+)</div><div class="kpi-value purple">$1,148</div><div class="kpi-sub">RETA €438 ($477) + Spain IRPF $647 + US tax $24 · standard autonomo, no Beckham</div></div>
-    <div class="card blue-soft"><div class="kpi-label">Gross Dividends</div><div class="kpi-value blue">$1,691</div><div class="kpi-sub">Portfolio income · taxed at Spain progressive rates + US FTC/CTC offsets</div></div>
+    <div class="card blue-soft"><div class="kpi-label">Gross Dividends</div><div class="kpi-value blue" id="dyn-budget-gross-divs">$1,691</div><div class="kpi-sub">Live recommended monthly draw · smoothed annual ÷ 12 from live holdings</div></div>
     <div class="card green-soft"><div class="kpi-label">Monthly Surplus</div><div class="kpi-value green" id="dyn-monthly-surplus">$1,911</div><div class="kpi-sub">Year 2+ · $10,013 − $6,954 − $1,148 tax<br>Year 1 (tarifa plana) surplus: $2,301/mo</div></div>
   </div>
   <div class="sp"></div>

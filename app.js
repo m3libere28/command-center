@@ -728,7 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const inputs = document.querySelectorAll('.budget-input');
     const incomeVA = 4822; 
-    const grossDividends = 1690.67;
+    let grossDividends = 1690.67;
 
     const getEmilyIncome = () => {
         const saved = localStorage.getItem('budget_income_emily');
@@ -835,6 +835,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Take Home hero
         const smoothed = annual / 12; // smoothed monthly draw
+
+        // Push live recommended dividends into Budget/Snapshot/Cashflow KPIs
+        grossDividends = smoothed;
+        const smoothedTxt = fmtMoney0(smoothed);
+        const ids = ['dyn-budget-gross-divs', 'dyn-snapshot-gross-divs', 'dyn-cashflow-gross-divs'];
+        ids.forEach(id => { const el = document.getElementById(id); if (el) el.textContent = smoothedTxt; });
+        const planEl = document.getElementById('dyn-plan-gross-divs');
+        if (planEl) planEl.textContent = `${smoothedTxt}/mo`;
+        // Trigger budget recalculation so totals + surplus reflect new dividends.
+        // Wrapped because `calculate` is a const declared later in this scope —
+        // first call to updateDividendCalendar runs before it's initialized (TDZ).
+        try { calculate(); } catch (e) { /* calculate not yet defined on first run */ }
         const currentMonth = new Date().getMonth();
         const isQMonth = QUARTERLY_MONTHS.includes(currentMonth);
         const arrivingThisMonth = isQMonth ? qHit : nonQ;
