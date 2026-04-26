@@ -1329,7 +1329,7 @@
   <button class="tab active" onclick="switchTab(event,'overview')">📊 Overview</button>
   <button class="tab" onclick="switchTab(event,'portfolio')">💼 Portfolio</button>
   <button class="tab" onclick="switchTab(event,'budget')">💰 Budget</button>
-  <button class="tab" onclick="switchTab(event,'calendar')">📅 Dividend Calendar</button>
+  <button class="tab" onclick="switchTab(event,'calendar')">📅 Dividend Center</button>
   <button class="tab" onclick="switchTab(event,'currency')">💱 Currency Risk</button>
   <button class="tab" onclick="switchTab(event,'tax')">🧾 Tax Exposure</button>
   <button class="tab" onclick="switchTab(event,'networth')">🏦 Net Worth</button>
@@ -1623,7 +1623,40 @@
 </section>
 
 <section id="page-calendar" class="page">
-  <div class="section-title">📅 12-Month Dividend Payout Calendar</div>
+  <div class="section-title">📅 Dividend Center</div>
+  <div class="kpi-sub" style="margin:-6px 0 18px;color:var(--text-muted)">Live next-payout countdown · live-priced 12-month calendar · dividend news feed for your holdings.</div>
+
+  <!-- Next Payout Strip -->
+  <div class="section-title" style="margin-top:0">⏱️ Next payouts</div>
+  <div class="grid-4" id="div-next-strip" style="margin-bottom:18px">
+    <div class="card green-soft" data-payout-card="SPYI">
+      <div class="kpi-label">SPYI · Monthly</div>
+      <div class="kpi-value green" data-payout-amt>—</div>
+      <div class="kpi-sub" data-payout-dates>Ex-date · pay date</div>
+      <div class="kpi-sub" data-payout-countdown style="margin-top:4px;font-family:'Courier New',monospace;color:var(--green)">—</div>
+    </div>
+    <div class="card blue-soft" data-payout-card="SCHD">
+      <div class="kpi-label">SCHD · Quarterly</div>
+      <div class="kpi-value blue" data-payout-amt>—</div>
+      <div class="kpi-sub" data-payout-dates>Ex-date · pay date</div>
+      <div class="kpi-sub" data-payout-countdown style="margin-top:4px;font-family:'Courier New',monospace;color:var(--blue)">—</div>
+    </div>
+    <div class="card purple-soft" data-payout-card="SCHY">
+      <div class="kpi-label">SCHY · Quarterly</div>
+      <div class="kpi-value purple" data-payout-amt>—</div>
+      <div class="kpi-sub" data-payout-dates>Ex-date · pay date</div>
+      <div class="kpi-sub" data-payout-countdown style="margin-top:4px;font-family:'Courier New',monospace;color:var(--purple)">—</div>
+    </div>
+    <div class="card teal-soft" data-payout-card="VMFXX">
+      <div class="kpi-label">VMFXX · Monthly</div>
+      <div class="kpi-value teal" data-payout-amt>—</div>
+      <div class="kpi-sub" data-payout-dates>Distribution date</div>
+      <div class="kpi-sub" data-payout-countdown style="margin-top:4px;font-family:'Courier New',monospace;color:var(--teal)">—</div>
+    </div>
+  </div>
+
+  <!-- Annual Snapshot KPIs -->
+  <div class="section-title" style="margin-top:0">📊 Live monthly run-rate</div>
   <div class="grid-4" style="margin-bottom:18px">
     <div class="card green-soft"><div class="kpi-label">SPYI — Monthly</div><div class="kpi-value green">~<span id="cal-kpi-spyi">$1,217</span>/mo</div><div class="kpi-sub">Pays every month ~22nd ex-date, ~24th pay date</div></div>
     <div class="card blue-soft"><div class="kpi-label">SCHD — Quarterly</div><div class="kpi-value blue">~<span id="cal-kpi-schd">$263</span>/qtr mo equiv</div><div class="kpi-sub">Mar · Jun · Sep · Dec · Pay ~5 days after ex-date</div></div>
@@ -1738,6 +1771,36 @@
   <div class="callout blue">
     <h2>Float strategy reminder</h2>
     <p>Draw ~$363/month from your settlement account in non-quarterly months to smooth income to ~$1,691/mo. When SCHD + SCHY land in June, September, December, and March (~$1,088 combined), leave them in the account to replenish what you drew. Net drain over a full quarter: zero.</p>
+  </div>
+
+  <div class="sp"></div>
+
+  <!-- News Feed -->
+  <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+    <span>📰 Dividend &amp; holdings news feed</span>
+    <span style="font-size:11px;font-weight:normal;display:flex;gap:8px;align-items:center;">
+      <span id="div-news-status" class="chip" style="font-size:11px;">● Idle</span>
+      <button id="div-news-refresh" class="chip" type="button" style="cursor:pointer;color:var(--text);">Refresh</button>
+    </span>
+  </div>
+  <div class="kpi-sub" style="margin:-6px 0 14px;color:var(--text-muted)">Pulls recent news from Finnhub for SPYI · SCHD · SCHY · VMFXX. Dividend-related headlines (distribution, payout, yield, ex-date, raise, cut) are pinned to the top.</div>
+  <div class="grid-2" id="div-news-grid" style="gap:14px;">
+    <div class="card" data-news-card="SPYI" style="border-left:3px solid var(--green)">
+      <div class="kpi-label" style="display:flex;justify-content:space-between;align-items:center"><span>SPYI · NEOS S&amp;P 500 High Income</span><span style="font-size:10px;color:var(--text-muted)" data-news-count></span></div>
+      <div class="list" data-news-list style="margin-top:8px;font-size:12px;">Loading…</div>
+    </div>
+    <div class="card" data-news-card="SCHD" style="border-left:3px solid var(--blue)">
+      <div class="kpi-label" style="display:flex;justify-content:space-between;align-items:center"><span>SCHD · Schwab US Dividend Equity</span><span style="font-size:10px;color:var(--text-muted)" data-news-count></span></div>
+      <div class="list" data-news-list style="margin-top:8px;font-size:12px;">Loading…</div>
+    </div>
+    <div class="card" data-news-card="SCHY" style="border-left:3px solid var(--purple)">
+      <div class="kpi-label" style="display:flex;justify-content:space-between;align-items:center"><span>SCHY · Schwab Intl Dividend Equity</span><span style="font-size:10px;color:var(--text-muted)" data-news-count></span></div>
+      <div class="list" data-news-list style="margin-top:8px;font-size:12px;">Loading…</div>
+    </div>
+    <div class="card" data-news-card="VMFXX" style="border-left:3px solid var(--teal)">
+      <div class="kpi-label" style="display:flex;justify-content:space-between;align-items:center"><span>VMFXX · Vanguard Federal Money Market</span><span style="font-size:10px;color:var(--text-muted)" data-news-count></span></div>
+      <div class="list" data-news-list style="margin-top:8px;font-size:12px;">Loading…</div>
+    </div>
   </div>
 </section>
 

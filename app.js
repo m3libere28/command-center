@@ -829,7 +829,226 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sumNonQ) sumNonQ.textContent = nonQTxt;
         if (sumQ) sumQ.textContent = qHitTxt;
         if (sumAnnual) sumAnnual.textContent = annualTxt;
+
+        // Next Payout Strip
+        renderNextPayouts({ spyiMo, schdQ, schyQ, vmfxxMo });
     };
+
+    // ─────────────────────────────────────────────────────────────
+    // Next Payout Strip
+    // ─────────────────────────────────────────────────────────────
+    const QUARTERLY_MONTHS = [2, 5, 8, 11]; // Mar, Jun, Sep, Dec (0-indexed)
+
+    const nextDateOnDay = (day, monthsFilter = null) => {
+        const now = new Date();
+        let d = new Date(now.getFullYear(), now.getMonth(), day);
+        if (monthsFilter) {
+            // Find next month in filter where the resulting date is in the future
+            for (let i = 0; i < 24; i++) {
+                const candidate = new Date(now.getFullYear(), now.getMonth() + i, day);
+                if (monthsFilter.includes(candidate.getMonth()) && candidate > now) return candidate;
+            }
+            return null;
+        }
+        if (d <= now) d = new Date(now.getFullYear(), now.getMonth() + 1, day);
+        return d;
+    };
+
+    const lastBusinessDayOfMonth = (year, month) => {
+        let d = new Date(year, month + 1, 0); // last day of month
+        while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() - 1);
+        return d;
+    };
+
+    const nextLastBizDay = () => {
+        const now = new Date();
+        let d = lastBusinessDayOfMonth(now.getFullYear(), now.getMonth());
+        if (d <= now) d = lastBusinessDayOfMonth(now.getFullYear(), now.getMonth() + 1);
+        return d;
+    };
+
+    const fmtShortDate = (d) => d ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '—';
+    const daysUntil = (d) => {
+        if (!d) return null;
+        const diffMs = d.getTime() - Date.now();
+        return Math.ceil(diffMs / 86400000);
+    };
+
+    const renderNextPayouts = ({ spyiMo, schdQ, schyQ, vmfxxMo }) => {
+        const fmt = (n) => '$' + Math.round(n).toLocaleString('en-US');
+
+        const config = [
+            {
+                ticker: 'SPYI', amt: spyiMo,
+                exDate: nextDateOnDay(22),
+                payDate: nextDateOnDay(24),
+            },
+            {
+                ticker: 'SCHD', amt: schdQ,
+                exDate: nextDateOnDay(24, QUARTERLY_MONTHS),
+                payDate: nextDateOnDay(28, QUARTERLY_MONTHS),
+            },
+            {
+                ticker: 'SCHY', amt: schyQ,
+                exDate: nextDateOnDay(24, QUARTERLY_MONTHS),
+                payDate: nextDateOnDay(28, QUARTERLY_MONTHS),
+            },
+            {
+                ticker: 'VMFXX', amt: vmfxxMo,
+                exDate: null,
+                payDate: nextLastBizDay(),
+            },
+        ];
+
+        config.forEach(({ ticker, amt, exDate, payDate }) => {
+            const card = document.querySelector(`[data-payout-card="${ticker}"]`);
+            if (!card) return;
+            const amtEl = card.querySelector('[data-payout-amt]');
+            const datesEl = card.querySelector('[data-payout-dates]');
+            const cdEl = card.querySelector('[data-payout-countdown]');
+            if (amtEl) amtEl.textContent = fmt(amt);
+            if (datesEl) {
+                if (exDate && payDate) {
+                    datesEl.textContent = `Ex ${fmtShortDate(exDate)} · Pay ${fmtShortDate(payDate)}`;
+                } else if (payDate) {
+                    datesEl.textContent = `Distribution ${fmtShortDate(payDate)}`;
+                }
+            }
+            if (cdEl) {
+                const target = exDate || payDate;
+                const days = daysUntil(target);
+                if (days === null) {
+                    cdEl.textContent = '—';
+                } else if (days <= 0) {
+                    cdEl.textContent = '● Pays today';
+                } else if (days === 1) {
+                    cdEl.textContent = '● Pays tomorrow';
+                } else {
+                    cdEl.textContent = `● ${days} days away`;
+                }
+            }
+        });
+    };
+
+    // ─────────────────────────────────────────────────────────────
+    // Dividend News Feed (Finnhub /company-news)
+    // ─────────────────────────────────────────────────────────────
+    const DIV_KEYWORDS = ['dividend','distribution','payout','yield','ex-date','ex date','raise','raises','hike','cut','suspend','declare','declared'];
+    const NEWS_TICKERS = ['SPYI','SCHD','SCHY','VMFXX'];
+    const NEWS_CACHE_MS = 60 * 60 * 1000; // 1 hour
+
+    const isDividendHeadline = (item) => {
+        const blob = `${item.headline || ''} ${item.summary || ''}`.toLowerCase();
+        return DIV_KEYWORDS.some(k => blob.includes(k));
+    };
+
+    const renderNewsCard = (ticker, items) => {
+        const card = document.querySelector(`[data-news-card="${ticker}"]`);
+        if (!card) return;
+        const list = card.querySelector('[data-news-list]');
+        const count = card.querySelector('[data-news-count]');
+        if (!list) return;
+
+        if (!items || items.length === 0) {
+            list.innerHTML = '<div style="color:var(--text-muted);font-size:11px;padding:8px 0;">No recent headlines.</div>';
+            if (count) count.textContent = '';
+            return;
+        }
+
+        // Sort: dividend-related first, then by date desc
+        const sorted = [...items].sort((a, b) => {
+            const aDiv = isDividendHeadline(a) ? 1 : 0;
+            const bDiv = isDividendHeadline(b) ? 1 : 0;
+            if (aDiv !== bDiv) return bDiv - aDiv;
+            return (b.datetime || 0) - (a.datetime || 0);
+        }).slice(0, 6);
+
+        const dividendCount = sorted.filter(isDividendHeadline).length;
+        if (count) count.textContent = dividendCount > 0 ? `${dividendCount} dividend-tagged` : `${sorted.length} recent`;
+
+        list.innerHTML = sorted.map(item => {
+            const isDiv = isDividendHeadline(item);
+            const date = item.datetime ? new Date(item.datetime * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+            const src = (item.source || '').replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
+            const tag = isDiv ? '<span class="pill pill-gold" style="font-size:9px;margin-right:6px;">DIV</span>' : '';
+            const headline = (item.headline || '').replace(/</g, '&lt;');
+            return `<div class="row" style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+                <div class="label" style="display:flex;flex-direction:column;gap:4px;">
+                    <a href="${item.url}" target="_blank" rel="noopener" style="color:var(--text);text-decoration:none;line-height:1.4;font-size:12px;">${tag}${headline}</a>
+                    <span style="font-size:10px;color:var(--text-muted);">${src}${src && date ? ' · ' : ''}${date}</span>
+                </div>
+            </div>`;
+        }).join('');
+    };
+
+    const fetchDividendNews = async (force = false) => {
+        const status = document.getElementById('div-news-status');
+        const key = localStorage.getItem('finnhub_key');
+
+        if (!key) {
+            if (status) { status.textContent = '● No API key'; status.style.color = 'var(--text-muted)'; }
+            NEWS_TICKERS.forEach(t => renderNewsCard(t, []));
+            return;
+        }
+
+        // Try cache first
+        if (!force) {
+            const cached = localStorage.getItem('div_news_cache');
+            const cachedAt = parseInt(localStorage.getItem('div_news_cache_at') || '0', 10);
+            if (cached && Date.now() - cachedAt < NEWS_CACHE_MS) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    NEWS_TICKERS.forEach(t => renderNewsCard(t, parsed[t] || []));
+                    if (status) {
+                        const ageMin = Math.floor((Date.now() - cachedAt) / 60000);
+                        status.textContent = `● Cached · ${ageMin}m ago`;
+                        status.style.color = 'var(--text-muted)';
+                    }
+                    return;
+                } catch (e) { /* fallthrough to fetch */ }
+            }
+        }
+
+        if (status) { status.textContent = '● Fetching…'; status.style.color = 'var(--blue)'; }
+
+        const today = new Date();
+        const from = new Date(today.getTime() - 14 * 86400000);
+        const fmt = (d) => d.toISOString().slice(0, 10);
+        const fromStr = fmt(from);
+        const toStr = fmt(today);
+
+        const result = {};
+        let anySuccess = false;
+
+        for (const ticker of NEWS_TICKERS) {
+            try {
+                const url = `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=${fromStr}&to=${toStr}&token=${key}`;
+                const res = await fetch(url, { cache: 'no-store' });
+                if (!res.ok) throw new Error(`http ${res.status}`);
+                const data = await res.json();
+                result[ticker] = Array.isArray(data) ? data : [];
+                renderNewsCard(ticker, result[ticker]);
+                anySuccess = true;
+            } catch (err) {
+                result[ticker] = [];
+                renderNewsCard(ticker, []);
+            }
+        }
+
+        if (anySuccess) {
+            localStorage.setItem('div_news_cache', JSON.stringify(result));
+            localStorage.setItem('div_news_cache_at', String(Date.now()));
+            if (status) { status.textContent = '● Live'; status.style.color = 'var(--green)'; }
+        } else {
+            if (status) { status.textContent = '● Fetch failed'; status.style.color = 'var(--red)'; }
+        }
+    };
+
+    // Hydrate news from cache on load + wire refresh button
+    const newsRefreshBtn = document.getElementById('div-news-refresh');
+    if (newsRefreshBtn) newsRefreshBtn.addEventListener('click', () => fetchDividendNews(true));
+    // Initial paint from cache (if any) immediately, then async fetch
+    fetchDividendNews(false);
 
     const calculate = () => {
         let spanSum = 0;
