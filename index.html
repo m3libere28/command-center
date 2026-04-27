@@ -1594,7 +1594,20 @@
   <div class="kpi-sub" style="margin:-6px 0 18px;color:var(--text-muted)">Spain bills entered in € (native), US bills in $ (native). Totals reconcile via live EUR/USD. RETA is phase-based: Year 1 tarifa plana €80/mo (Jul 2026 – Jun 2027), Year 2+ regular RETA €438/mo (Jul 2027+).</div>
   <div class="grid-4">
     <div class="card green-soft"><div class="kpi-label">VA Disability</div><div class="kpi-value green">$4,822</div><div class="kpi-sub">Core monthly foundation — guaranteed</div></div>
-    <div class="card blue-soft"><div class="kpi-label">Emily Income</div><div class="kpi-value blue" style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;"><span style="opacity:0.95">$</span><input id="income-emily" type="number" inputmode="decimal" style="background:rgba(0,0,0,0.12); border:1px solid rgba(255,255,255,0.10); border-radius:12px; padding:8px 10px; color:var(--blue); font-family:'Trebuchet MS','Arial Black',sans-serif; font-weight:900; font-size:26px; width:160px; outline:none;" value="3500"></div><div class="kpi-sub">Gross monthly — 1099 contractor (Kickoff / EverFit Inc.)<br>$42,000/yr gross · $32,533/yr net after $9,467 business deductions</div></div>
+    <div class="card blue-soft">
+      <div class="kpi-label" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+        <span>Emily Income</span>
+        <button id="income-emily-toggle" type="button" class="chip" style="cursor:pointer;font-size:10px;padding:3px 9px;color:var(--text);" title="Switch input currency">€ ⇄ $</button>
+      </div>
+      <div class="kpi-value blue" style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;">
+        <span id="income-emily-symbol" style="opacity:0.95">€</span>
+        <input id="income-emily" data-cur="eur" type="number" inputmode="decimal" style="background:rgba(0,0,0,0.12); border:1px solid rgba(255,255,255,0.10); border-radius:12px; padding:8px 10px; color:var(--blue); font-family:'Trebuchet MS','Arial Black',sans-serif; font-weight:900; font-size:26px; width:160px; outline:none;" value="3211">
+      </div>
+      <div class="kpi-sub" style="margin-top:6px">
+        <span id="income-emily-equiv" style="font-family:'Courier New',monospace;color:var(--text-muted);">≈ $3,500/mo USD</span>
+      </div>
+      <div class="kpi-sub" style="margin-top:6px">Gross monthly — 1099 contractor (Kickoff / EverFit Inc.) paid in USD, budgeted in EUR.<br>~€38,532/yr gross · ~€29,847/yr net after deductions</div>
+    </div>
     <div class="card soft"><div class="kpi-label">Gross Dividends</div><div class="kpi-value gold" id="dyn-cashflow-gross-divs">$1,691</div><div class="kpi-sub">Gross portfolio income — before tax set-aside</div></div>
     <div class="card green-soft"><div class="kpi-label">Total Gross Income</div><div class="kpi-value green" id="dyn-total-gross">$10,013</div><div class="kpi-sub">VA + Emily + gross dividends</div></div>
   </div>

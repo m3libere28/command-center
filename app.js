@@ -730,15 +730,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const incomeVA = 4822; 
     let grossDividends = 1690.67;
 
-    const getEmilyIncome = () => {
+    // Emily income is stored in whatever currency the input is in (default EUR).
+    // getEmilyIncome() returns the USD-equivalent for downstream budget math.
+    const getEmilyIncomeRaw = () => {
         const saved = localStorage.getItem('budget_income_emily');
         if (saved !== null && saved !== '' && !isNaN(saved)) return parseFloat(saved);
-        return 3500;
+        return 3211; // default ≈ $3,500 / 1.09
+    };
+    const getEmilyIncomeCur = () => localStorage.getItem('budget_income_emily_cur') || 'eur';
+    const getEmilyIncome = () => {
+        const raw = getEmilyIncomeRaw();
+        return getEmilyIncomeCur() === 'eur' ? raw * ccGetRate() : raw;
     };
 
     const setEmilyIncome = (val) => {
         localStorage.setItem('budget_income_emily', String(val));
     };
+    const setEmilyIncomeCur = (cur) => {
+        localStorage.setItem('budget_income_emily_cur', cur);
+    };
+
+    // One-time migration: if existing saved value is in old USD format
+    // (no currency stamp + value >= 3500), divide by FX rate to convert to EUR.
+    const EMILY_MIGRATION_KEY = 'budget_income_emily_migrated_v1';
+    if (!localStorage.getItem(EMILY_MIGRATION_KEY)) {
+        const oldVal = parseFloat(localStorage.getItem('budget_income_emily') || 'NaN');
+        const hadCurStamp = !!localStorage.getItem('budget_income_emily_cur');
+        if (isFinite(oldVal) && oldVal >= 3000 && !hadCurStamp) {
+            // Treat as USD and convert to EUR
+            const eurVal = Math.round(oldVal / ccGetRate());
+            localStorage.setItem('budget_income_emily', String(eurVal));
+        }
+        localStorage.setItem('budget_income_emily_cur', 'eur');
+        localStorage.setItem(EMILY_MIGRATION_KEY, '1');
+    }
 
     const fmtMoney0 = (num) => '$' + (Math.round(num)).toLocaleString('en-US');
 
@@ -1171,21 +1196,66 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const emilyIncomeInput = document.getElementById('income-emily');
+    const emilyEquivEl = document.getElementById('income-emily-equiv');
+    const emilySymbolEl = document.getElementById('income-emily-symbol');
+    const emilyToggleBtn = document.getElementById('income-emily-toggle');
+
+    const applyEmilyCurUi = () => {
+        if (!emilyIncomeInput) return;
+        const cur = getEmilyIncomeCur();
+        emilyIncomeInput.setAttribute('data-cur', cur);
+        if (emilySymbolEl) emilySymbolEl.textContent = cur === 'eur' ? '€' : '$';
+    };
+
+    const updateEmilyEquiv = () => {
+        if (!emilyIncomeInput || !emilyEquivEl) return;
+        const v = parseFloat(emilyIncomeInput.value) || 0;
+        const rate = ccGetRate();
+        const cur = getEmilyIncomeCur();
+        const fmt = (n) => Math.round(n).toLocaleString('en-US');
+        if (cur === 'eur') {
+            emilyEquivEl.textContent = `≈ $${fmt(v * rate)}/mo USD · @ ${rate.toFixed(3)}`;
+        } else {
+            emilyEquivEl.textContent = `≈ €${fmt(v / rate)}/mo EUR · @ ${rate.toFixed(3)}`;
+        }
+    };
+
     if (emilyIncomeInput) {
         const saved = localStorage.getItem('budget_income_emily');
         if (saved !== null && saved !== '' && !isNaN(saved)) {
             emilyIncomeInput.value = String(parseFloat(saved));
         } else {
-            setEmilyIncome(parseFloat(emilyIncomeInput.value || '3500') || 3500);
+            setEmilyIncome(parseFloat(emilyIncomeInput.value || '3211') || 3211);
         }
+
+        applyEmilyCurUi();
+        updateEmilyEquiv();
 
         emilyIncomeInput.addEventListener('input', () => {
             const v = parseFloat(emilyIncomeInput.value) || 0;
             setEmilyIncome(v);
+            updateEmilyEquiv();
             calculate();
 
             const evt = new Event('input', { bubbles: true });
             document.body.dispatchEvent(evt);
+        });
+    }
+
+    if (emilyToggleBtn && emilyIncomeInput) {
+        emilyToggleBtn.addEventListener('click', () => {
+            const oldCur = getEmilyIncomeCur();
+            const newCur = oldCur === 'eur' ? 'usd' : 'eur';
+            const rate = ccGetRate();
+            const oldVal = parseFloat(emilyIncomeInput.value) || 0;
+            // Convert displayed value: EUR → USD multiplies by rate, USD → EUR divides
+            const newVal = oldCur === 'eur' ? oldVal * rate : oldVal / rate;
+            setEmilyIncomeCur(newCur);
+            emilyIncomeInput.value = String(Math.round(newVal));
+            setEmilyIncome(Math.round(newVal));
+            applyEmilyCurUi();
+            updateEmilyEquiv();
+            calculate();
         });
     }
 
